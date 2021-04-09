@@ -8,16 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		43B0925C2620918900F0A9BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B0925B2620918900F0A9BF /* AppDelegate.swift */; };
-		43B092652620918C00F0A9BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43B092642620918C00F0A9BF /* Assets.xcassets */; };
+		43B092652620918C00F0A9BF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43B092642620918C00F0A9BF /* Images.xcassets */; };
 		43B092682620918C00F0A9BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43B092662620918C00F0A9BF /* LaunchScreen.storyboard */; };
+		43B0928A26209C9C00F0A9BF /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43B0928926209C9C00F0A9BF /* Colors.xcassets */; };
+		43B0929126209DAB00F0A9BF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 43B0929326209DAB00F0A9BF /* Localizable.strings */; };
+		43B0929526209DAD00F0A9BF /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 43B0929726209DAD00F0A9BF /* Localizable.stringsdict */; };
+		43B0929C26209DBD00F0A9BF /* Localizations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B0929926209DBD00F0A9BF /* Localizations.swift */; };
+		43B0929D26209DBD00F0A9BF /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B0929A26209DBD00F0A9BF /* Colors.swift */; };
+		43B0929E26209DBD00F0A9BF /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B0929B26209DBD00F0A9BF /* Images.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		43B092582620918900F0A9BF /* HookahBoss.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HookahBoss.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43B0925B2620918900F0A9BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		43B092642620918C00F0A9BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		43B092642620918C00F0A9BF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		43B092672620918C00F0A9BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		43B092692620918C00F0A9BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		43B0928926209C9C00F0A9BF /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		43B0929226209DAB00F0A9BF /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		43B0929626209DAD00F0A9BF /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		43B0929926209DBD00F0A9BF /* Localizations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizations.swift; sourceTree = "<group>"; };
+		43B0929A26209DBD00F0A9BF /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		43B0929B26209DBD00F0A9BF /* Images.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,12 +62,58 @@
 		43B0925A2620918900F0A9BF /* HookahBoss */ = {
 			isa = PBXGroup;
 			children = (
+				43B0927E26209C2400F0A9BF /* Resources */,
 				43B0925B2620918900F0A9BF /* AppDelegate.swift */,
-				43B092642620918C00F0A9BF /* Assets.xcassets */,
 				43B092662620918C00F0A9BF /* LaunchScreen.storyboard */,
-				43B092692620918C00F0A9BF /* Info.plist */,
 			);
 			path = HookahBoss;
+			sourceTree = "<group>";
+		};
+		43B0927E26209C2400F0A9BF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				43B0928126209C3A00F0A9BF /* Assets */,
+				43B0927F26209C2E00F0A9BF /* Configurations */,
+				43B0928226209C4000F0A9BF /* Generated */,
+				43B0928026209C3400F0A9BF /* Localizable */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		43B0927F26209C2E00F0A9BF /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				43B092692620918C00F0A9BF /* Info.plist */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
+		43B0928026209C3400F0A9BF /* Localizable */ = {
+			isa = PBXGroup;
+			children = (
+				43B0929326209DAB00F0A9BF /* Localizable.strings */,
+				43B0929726209DAD00F0A9BF /* Localizable.stringsdict */,
+			);
+			path = Localizable;
+			sourceTree = "<group>";
+		};
+		43B0928126209C3A00F0A9BF /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				43B092642620918C00F0A9BF /* Images.xcassets */,
+				43B0928926209C9C00F0A9BF /* Colors.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		43B0928226209C4000F0A9BF /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				43B0929A26209DBD00F0A9BF /* Colors.swift */,
+				43B0929B26209DBD00F0A9BF /* Images.swift */,
+				43B0929926209DBD00F0A9BF /* Localizations.swift */,
+			);
+			path = Generated;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -65,6 +123,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 43B0926C2620918C00F0A9BF /* Build configuration list for PBXNativeTarget "HookahBoss" */;
 			buildPhases = (
+				43B0928D26209CEE00F0A9BF /* Run SwiftGen */,
 				43B092542620918900F0A9BF /* Sources */,
 				43B092552620918900F0A9BF /* Frameworks */,
 				43B092562620918900F0A9BF /* Resources */,
@@ -95,10 +154,10 @@
 			};
 			buildConfigurationList = 43B092532620918900F0A9BF /* Build configuration list for PBXProject "HookahBoss" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = en;
+			developmentRegion = ru;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				ru,
 				Base,
 			);
 			mainGroup = 43B0924F2620918900F0A9BF;
@@ -116,8 +175,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43B0928A26209C9C00F0A9BF /* Colors.xcassets in Resources */,
 				43B092682620918C00F0A9BF /* LaunchScreen.storyboard in Resources */,
-				43B092652620918C00F0A9BF /* Assets.xcassets in Resources */,
+				43B0929526209DAD00F0A9BF /* Localizable.stringsdict in Resources */,
+				43B0929126209DAB00F0A9BF /* Localizable.strings in Resources */,
+				43B092652620918C00F0A9BF /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +204,32 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\nexit 1\nfi\n";
 		};
+		43B0928D26209CEE00F0A9BF /* Run SwiftGen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/SwiftGen/swiftgen.yml",
+				"$(SRCROOT)/HookahBoss/Resources/Assets/Images.xcassets",
+				"$(SRCROOT)/HookahBoss/Resources/Assets/Colors.xcassets",
+				"$(SRCROOT)/HookahBoss/Resources/Localizable/ru.lproj/Localizable.stringsdict",
+				"$(SRCROOT)/HookahBoss/Resources/Localizable/ru.lproj/Localizable.strings",
+			);
+			name = "Run SwiftGen";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/HookahBoss/Resources/Generated/Localizations.swift",
+				"$(SRCROOT)/HookahBoss/Resources/Generated/Assets.swift",
+				"$(SRCROOT)/HookahBoss/Resources/Generated/Colors.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftgen >/dev/null; then\n  cd SwiftGen\n  swiftgen\nelse\n  echo \"warning: SwiftGen not installed, download it from https://github.com/SwiftGen/SwiftGen\"\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -149,6 +237,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43B0929C26209DBD00F0A9BF /* Localizations.swift in Sources */,
+				43B0929E26209DBD00F0A9BF /* Images.swift in Sources */,
+				43B0929D26209DBD00F0A9BF /* Colors.swift in Sources */,
 				43B0925C2620918900F0A9BF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,6 +253,22 @@
 				43B092672620918C00F0A9BF /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		43B0929326209DAB00F0A9BF /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				43B0929226209DAB00F0A9BF /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		43B0929726209DAD00F0A9BF /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				43B0929626209DAD00F0A9BF /* ru */,
+			);
+			name = Localizable.stringsdict;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -290,7 +397,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q9WXSNT6UT;
-				INFOPLIST_FILE = HookahBoss/Info.plist;
+				INFOPLIST_FILE = HookahBoss/Resources/Configurations/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -310,7 +417,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q9WXSNT6UT;
-				INFOPLIST_FILE = HookahBoss/Info.plist;
+				INFOPLIST_FILE = HookahBoss/Resources/Configurations/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
