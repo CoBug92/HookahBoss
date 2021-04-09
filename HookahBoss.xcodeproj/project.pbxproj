@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		43B0925C2620918900F0A9BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B0925B2620918900F0A9BF /* AppDelegate.swift */; };
-		43B0925E2620918900F0A9BF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B0925D2620918900F0A9BF /* SceneDelegate.swift */; };
-		43B092602620918900F0A9BF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B0925F2620918900F0A9BF /* ViewController.swift */; };
-		43B092632620918900F0A9BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43B092612620918900F0A9BF /* Main.storyboard */; };
 		43B092652620918C00F0A9BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43B092642620918C00F0A9BF /* Assets.xcassets */; };
 		43B092682620918C00F0A9BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43B092662620918C00F0A9BF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -18,9 +15,6 @@
 /* Begin PBXFileReference section */
 		43B092582620918900F0A9BF /* HookahBoss.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HookahBoss.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43B0925B2620918900F0A9BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		43B0925D2620918900F0A9BF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		43B0925F2620918900F0A9BF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		43B092622620918900F0A9BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		43B092642620918C00F0A9BF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		43B092672620918C00F0A9BF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		43B092692620918C00F0A9BF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -57,9 +51,6 @@
 			isa = PBXGroup;
 			children = (
 				43B0925B2620918900F0A9BF /* AppDelegate.swift */,
-				43B0925D2620918900F0A9BF /* SceneDelegate.swift */,
-				43B0925F2620918900F0A9BF /* ViewController.swift */,
-				43B092612620918900F0A9BF /* Main.storyboard */,
 				43B092642620918C00F0A9BF /* Assets.xcassets */,
 				43B092662620918C00F0A9BF /* LaunchScreen.storyboard */,
 				43B092692620918C00F0A9BF /* Info.plist */,
@@ -77,6 +68,7 @@
 				43B092542620918900F0A9BF /* Sources */,
 				43B092552620918900F0A9BF /* Frameworks */,
 				43B092562620918900F0A9BF /* Resources */,
+				43B09273262097E400F0A9BF /* Run SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -126,34 +118,44 @@
 			files = (
 				43B092682620918C00F0A9BF /* LaunchScreen.storyboard in Resources */,
 				43B092652620918C00F0A9BF /* Assets.xcassets in Resources */,
-				43B092632620918900F0A9BF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		43B09273262097E400F0A9BF /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\nexit 1\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		43B092542620918900F0A9BF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43B092602620918900F0A9BF /* ViewController.swift in Sources */,
 				43B0925C2620918900F0A9BF /* AppDelegate.swift in Sources */,
-				43B0925E2620918900F0A9BF /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		43B092612620918900F0A9BF /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				43B092622620918900F0A9BF /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		43B092662620918C00F0A9BF /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -289,6 +291,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q9WXSNT6UT;
 				INFOPLIST_FILE = HookahBoss/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -296,7 +299,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.HookahBoss;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -308,6 +311,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Q9WXSNT6UT;
 				INFOPLIST_FILE = HookahBoss/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -315,7 +319,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.HookahBoss;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
