@@ -24,6 +24,10 @@
 		43B092C82620A2C600F0A9BF /* MixFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B092C72620A2C600F0A9BF /* MixFeedViewModel.swift */; };
 		43B092D82620A8BE00F0A9BF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 43B092D72620A8BE00F0A9BF /* SnapKit */; };
 		43B092DC2620A8D700F0A9BF /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 43B092DB2620A8D700F0A9BF /* Kingfisher */; };
+		43B092E02620ABFA00F0A9BF /* NetworkPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B092DF2620ABFA00F0A9BF /* NetworkPublisher.swift */; };
+		43B092E42620ACB200F0A9BF /* EndpointError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B092E32620ACB200F0A9BF /* EndpointError.swift */; };
+		43B092E72620AD4300F0A9BF /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B092E62620AD4300F0A9BF /* NetworkError.swift */; };
+		43B092EA2620B0E500F0A9BF /* Publisher+Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B092E92620B0E500F0A9BF /* Publisher+Decode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +48,10 @@
 		43B092C12620A28C00F0A9BF /* MixCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixCoordinator.swift; sourceTree = "<group>"; };
 		43B092C42620A2BD00F0A9BF /* MixFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixFeedViewController.swift; sourceTree = "<group>"; };
 		43B092C72620A2C600F0A9BF /* MixFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixFeedViewModel.swift; sourceTree = "<group>"; };
+		43B092DF2620ABFA00F0A9BF /* NetworkPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPublisher.swift; sourceTree = "<group>"; };
+		43B092E32620ACB200F0A9BF /* EndpointError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointError.swift; sourceTree = "<group>"; };
+		43B092E62620AD4300F0A9BF /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		43B092E92620B0E500F0A9BF /* Publisher+Decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Decode.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +170,7 @@
 		43B092A626209F4600F0A9BF /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				43B092DE2620ABEF00F0A9BF /* Network */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -212,6 +221,7 @@
 		43B092AC26209F7D00F0A9BF /* Combine */ = {
 			isa = PBXGroup;
 			children = (
+				43B092E92620B0E500F0A9BF /* Publisher+Decode.swift */,
 			);
 			path = Combine;
 			sourceTree = "<group>";
@@ -264,6 +274,16 @@
 				43B092C72620A2C600F0A9BF /* MixFeedViewModel.swift */,
 			);
 			path = MixFeed;
+			sourceTree = "<group>";
+		};
+		43B092DE2620ABEF00F0A9BF /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				43B092DF2620ABFA00F0A9BF /* NetworkPublisher.swift */,
+				43B092E62620AD4300F0A9BF /* NetworkError.swift */,
+				43B092E32620ACB200F0A9BF /* EndpointError.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -396,6 +416,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				43B092BD2620A1C600F0A9BF /* Coordinator.swift in Sources */,
+				43B092E02620ABFA00F0A9BF /* NetworkPublisher.swift in Sources */,
+				43B092EA2620B0E500F0A9BF /* Publisher+Decode.swift in Sources */,
 				43B0929C26209DBD00F0A9BF /* Localizations.swift in Sources */,
 				43B0929E26209DBD00F0A9BF /* Images.swift in Sources */,
 				43B0929D26209DBD00F0A9BF /* Colors.swift in Sources */,
@@ -403,6 +425,8 @@
 				43B092B62620A05800F0A9BF /* LaunchScreenViewController.swift in Sources */,
 				43B092C82620A2C600F0A9BF /* MixFeedViewModel.swift in Sources */,
 				43B092C52620A2BD00F0A9BF /* MixFeedViewController.swift in Sources */,
+				43B092E42620ACB200F0A9BF /* EndpointError.swift in Sources */,
+				43B092E72620AD4300F0A9BF /* NetworkError.swift in Sources */,
 				43B092C22620A28C00F0A9BF /* MixCoordinator.swift in Sources */,
 				43B0925C2620918900F0A9BF /* AppDelegate.swift in Sources */,
 			);
