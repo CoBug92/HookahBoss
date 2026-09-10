@@ -85,7 +85,7 @@
 | Time, no author/date | `ArticleRow`, `ArticleReaderView`; public Article DTO excludes author/date | proven |
 | Structured localized reader + immersive hero | `ArticleReaderView` maps all five `ArticleCategory.artworkFilename` values to bundled raster artwork via `ArtworkResource`, with gradient/SF Symbol fallback; bundle mapping test; `/v1/articles/:id` | proven code/resource path; runtime layout not run |
 | 2–3 related | article seed validator and public detail query; `ArticleReaderView` renders related cards and pushes the selected `ArticleDTO` through the parent navigation destination into another hydrated reader | proven seed/contract and reader→related-reader XCUITest |
-| Account-scoped server bookmarks + offline outbox | article bookmark routes, `AuthRuntime`; `personal.test.ts`, `SyncSupportTests` | proven |
+| Account-scoped server bookmarks + offline outbox | article bookmark routes, `AuthRuntime`; recommended/category/bookmark lists derive state live from `ArticlesViewModel`, reader/list publish rollback errors, and parent resynchronizes on return; `personal.test.ts`, `SyncSupportTests`, live-bookmark ViewModel regression | proven |
 | Safety editorial constraints | `backend/seeds/articles-v1.ts`; `article-seed.test.ts` balanced bilingual validation and provenance | proven content artifact; medical editorial review remains external |
 
 ## Backend, auth, cache and admin
@@ -116,7 +116,7 @@
 | Collective ratings start at zero | ratings table empty by seeds; public SQL aggregates user ratings | proven by seed/schema inspection |
 | Cream light, graphite dark, system-only theme, gold | `AppTheme`, screen surfaces; `AppThemeTests`; `PRODUCT.md` | proven code/contrast tests; full visual runtime QA not run |
 | Official artwork bundled and profile-mapped | `ios/HookahBoss/Resources/Artwork`, typed `AssetFiles`, `MixArtwork`; bundle/mapping tests | proven |
-| Production iOS project architecture/tooling | `ios/project.yml` is the reproducible XcodeGen source; `App/Core/Domain/Data/Features/Resources/Generated` layout; shared concrete stores are created in the app composition root; feature services are protocol-injected; SwiftGen provides typed `L10n`/`AssetFiles`; `ArchitectureGuardTests` prevents concrete networking/persistence dependencies in Features and now rejects interpolated raw localization keys; Make/Fastlane entry points are documented in `ios/README.md` | proven by generation hash stability, strict lint with 0 violations, 105/105 unit/architecture tests and 7/7 UI tests on iPhone 15 Pro / iOS 17.5 Simulator |
+| Production iOS project architecture/tooling | `ios/project.yml` is the reproducible XcodeGen source; `App/Core/Domain/Data/Features/Resources/Generated` layout; shared concrete stores are created in the app composition root; feature services are protocol-injected; SwiftGen provides typed `L10n`/`AssetFiles`; `ArchitectureGuardTests` prevents concrete networking/persistence dependencies in Features and now rejects interpolated raw localization keys; Make/Fastlane entry points are documented in `ios/README.md` | proven by generation hash stability, strict lint with 0 violations, 106/106 unit/architecture tests and 7/7 UI tests on iPhone 15 Pro / iOS 17.5 Simulator |
 
 ## External blockers and release gates
 

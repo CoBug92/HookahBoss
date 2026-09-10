@@ -34,9 +34,11 @@ struct ArticlesView: View {
             .refreshable { await model.refresh() }.task { await model.appear() }
             .navigationTitle(L10n.Tab.articles)
             .toolbar { NavigationLink(value: ArticleDestination.bookmarks) { Image(systemName: "bookmark") }.accessibilityLabel(Text(L10n.Articles.bookmarks)) }
-            .navigationDestination(for: ArticleCategory.self) { category in ArticleListView(title: category.title, articles: model.articles(in: category), model: model) }
-            .navigationDestination(for: ArticleDestination.self) { _ in ArticleListView(title: L10n.Articles.bookmarks, articles: model.bookmarks, model: model, emptyBookmarks: true) }
+            .navigationDestination(for: ArticleCategory.self) { category in ArticleListView(content: .category(category), model: model) }
+            .navigationDestination(for: ArticleDestination.self) { _ in ArticleListView(content: .bookmarks, model: model) }
             .navigationDestination(for: ArticleDTO.self) { article in ArticleReaderView(article: article, model: makeDetailModel(article)) }
+            .onAppear { model.syncLibraryState() }
+            .alert(L10n.Content.Error.title,isPresented:Binding(get:{model.errorMessage != nil},set:{if !$0{model.clearError()}})){Button(L10n.Common.close){model.clearError()}}message:{Text(model.errorMessage ?? "")}
             .background(AppTheme.background).accessibilityIdentifier("screen.articles")
         }
     }
@@ -56,7 +58,11 @@ private struct CategoryCard: View {
 }
 
 private struct ArticleListView: View {
-    let title: String; let articles: [ArticleDTO]; @ObservedObject var model: ArticlesViewModel; var emptyBookmarks = false
+    enum Content { case category(ArticleCategory),bookmarks }
+    let content: Content; @ObservedObject var model: ArticlesViewModel
+    private var articles:[ArticleDTO]{switch content{case .category(let category):model.articles(in:category);case .bookmarks:model.bookmarks}}
+    private var title:String{switch content{case .category(let category):category.title;case .bookmarks:L10n.Articles.bookmarks}}
+    private var emptyBookmarks:Bool{if case .bookmarks=content{return true};return false}
     var body: some View {
         Group {
             if articles.isEmpty { ContentUnavailableView(emptyBookmarks ? L10n.Articles.Bookmarks.empty:L10n.Articles.empty, systemImage: "bookmark.slash") }
@@ -95,6 +101,7 @@ private struct ArticleReaderView: View {
         .background(AppTheme.background).ignoresSafeArea(edges: .top)
         .toolbar { Button { model.toggleBookmark() } label: { Image(systemName: model.isBookmarked ? "bookmark.fill":"bookmark") }.accessibilityLabel(Text(L10n.Articles.bookmarks)).accessibilityValue(Text(model.isBookmarked ? L10n.Accessibility.selected:L10n.Accessibility.notSelected)) }
         .task { await model.appear() }.accessibilityIdentifier("screen.articleReader")
+        .alert(L10n.Content.Error.title,isPresented:Binding(get:{model.errorMessage != nil},set:{if !$0{model.clearError()}})){Button(L10n.Common.close){model.clearError()}}message:{Text(model.errorMessage ?? "")}
     }
     private func bodyView(_ detail: ArticleDetailDTO) -> some View {
         VStack(alignment: .leading, spacing: 26) {
