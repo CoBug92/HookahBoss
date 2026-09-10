@@ -11,21 +11,21 @@ import Foundation
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum AssetFiles {
   /// article-basics.png
-  internal static let articleBasicsPng = File(name: "article-basics", ext: "png", relativePath: "", mimeType: "application/octet-stream")
+  internal static let articleBasicsPng = File(name: "article-basics", ext: "png", relativePath: "", mimeType: "image/png")
   /// article-care.png
-  internal static let articleCarePng = File(name: "article-care", ext: "png", relativePath: "", mimeType: "application/octet-stream")
+  internal static let articleCarePng = File(name: "article-care", ext: "png", relativePath: "", mimeType: "image/png")
   /// article-heat.png
-  internal static let articleHeatPng = File(name: "article-heat", ext: "png", relativePath: "", mimeType: "application/octet-stream")
+  internal static let articleHeatPng = File(name: "article-heat", ext: "png", relativePath: "", mimeType: "image/png")
   /// article-preparation.png
-  internal static let articlePreparationPng = File(name: "article-preparation", ext: "png", relativePath: "", mimeType: "application/octet-stream")
+  internal static let articlePreparationPng = File(name: "article-preparation", ext: "png", relativePath: "", mimeType: "image/png")
   /// article-safety.png
-  internal static let articleSafetyPng = File(name: "article-safety", ext: "png", relativePath: "", mimeType: "application/octet-stream")
+  internal static let articleSafetyPng = File(name: "article-safety", ext: "png", relativePath: "", mimeType: "image/png")
   /// mix-berry-citrus.png
-  internal static let mixBerryCitrusPng = File(name: "mix-berry-citrus", ext: "png", relativePath: "", mimeType: "application/octet-stream")
+  internal static let mixBerryCitrusPng = File(name: "mix-berry-citrus", ext: "png", relativePath: "", mimeType: "image/png")
   /// mix-dessert.png
-  internal static let mixDessertPng = File(name: "mix-dessert", ext: "png", relativePath: "", mimeType: "application/octet-stream")
+  internal static let mixDessertPng = File(name: "mix-dessert", ext: "png", relativePath: "", mimeType: "image/png")
   /// mix-tropical.png
-  internal static let mixTropicalPng = File(name: "mix-tropical", ext: "png", relativePath: "", mimeType: "application/octet-stream")
+  internal static let mixTropicalPng = File(name: "mix-tropical", ext: "png", relativePath: "", mimeType: "image/png")
 }
 // swiftlint:enable explicit_type_interface identifier_name
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces
