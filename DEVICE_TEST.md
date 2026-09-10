@@ -31,3 +31,7 @@ A Quick Tunnel restart can change the public URL and invalidate the `API_BASE_UR
 ```
 
 This prints only this Compose project's status, local API health, tunnel service state, and the latest public `trycloudflare.com` URL found in its journal. It does not restart or mutate services.
+
+## Run the iOS client
+
+Open `ios/HookahBoss.xcodeproj`, select the signed HookahBoss target and your connected iPhone, then Run. The iOS project is intentionally isolated under `ios/`; device-test deployment remains a repository-level operation because it coordinates the backend and shared Compose definition.

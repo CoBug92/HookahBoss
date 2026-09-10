@@ -1,0 +1,15 @@
+included:
+  - HookahBoss
+  - HookahBossTests
+  - HookahBossUITests
+
+excluded:
+  - HookahBoss/Generated
+
+only_rules:
+  - duplicate_imports
+  - trailing_newline
+  - trailing_whitespace
+  - vertical_whitespace
+
+reporter: xcode

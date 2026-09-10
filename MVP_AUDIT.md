@@ -6,19 +6,19 @@
 
 | Требование | Evidence | Статус |
 |---|---|---|
-| Нативный SwiftUI, iPhone, iOS 17+ | `project.yml`: application/iOS, deployment 17.0, `TARGETED_DEVICE_FAMILY=1`; `HookahBoss/HookahBossApp.swift` | proven |
+| Нативный SwiftUI, iPhone, iOS 17+ | `ios/project.yml`: application/iOS, deployment 17.0, `TARGETED_DEVICE_FAMILY=1`; `ios/HookahBoss/App/HookahBossApp.swift` | proven |
 | RU и EN | RU/EN key sets имеют parity 280/280; locale передаётся в `APIClient`/`PublicContentStore`; Admin field/status/validation labels используют localization keys | proven source parity; runtime locale QA не выполнен |
 | Accessibility semantics | Icon-only bookmark/favorite/settings/delete/back controls have labels and practical targets; rating/inventory/bookmark/favorite expose state values; decorative artwork/badges are hidden; component cards use adaptive minimum height | proven source paths and localization parity; accessibility XXXL public-flow XCUITest passes; manual VoiceOver/device visual QA remains |
-| Anonymous UI smoke matrix | DEBUG-only deterministic fixture and age reset/bypass; XCUITest covers age gate plus Home, Mixes→detail/composition, filters→results, Articles→reader, signed-out Create auth prompt and My placeholders in EN light, RU dark and EN accessibility XXXL | proven by one combined 4/4 XCUITest suite at `/private/tmp/hb-ui-dynamic-full/Logs/Test/Test-HookahBoss-2026.09.10_04-59-12-+0300.xcresult`; no authenticated Apple/Admin flow is faked |
+| Anonymous UI smoke matrix | DEBUG-only deterministic fixture and age reset/bypass; XCUITest covers age gate plus Home, Mixes→detail/composition, filters→results, Articles→reader, signed-out Create auth prompt and My placeholders in EN light, RU dark and EN accessibility XXXL | proven after the production architecture refactor by combined 4/4 XCUITest suite at `/private/tmp/hb-prod-ui/Logs/Test/Test-HookahBoss-2026.09.10_12-19-08-+0300.xcresult`; no authenticated Apple/Admin flow is faked |
 | Анонимный каталог, статьи и рейтинги | public `GET /v1/brands`, `/products`, `/mixes`, `/articles` в `backend/src/app.ts`; public методы `APIClient` не передают bearer; `APIClientTests.testPublicBrandsGET...` | proven на уровне контракта; runtime UI не прогнан |
-| Sign in with Apple | `HookahBoss/AuthCore.swift`: native `SignInWithAppleButton`, Keychain; `HookahBoss.entitlements`; `backend/src/auth.ts`: Apple JWKS verifier; `auth-core.test.ts` | proven на уровне кода/fixtures; реальный Apple credential flow требует подписанной device-сборки |
+| Sign in with Apple | `ios/HookahBoss/Data/Auth/AuthCore.swift`, `ios/HookahBoss/Features/Auth/AuthGateSheet.swift`; `ios/HookahBoss/App/Configuration/HookahBoss.entitlements`; `backend/src/auth.ts`: Apple JWKS verifier; `auth-core.test.ts` | proven на уровне кода/fixtures; реальный Apple credential flow требует подписанной device-сборки |
 | Контекстная auth sheet, cancel без ухода, resume один раз | `AuthGate`, `AuthGateSheet`; `AuthGateTests`: success once, cancel/failure, retry, concurrent prompt | proven state machine; presentation runtime не прогнан |
 | Личные действия gated | favorite/rating в `MixDetailView`; bookmark в `ArticlesView`; create/inventory в `HookahBossApp.RootView`; placeholders в `SignedOutCollectionView` | proven code paths |
 | Logged-out «Моё»: placeholders и повторный prompt | `CollectionView`, `SignedOutCollectionView`, action-specific `ProtectedAction` | proven code path; runtime presentation не прогнан |
 | Logout сохраняет, но скрывает account cache | `AuthRuntime.logout`, `AccountCache.key`, `AccountWorkspace.activate(nil)`; account cache/workspace regression tests | proven |
 | Удаление аккаунта с подтверждением, provider revoke и server delete-all | `AccountCollectionView`; `DELETE /v1/me/account`; migrations `005_auth_sessions.sql`, `008_apple_provider_credentials.sql`; `appleProvider.ts`; `auth-core.test.ts`, `apple-provider.test.ts` | proven by fixtures — available provider token is revoked before transactional deletion; transient revoke failure preserves the account; legacy absence is explicit. Live Apple verification remains an external release smoke |
 | 18+ при первом запуске | `HookahBossApp.hasConfirmedAdultAge`, `AgeConfirmationView` | proven code path; persistence/runtime QA не прогнан |
-| Нет рекламы, покупок, уведомлений, публикаций | dependencies in `project.yml`/`backend/package.json`; отсутствие StoreKit/ad/push/user-publish routes | proven статическим аудитом |
+| Нет рекламы, покупок, уведомлений, публикаций | dependencies in `ios/project.yml`/`backend/package.json`; отсутствие StoreKit/ad/push/user-publish routes | proven статическим аудитом |
 | Нет продаж/магазинов/цен | public DTO/routes и seed validators/manifests не содержат commerce endpoints/data | proven для текущего контента |
 
 ## Навигация и публичный контент
@@ -33,7 +33,7 @@
 | Отдельная выдача ideal/possible без процента | `MixResultsView` | proven code path |
 | Ranking: match section, personal signals, collective, stable feed tie | `MixResultsView`, `MixRanker`; `MixRankingTests` | proven; «новизна» представлена только стабильным порядком feed, не отдельной publish-date метрикой |
 | Public cache/SWR/offline fallback | `DiskPublicCache`, `PublicContentStore`; `PublicContentStoreTests` | proven logic for list/detail cache; no network-transition UI test |
-| Release API config fail closed | explicit `HookahBoss/Info.plist`, Debug/Release settings in `project.yml`, `AppConfig`; `AppConfigBundleTests` | proven build config; production HTTPS URL ещё не задан |
+| Release API config fail closed | explicit `ios/HookahBoss/App/Configuration/Info.plist`, Debug/Release settings in `ios/project.yml`, `AppConfig`; `AppConfigBundleTests` | proven build config; production HTTPS URL ещё не задан |
 
 ## Карточка и экран официального микса
 
@@ -114,21 +114,24 @@
 | Current + archived with explicit status | schema status enums, seed records, Admin filters; public product route forces published | proven |
 | Collective ratings start at zero | ratings table empty by seeds; public SQL aggregates user ratings | proven by seed/schema inspection |
 | Cream light, graphite dark, system-only theme, gold | `AppTheme`, screen surfaces; `AppThemeTests`; `PRODUCT.md` | proven code/contrast tests; full visual runtime QA not run |
-| Official artwork bundled and profile-mapped | `HookahBoss/Artwork`, `MixArtwork`; bundle/mapping tests | proven |
+| Official artwork bundled and profile-mapped | `ios/HookahBoss/Resources/Artwork`, typed `AssetFiles`, `MixArtwork`; bundle/mapping tests | proven |
+| Production iOS project architecture/tooling | `ios/project.yml` is the reproducible XcodeGen source; `App/Core/Domain/Data/Features/Resources/Generated` layout; shared concrete stores are created in the app composition root; feature services are protocol-injected; SwiftGen provides typed `L10n`/`AssetFiles`; `ArchitectureGuardTests` prevents concrete networking/persistence dependencies in Features; Make/Fastlane entry points are documented in `ios/README.md` | proven by generation hash stability, strict lint with 0 violations, and 99/99 unit + UI tests on iPhone 15 Pro / iOS 17.5 Simulator |
 
 ## External blockers and release gates
 
-Automated source provenance audit is available as `cd backend && npm run sources:verify`; it writes a deduplicated machine-readable report and performs strict seeded-recipe evidence checks for MUSTHAVE pages. Other publishers are explicitly classified `reachability_only`; a 2xx dynamic HTML shell with at least 1 KB raw body but little server-rendered text is retained only with `dynamic_shell_visible_text_short`, never promoted to semantic verification. Latest post-DARKSIDE-refresh live evidence is 64/64 valid: 34 MUSTHAVE pages semantically verified and 30 sources explicitly reachability-only; the CLI exited zero. Report: `backend/reports/provenance-sources-live-2026-09-10-darkside.json`. The verifier never mutates `verifiedAt`; dates change only after genuine source review. Backend automated suite: 100/100 passed.
+Automated source provenance audit is available as `cd backend && npm run sources:verify`; it writes a deduplicated machine-readable report and performs strict seeded-recipe evidence checks for MUSTHAVE pages. Other publishers are explicitly classified `reachability_only`; a 2xx dynamic HTML shell with at least 1 KB raw body but little server-rendered text is retained only with `dynamic_shell_visible_text_short`, never promoted to semantic verification. Latest post-DARKSIDE-refresh live evidence is 64/64 valid: 34 MUSTHAVE pages semantically verified and 30 sources explicitly reachability-only; the CLI exited zero. Report: `backend/reports/provenance-sources-live-2026-09-10-darkside.json`. The verifier never mutates `verifiedAt`; dates change only after genuine source review. Backend automated suite: 105/105 passed.
 
 BlackBurn catalog provenance is generated from the official `/taste` page and its discovered public catalog API: 80 validated products replace the former 15-item fallback subset, with commerce/media excluded and missing authoritative products archived, never deleted, on import. `npm run catalog:refresh:blackburn -- --dry-run` reports drift without writing; `--check` exits nonzero on drift. Iceberg is classified with the localized `cooling`/`Охлаждение` tag and explicitly not mint.
 
 DARKSIDE full-line ingestion is generated from the official brand page and the public catalog API discovered from its Nuxt runtime. `npm run catalog:refresh:darkside -- --check` completed with 75 products and zero added/changed/removed/unclassified drift. The snapshot retains canonical source titles for RU/EN, official RU descriptions, official tags/categories and strength, and excludes commerce, availability and media. The combined catalog contains a single DARKSIDE brand with 76 products: 75 current official API records plus the separately sourced `lime-up` required by a published mix. Seed validation proves all existing mix component references remain resolvable; archival is constrained to known DARKSIDE source URLs and never deletes records.
 
+MUSTHAVE full-line ingestion is generated from all nine pages of the official server-rendered tobacco category. `npm run catalog:refresh:musthave -- --check` verifies the checked-in deterministic 99-product snapshot against the live source. Only canonical tobacco product cards, official titles and Russian flavor notes are retained; commerce, availability and media are excluded. Existing recipe-referenced slugs are preserved, old subsets are merged without duplicates, and archival is restricted to records owned by official MUSTHAVE catalog/product URLs and never deletes them. Seed and mix validators prove that all published recipe component references remain resolvable.
+
 The `fresh` profile is propagated through the database constraint, private-product API validation, public DTO mapping, filter `allCases`, RU/EN localization and deterministic tropical artwork fallback. Regression tests cover API acceptance, Swift mapping/palette behavior, and Iceberg remaining exact `cooling` without implicit mint/herbal equivalence. The final live BlackBurn `--check` reported 80 products with zero added/changed/removed/unclassified drift.
 
 The owner/input/validation handoff for these gates is maintained in [`RELEASE_CHECKLIST.md`](RELEASE_CHECKLIST.md).
 
-- Runtime unit XCTest: 67/67 passed on iPhone 15 Pro Simulator (`/private/tmp/hb-blackburn-unit/Logs/Test/Test-HookahBoss-2026.09.10_05-51-05-+0300.xcresult`). One combined XCUITest suite passed 4/4 (`/private/tmp/hb-ui-dynamic-full/Logs/Test/Test-HookahBoss-2026.09.10_04-59-12-+0300.xcresult`): age EN, anonymous EN light, anonymous RU dark and anonymous EN accessibility XXXL. VoiceOver announcements and screenshot-level device clipping still require a manual pass.
+- Runtime unit XCTest: 72/72 passed from the production-structured project (`/private/tmp/hb-prod-tests3/Logs/Test/Test-HookahBoss-2026.09.10_12-13-27-+0300.xcresult`), including ViewModel behavior and strict architecture guards. The app, unit and UI-test targets also pass `build-for-testing`. The post-refactor combined XCUITest suite passed 4/4 (`/private/tmp/hb-prod-ui/Logs/Test/Test-HookahBoss-2026.09.10_12-19-08-+0300.xcresult`): age EN, anonymous EN light, anonymous RU dark and anonymous EN accessibility XXXL. VoiceOver announcements and screenshot-level device clipping still require a manual pass.
 - `external blocker`: production VDS deployment and a real HTTPS `HOOKAHBOSS_RELEASE_API_BASE_URL` are not configured.
 - `external blocker`: live Sign in with Apple exchange/revoke requires signing/team/App ID and real Apple credentials. Implementation and local fixtures exist, but production Apple endpoints require staging smoke.
 - `external blocker`: App Store age-rating questionnaire, distribution strategy and review risk under Guideline 1.4.3 cannot be proven by repository tests.
@@ -138,6 +141,6 @@ The owner/input/validation handoff for these gates is maintained in [`RELEASE_CH
 
 - Backend: `cd backend && npm run check`
 - Seed validation: `npm run seed:validate`, `npm run seed:mixes:validate`, `npm run seed:articles:validate`
-- iOS project: `xcodegen generate`
-- iOS runtime tests: `xcodebuild ... -destination 'platform=iOS Simulator,id=F71385FC-3DF2-45BD-834F-A7DDBFBEF3B5' test`
+- iOS project: `cd ios && xcodegen generate`
+- iOS runtime tests: `xcodebuild -project ios/HookahBoss.xcodeproj -scheme HookahBoss ... -destination 'platform=iOS Simulator,id=F71385FC-3DF2-45BD-834F-A7DDBFBEF3B5' test`
 - Bundle configuration: `plutil -extract API_BASE_URL raw <DerivedData>/Build/Products/Debug-iphonesimulator/HookahBoss.app/Info.plist`

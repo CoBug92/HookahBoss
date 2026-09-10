@@ -4,6 +4,9 @@
 xcuserdata/
 DerivedData/
 .build/
+build/
+.bundle/
+vendor/bundle/
 
 # Backend generated dependencies and build output
 backend/node_modules/
