@@ -17,11 +17,12 @@ enum MixRanker {
     }
     static func dailyRecommendations(
         from mixes: [MixPreview],
+        excluding excludedID: UUID? = nil,
         limit: Int = 10,
         date: Date = Date(),
         calendar: Calendar = .current
     ) -> [MixPreview] {
-        let rankedMixes = ranked(mixes)
+        let rankedMixes = ranked(mixes.filter { $0.id != excludedID })
         guard !rankedMixes.isEmpty, limit > 0 else { return [] }
         let day = calendar.dateComponents(
             [.day],

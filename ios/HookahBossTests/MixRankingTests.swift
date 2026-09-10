@@ -25,4 +25,19 @@ final class MixRankingTests:XCTestCase {
         XCTAssertEqual(today, sameDay)
         XCTAssertNotEqual(today, tomorrow)
     }
+    func testDailyRecommendationsExcludeMixOfDayAndStillContainTen() {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
+        let mixes = (1...12).map { mix($0) }
+        let date = Date(timeIntervalSince1970: 1_700_000_000)
+        let mixOfDay = MixRanker.mixOfDay(from: mixes, date: date, calendar: calendar)!
+        let recommendations = MixRanker.dailyRecommendations(
+            from: mixes,
+            excluding: mixOfDay.id,
+            date: date,
+            calendar: calendar
+        )
+        XCTAssertEqual(recommendations.count, 10)
+        XCTAssertFalse(recommendations.contains { $0.id == mixOfDay.id })
+    }
 }
