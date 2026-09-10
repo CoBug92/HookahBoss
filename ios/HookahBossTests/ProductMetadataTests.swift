@@ -1,16 +1,16 @@
 import XCTest
 
 final class ProductMetadataTests: XCTestCase {
-    func testProjectUsesMixingBundleIdentifiers() throws {
+    func testProjectUsesMixeryBundleIdentifiers() throws {
         let iosRoot = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
         let project = try String(
             contentsOf: iosRoot.appending(path: "scripts/xcodegen/Application.yml"),
             encoding: .utf8
         )
 
-        XCTAssertTrue(project.contains("PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixing\n"))
-        XCTAssertTrue(project.contains("PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixing.tests"))
-        XCTAssertTrue(project.contains("PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixing.uitests"))
+        XCTAssertTrue(project.contains("PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixery\n"))
+        XCTAssertTrue(project.contains("PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixery.tests"))
+        XCTAssertTrue(project.contains("PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixery.uitests"))
     }
 
     func testDisplayNameIsLocalizedInRussianAndEnglish() throws {
@@ -25,7 +25,7 @@ final class ProductMetadataTests: XCTestCase {
             encoding: .utf8
         )
 
-        XCTAssertTrue(english.contains("\"CFBundleDisplayName\" = \"Mixing\";"))
+        XCTAssertTrue(english.contains("\"CFBundleDisplayName\" = \"Mixery\";"))
         XCTAssertTrue(russian.contains("\"CFBundleDisplayName\" = \"Миксовка\";"))
     }
 

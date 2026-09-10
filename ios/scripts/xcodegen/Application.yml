@@ -36,7 +36,7 @@ targets:
           "$SRCROOT/scripts/swiftgen/run"
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixing
+        PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixery
         GENERATE_INFOPLIST_FILE: NO
         INFOPLIST_FILE: HookahBoss/App/Configuration/Info.plist
         TARGETED_DEVICE_FAMILY: "1"
@@ -63,7 +63,7 @@ targets:
       - target: HookahBoss
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixing.tests
+        PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixery.tests
         GENERATE_INFOPLIST_FILE: YES
 
   HookahBossUITests:
@@ -75,5 +75,5 @@ targets:
       - target: HookahBoss
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixing.uitests
+        PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixery.uitests
         GENERATE_INFOPLIST_FILE: YES

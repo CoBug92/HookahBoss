@@ -7,7 +7,7 @@ CONFIGURATION ?= Debug
 DESTINATION ?= platform=iOS Simulator,name=iPhone 17 Pro
 BUILD_DESTINATION ?= generic/platform=iOS
 DERIVED_DATA_PATH ?= $(CURDIR)/.build/DerivedData
-ARCHIVE_PATH ?= $(CURDIR)/.build/Mixing.xcarchive
+ARCHIVE_PATH ?= $(CURDIR)/.build/Mixery.xcarchive
 RBENV ?= $(shell command -v rbenv 2>/dev/null)
 BUNDLE ?= $(if $(RBENV),$(RBENV) exec bundle,bundle)
 

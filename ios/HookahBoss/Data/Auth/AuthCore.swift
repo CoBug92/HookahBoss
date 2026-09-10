@@ -18,7 +18,7 @@ protocol AuthSessionStorage: Sendable {
 }
 
 actor KeychainAuthSessionStorage: AuthSessionStorage {
-    private let service = "ru.kostyuchenko.mixing.auth"
+    private let service = "ru.kostyuchenko.mixery.auth"
     private let account = "api-session"
 
     func load() throws -> AuthSession? {

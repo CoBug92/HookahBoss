@@ -5,7 +5,7 @@ require "uri"
 
 default_platform(:ios)
 
-APP_IDENTIFIER = "ru.kostyuchenko.mixing"
+APP_IDENTIFIER = "ru.kostyuchenko.mixery"
 
 def required_env(key)
   value = ENV[key].to_s.strip
@@ -110,7 +110,7 @@ platform :ios do
       scheme: scheme,
       configuration: "Release",
       destination: ENV.fetch("BUILD_DESTINATION", "generic/platform=iOS"),
-      archive_path: ENV.fetch("ARCHIVE_PATH", File.join(ios_root, ".build", "Mixing.xcarchive")),
+      archive_path: ENV.fetch("ARCHIVE_PATH", File.join(ios_root, ".build", "Mixery.xcarchive")),
       derived_data_path: derived_data_path("archive"),
       xcargs: release_xcargs("DEVELOPMENT_TEAM" => ENV["DEVELOPMENT_TEAM"].to_s),
       skip_codesigning: ENV.fetch("SKIP_CODE_SIGNING", "false") == "true",
@@ -128,9 +128,9 @@ platform :ios do
       scheme: scheme,
       configuration: "Release",
       destination: "generic/platform=iOS",
-      archive_path: ENV.fetch("ARCHIVE_PATH", File.join(ios_root, ".build", "Mixing.xcarchive")),
+      archive_path: ENV.fetch("ARCHIVE_PATH", File.join(ios_root, ".build", "Mixery.xcarchive")),
       output_directory: ENV.fetch("OUTPUT_DIRECTORY", File.join(ios_root, ".build")),
-      output_name: ENV.fetch("IPA_NAME", "Mixing.ipa"),
+      output_name: ENV.fetch("IPA_NAME", "Mixery.ipa"),
       derived_data_path: derived_data_path("release"),
       export_method: "app-store",
       export_team_id: team_id,
@@ -164,7 +164,7 @@ platform :ios do
       export_team_id: team_id,
       include_symbols: true,
       output_directory: ENV.fetch("OUTPUT_DIRECTORY", File.join(ios_root, ".build")),
-      output_name: ENV.fetch("IPA_NAME", "Mixing.ipa"),
+      output_name: ENV.fetch("IPA_NAME", "Mixery.ipa"),
       xcargs: release_xcargs(
         "DEVELOPMENT_TEAM" => team_id,
         "MARKETING_VERSION" => marketing_version,

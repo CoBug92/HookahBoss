@@ -132,7 +132,7 @@ The `fresh` profile is propagated through the database constraint, private-produ
 
 The owner/input/validation handoff for these gates is maintained in [`RELEASE_CHECKLIST.md`](RELEASE_CHECKLIST.md).
 
-- Runtime XCTest: 109/109 unit and architecture tests plus 7/7 XCUITests passed on iPhone 15 Pro / iOS 17.5 Simulator. The generic `iphoneos` arm64 Debug target also builds successfully with signing disabled; its bundle identifies as `ru.kostyuchenko.mixing`, contains “Миксовка” / “Mixing” metadata in `ru.lproj` / `en.lproj`, and embeds the verified device-test HTTPS API URL. VoiceOver announcements and screenshot-level clipping still require a manual pass on a physical device.
+- Runtime XCTest: 109/109 unit and architecture tests plus 7/7 XCUITests passed on iPhone 15 Pro / iOS 17.5 Simulator. The generic `iphoneos` arm64 Debug target also builds successfully with signing disabled; its bundle identifies as `ru.kostyuchenko.mixery`, contains “Миксовка” / “Mixery” metadata in `ru.lproj` / `en.lproj`, and embeds the verified device-test HTTPS API URL. VoiceOver announcements and screenshot-level clipping still require a manual pass on a physical device.
 - `external blocker`: the isolated VDS device-test deployment is live, but a stable production HTTPS `HOOKAHBOSS_RELEASE_API_BASE_URL` is not configured; the Debug Quick Tunnel URL is temporary by design.
 - `external blocker`: live Sign in with Apple exchange/revoke requires signing/team/App ID and real Apple credentials. Implementation and local fixtures exist, but production Apple endpoints require staging smoke.
 - `external blocker`: App Store age-rating questionnaire, distribution strategy and review risk under Guideline 1.4.3 cannot be proven by repository tests.

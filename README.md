@@ -1,4 +1,4 @@
-# Mixing / Миксовка
+# Mixery / Миксовка
 
 Native iOS application and its API live in one repository, with platform code kept in separate top-level directories.
 

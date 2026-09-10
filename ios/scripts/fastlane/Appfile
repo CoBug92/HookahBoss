@@ -1,4 +1,4 @@
-app_identifier("ru.kostyuchenko.mixing")
+app_identifier("ru.kostyuchenko.mixery")
 
 # Apple ID, team and App Store Connect credentials come from the environment
 # or a private Fastlane configuration. No credentials belong in this repository.

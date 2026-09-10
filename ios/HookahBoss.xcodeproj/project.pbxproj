@@ -857,7 +857,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixing;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixery;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -938,7 +938,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixing.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixery.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HookahBoss.app/HookahBoss";
@@ -961,7 +961,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixing;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixery;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1035,7 +1035,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixing.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixery.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HookahBoss.app/HookahBoss";
@@ -1052,7 +1052,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixing.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixery.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = HookahBoss;
@@ -1069,7 +1069,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixing.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixery.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = HookahBoss;

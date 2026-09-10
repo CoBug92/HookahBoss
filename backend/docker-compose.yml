@@ -20,7 +20,7 @@ services:
       NODE_ENV: development
       HOST: 0.0.0.0
       PORT: 3000
-      APPLE_CLIENT_ID: ru.kostyuchenko.mixing
+      APPLE_CLIENT_ID: ru.kostyuchenko.mixery
       SESSION_TOKEN_SECRET: ${HOOKAHBOSS_DEV_SESSION_SECRET:-local-development-only-change-me-32-bytes}
     ports:
       - "${HOOKAHBOSS_API_PORT:-3010}:3000"
