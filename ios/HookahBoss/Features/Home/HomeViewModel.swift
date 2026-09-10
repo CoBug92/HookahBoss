@@ -17,4 +17,5 @@ final class HomeViewModel: ObservableObject {
         let snapshot = await content.catalog(locale: .currentApp, force: force)
         mixes = snapshot.mixes.map { $0.personalized(rating: library.ratings[$0.id], favorite: library.favoriteMixIDs.contains($0.id)) }
     }
+    func syncLibraryState() { mixes = mixes.map { mix in mix.applyingPersonalRatingChange(from:mix.personalRating,to:library.ratings[mix.id]).personalized(rating:library.ratings[mix.id],favorite:library.favoriteMixIDs.contains(mix.id)) } }
 }

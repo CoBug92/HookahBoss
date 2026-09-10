@@ -44,6 +44,15 @@ final class HookahBossSmokeUITests:XCTestCase {
         XCTAssertTrue(app.staticTexts["60%"].exists)
     }
 
+    func testHomeRecommendationOpensMixDetail() {
+        let app = launch(language: "en", dark: false)
+        let recommendation = element(app, "home.recommendation.10000000-0000-0000-0000-000000000001")
+        XCTAssertTrue(recommendation.waitForExistence(timeout: 5))
+        XCTAssertTrue(scrollToHittable(recommendation, in: app))
+        recommendation.tap()
+        XCTAssertTrue(element(app, "screen.mixDetail").waitForExistence(timeout: 5))
+    }
+
     private func runAnonymousSmoke(language:String,mixes:String,articles:String,create:String,my:String,cancel:String,dark:Bool=false,file:StaticString=#filePath,line:UInt=#line) {
         let app=launch(language:language,dark:dark)
         XCTAssertTrue(element(app,"screen.home").waitForExistence(timeout:5),file:file,line:line)

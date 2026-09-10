@@ -25,7 +25,7 @@ struct HomeView: View {
             .background(background.ignoresSafeArea())
             .toolbar(.hidden, for: .navigationBar)
             .navigationDestination(for:MixPreview.self){MixDetailView(model:makeMixDetailModel($0))}
-        }.accessibilityIdentifier("screen.home")
+        }.onAppear{model.syncLibraryState()}.accessibilityIdentifier("screen.home")
     }
 
     private var background: Color { AppTheme.background }
@@ -92,7 +92,7 @@ struct HomeView: View {
             }
 
             ForEach(model.recommendations) { mix in
-                MixRow(mix: mix)
+                NavigationLink(value:mix){MixRow(mix:mix)}.buttonStyle(.plain).accessibilityIdentifier(AccessibilityID.homeRecommendation(mix.id))
             }
         }
         .task { await model.appear() }

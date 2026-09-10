@@ -147,16 +147,18 @@ final class AuthRuntime: ObservableObject {
     func logout() async { if let client { try? await client.logout() };try? await service?.signOut();accountId=nil;favoriteMixIDs=[];ratings=[:];bookmarkedArticleSlugs=[];isAdmin=false }
     func deleteAccount() async throws ->Bool { guard let id=accountId,let client,let service else{return false};let result=try await client.deleteAccount();AccountCache.purge(accountId:id);try await service.signOut();accountId=nil;isAdmin=false;return result.providerRevocation=="unavailable" }
     func setFavorite(_ enabled:Bool,mixId:UUID) async {
+        libraryError=nil
         let old=favoriteMixIDs; if enabled { favoriteMixIDs.insert(mixId) } else { favoriteMixIDs.remove(mixId) };saveLibraryCache()
         do { if enabled { _ = try await client?.addFavorite(mixId:mixId) } else { try await client?.deleteFavorite(mixId:mixId) } }
         catch { if SyncFailurePolicy.disposition(for:error) == .queue { enqueue(.init(id:UUID(),kind:.favorite,mixId:mixId,value:enabled ? 1:0)) } else { favoriteMixIDs=old };libraryError=L10n.Content.Error.network;saveLibraryCache() }
     }
     func setRating(_ score:Int?,mixId:UUID) async {
+        libraryError=nil
         let old=ratings;ratings[mixId]=score;saveLibraryCache()
         do { if let score { _ = try await client?.setRating(mixId:mixId,score:score) } else { try await client?.deleteRating(mixId:mixId) } }
         catch { if SyncFailurePolicy.disposition(for:error) == .queue { enqueue(.init(id:UUID(),kind:.rating,mixId:mixId,value:score)) } else { ratings=old };libraryError=L10n.Content.Error.network;saveLibraryCache() }
     }
-    func setArticleBookmark(_ enabled:Bool,slug:String)async {let old=bookmarkedArticleSlugs;if enabled{bookmarkedArticleSlugs.insert(slug)}else{bookmarkedArticleSlugs.remove(slug)};saveLibraryCache();do{try await client?.setArticleBookmark(slug:slug,enabled:enabled)}catch{if error.isRetryableSyncFailure{enqueueBookmark(.init(slug:slug,enabled:enabled))}else{bookmarkedArticleSlugs=old};libraryError=L10n.Content.Error.network;saveLibraryCache()}}
+    func setArticleBookmark(_ enabled:Bool,slug:String)async {libraryError=nil;let old=bookmarkedArticleSlugs;if enabled{bookmarkedArticleSlugs.insert(slug)}else{bookmarkedArticleSlugs.remove(slug)};saveLibraryCache();do{try await client?.setArticleBookmark(slug:slug,enabled:enabled)}catch{if error.isRetryableSyncFailure{enqueueBookmark(.init(slug:slug,enabled:enabled))}else{bookmarkedArticleSlugs=old};libraryError=L10n.Content.Error.network;saveLibraryCache()}}
     private func activate(_ id:UUID){isAdmin=false;accountId=id;loadLibraryCache(id);Task{await reconcileLibrary();await loadAdminCapability()}}
     private func loadAdminCapability()async{do{isAdmin=try await client?.adminCapabilities().admin ?? false}catch{isAdmin=false}}
     private func reconcileLibrary() async { await replayOutbox();await replayBookmarkOutbox();guard let snapshot=try? await client?.library() else{return};let projection=LibraryProjection(favorites:Set(snapshot.favorites.map(\.mixId)),ratings:Dictionary(uniqueKeysWithValues:snapshot.ratings.map{($0.mixId,$0.score)})).overlaying(pendingMutations());favoriteMixIDs=projection.favorites;ratings=projection.ratings;bookmarkedArticleSlugs=Set(snapshot.articleBookmarks);for mutation in pendingBookmarks(){if mutation.enabled{bookmarkedArticleSlugs.insert(mutation.slug)}else{bookmarkedArticleSlugs.remove(mutation.slug)}};saveLibraryCache() }
