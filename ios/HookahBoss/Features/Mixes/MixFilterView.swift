@@ -29,7 +29,7 @@ struct MixFilterView: View {
                     onApply(model.filter)
                     dismiss()
                 } label: {
-                    Text("filters.showResults \(resultCount)")
+                    Text(L10n.Filters.showResultsLld(resultCount))
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 15)

@@ -65,7 +65,7 @@
 
 | Требование | Evidence | Статус |
 |---|---|---|
-| Modal create, empty initial composition, optional title, no rating/comment fields | `RootView.fullScreenCover`, `CreateMixView` | proven code |
+| Modal create, empty initial composition, optional title, no rating/comment fields | `RootView.fullScreenCover`, `CreateMixView`; loading blocks premature picker/save actions, save exposes progress and dismisses only after `didSave` | proven code and ViewModel success/failure/retry tests |
 | Horizontal component cards; catalog/private/inventory picker; no duplicates | `CreateMixView`, `ComponentPicker(excluding:)`; picker uses shared cached inventory/private metadata and overlays refreshed private products | proven logic; runtime picker QA not run |
 | Partial percentages auto-fill; >100 blocked; deterministic exact 100 transport | `PercentageDistributor`, `CreateMixView.save`, `PersonalMixStore`; `PercentageDistributorTests`, `SyncSupportTests.testCreateWrite...` | proven |
 | Minimum one component and source invariant | client distributor; `validatePersonalMix`/personal mix routes; `personal-mixes.test.ts` | proven |
@@ -75,7 +75,7 @@
 | Open a saved personal mix and inspect its generated cover/composition | `PersonalMixDetailView` + `PersonalMixDetailViewModel`; compact and full personal lists both navigate to it; horizontal cards show persisted brand/line/flavor/percentage | proven by mapper unit test and dedicated XCUITest fixture |
 | Personal mix generated template cover | `PersonalMixArtwork` derives a deterministic template from persisted component `flavorProfiles`; personal-mix detail hydration resolves official/private product names and profiles | proven code path; visual screenshot QA not run |
 | Equal-without-input is marked approximate in personal profile | migration `007_personal_mix_profile.sql`, personal mix API DTO/write paths, backward-compatible local decoding, and `personalMix.approximate` RU/EN marker | proven code path |
-| Personal repository cache/outbox/reconcile | one `AccountWorkspace` store instance is shared by Create and My; `PersonalMixStore`, `PersonalMixReconciler`; workspace create→My/account-switch tests | proven logic; no global unauth singleton |
+| Personal repository cache/outbox/reconcile | one `AccountWorkspace` store instance is shared by Create and My; `PersonalMixStore`, `PersonalMixReconciler`; workspace account-switch tests and real `CreateMixService → PersonalMixStore → reloaded account cache` integration test | proven logic; no global unauth singleton |
 
 ## Articles
 
@@ -116,7 +116,7 @@
 | Collective ratings start at zero | ratings table empty by seeds; public SQL aggregates user ratings | proven by seed/schema inspection |
 | Cream light, graphite dark, system-only theme, gold | `AppTheme`, screen surfaces; `AppThemeTests`; `PRODUCT.md` | proven code/contrast tests; full visual runtime QA not run |
 | Official artwork bundled and profile-mapped | `ios/HookahBoss/Resources/Artwork`, typed `AssetFiles`, `MixArtwork`; bundle/mapping tests | proven |
-| Production iOS project architecture/tooling | `ios/project.yml` is the reproducible XcodeGen source; `App/Core/Domain/Data/Features/Resources/Generated` layout; shared concrete stores are created in the app composition root; feature services are protocol-injected; SwiftGen provides typed `L10n`/`AssetFiles`; `ArchitectureGuardTests` prevents concrete networking/persistence dependencies in Features; Make/Fastlane entry points are documented in `ios/README.md` | proven by generation hash stability, strict lint with 0 violations, 103/103 unit/architecture tests and 7/7 UI tests on iPhone 15 Pro / iOS 17.5 Simulator |
+| Production iOS project architecture/tooling | `ios/project.yml` is the reproducible XcodeGen source; `App/Core/Domain/Data/Features/Resources/Generated` layout; shared concrete stores are created in the app composition root; feature services are protocol-injected; SwiftGen provides typed `L10n`/`AssetFiles`; `ArchitectureGuardTests` prevents concrete networking/persistence dependencies in Features and now rejects interpolated raw localization keys; Make/Fastlane entry points are documented in `ios/README.md` | proven by generation hash stability, strict lint with 0 violations, 104/104 unit/architecture tests and 7/7 UI tests on iPhone 15 Pro / iOS 17.5 Simulator |
 
 ## External blockers and release gates
 

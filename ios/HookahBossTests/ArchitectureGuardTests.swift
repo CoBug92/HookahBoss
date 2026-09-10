@@ -132,6 +132,10 @@ final class ArchitectureGuardTests: XCTestCase {
         let keys = Set(keyExpression.matches(in: strings, range: NSRange(strings.startIndex..., in: strings)).compactMap { match in
             Range(match.range(at: 1), in: strings).map { String(strings[$0]) }
         })
+        let formattedKeyPrefixes = keys.compactMap { key -> String? in
+            guard let marker = key.firstIndex(of: "%") else { return nil }
+            return String(key[..<marker])
+        }
         let literalExpression = try NSRegularExpression(pattern: #"\"([^\"\\]*(?:\\.[^\"\\]*)*)\""#)
         let viewSources = try RepositoryLayout.swiftSources(below: features).filter {
             (try? String(contentsOf: $0, encoding: .utf8).contains(": View")) == true
@@ -142,6 +146,9 @@ final class ArchitectureGuardTests: XCTestCase {
             let source = try String(contentsOf: url, encoding: .utf8)
             if source.contains("String.LocalizationValue(") || source.contains("String(localized:") {
                 violations.append("\(url.lastPathComponent): dynamic localization bypass")
+            }
+            for prefix in formattedKeyPrefixes where source.contains("\"\(prefix)\\(") {
+                violations.append("\(url.lastPathComponent): raw interpolated key \(prefix)")
             }
             for match in literalExpression.matches(in: source, range: NSRange(source.startIndex..., in: source)) {
                 guard let range = Range(match.range(at: 1), in: source) else { continue }

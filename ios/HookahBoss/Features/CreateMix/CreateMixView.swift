@@ -22,10 +22,14 @@ struct CreateMixView: View {
                     }
                 }.padding(20)
             }
+            .overlay { if model.isLoading { ProgressView() } }
             .navigationTitle(L10n.Create.title).navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button(L10n.Common.cancel) { dismiss() } }
-                ToolbarItem(placement: .confirmationAction) { Button(L10n.Common.save) { model.save() }.fontWeight(.semibold) }
+                ToolbarItem(placement: .confirmationAction) {
+                    if model.isSaving { ProgressView() }
+                    else { Button(L10n.Common.save) { model.save() }.fontWeight(.semibold).disabled(model.isLoading) }
+                }
             }
             .sheet(isPresented: $isPickerPresented) {
                 ComponentPicker(model: ComponentPickerViewModel(snapshot: model.options, excluding: Set(model.components.map(\.optionKey))), select: model.add)
@@ -61,7 +65,7 @@ struct CreateMixView: View {
                 Text(L10n.Create.firstComponent).font(.headline)
                 Text(L10n.Create.FirstComponent.hint).font(.caption).foregroundStyle(.secondary)
             }.frame(maxWidth: .infinity, minHeight: 170).background(AppTheme.card, in: RoundedRectangle(cornerRadius: 22))
-        }.buttonStyle(.plain)
+        }.buttonStyle(.plain).disabled(model.isLoading)
     }
 
     private var addCard: some View {
@@ -69,7 +73,7 @@ struct CreateMixView: View {
             VStack(spacing: 8) { Image(systemName: "plus").font(.title2); Text(L10n.Create.add).font(.caption.weight(.semibold)) }
                 .foregroundStyle(AppTheme.gold).frame(width: 112, height: 180)
                 .background(AppTheme.gold.opacity(0.1), in: RoundedRectangle(cornerRadius: 20))
-        }.buttonStyle(.plain)
+        }.buttonStyle(.plain).disabled(model.isLoading)
     }
 }
 
@@ -85,7 +89,7 @@ private struct DraftComponentCard: View {
             Text(component.option.brandAndLine).font(.caption).foregroundStyle(.secondary).lineLimit(2); Spacer()
             HStack(spacing: 5) {
                 TextField("—", text: $percentageText).keyboardType(.numberPad).textFieldStyle(.roundedBorder).frame(width: 52); Text("%")
-                if isAutomatic, let effectivePercentage { Text("create.auto \(effectivePercentage)").font(.caption2).foregroundStyle(AppTheme.gold) }
+                if isAutomatic, let effectivePercentage { Text(L10n.Create.autoLld(effectivePercentage)).font(.caption2).foregroundStyle(AppTheme.gold) }
             }
         }.padding(12).frame(width: 150).frame(minHeight: 180).background(AppTheme.card, in: RoundedRectangle(cornerRadius: 20))
         .contextMenu {

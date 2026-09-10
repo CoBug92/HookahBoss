@@ -6,6 +6,7 @@ final class CreateMixViewModel: ObservableObject {
     @Published var components: [DraftComponent] = []
     @Published private(set) var options = CreateMixOptionSnapshot(catalog: [], personal: [], inventory: [])
     @Published private(set) var isLoading = false
+    @Published private(set) var isSaving = false
     @Published private(set) var showValidation = false
     @Published private(set) var errorMessage: String?
     @Published private(set) var didSave = false
@@ -55,6 +56,7 @@ final class CreateMixViewModel: ObservableObject {
             loadTask = Task { await load(locale: failedLocale) }
         case .save(let record):
             guard saveTask == nil else { return }
+            isSaving = true
             saveTask = Task { await performSave(record) }
         }
     }
@@ -84,6 +86,7 @@ final class CreateMixViewModel: ObservableObject {
         let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
         let record = PersonalMixRecord(id: UUID(), title: trimmed.isEmpty ? nil : trimmed, components: records,
                                        createdAt: Date(), isApproximate: automaticIndices.count == components.count)
+        isSaving = true
         saveTask = Task { await performSave(record) }
     }
 
@@ -96,7 +99,7 @@ final class CreateMixViewModel: ObservableObject {
     }
 
     private func performSave(_ record: PersonalMixRecord) async {
-        defer { saveTask = nil }
+        defer { saveTask = nil; isSaving = false }
         do { try await service.save(record); failedAction = nil; didSave = true }
         catch { failedAction = .save(record); errorMessage = L10n.Content.Error.network }
     }

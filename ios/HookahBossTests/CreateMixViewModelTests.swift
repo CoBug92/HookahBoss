@@ -10,10 +10,12 @@ final class CreateMixViewModelTests: XCTestCase {
         model.add(option(sourceID: UUID().uuidString, flavor: "Mint"))
 
         model.save()
+        XCTAssertTrue(model.isSaving)
         await waitUntil { model.didSave }
 
         XCTAssertEqual(service.saved?.components.map(\.percentage), [50, 50])
         XCTAssertEqual(service.saved?.isApproximate, true)
+        XCTAssertFalse(model.isSaving)
     }
 
     func testInvalidDistributionDoesNotCallSave() async {
@@ -39,6 +41,7 @@ final class CreateMixViewModelTests: XCTestCase {
         await waitUntil { model.errorMessage != nil }
 
         XCTAssertFalse(model.didSave)
+        XCTAssertFalse(model.isSaving)
         XCTAssertNotNil(model.errorMessage)
 
         service.saveError = nil
@@ -60,6 +63,23 @@ final class CreateMixViewModelTests: XCTestCase {
 
         XCTAssertEqual(picker.filtered.map(\.flavor), ["Pear"])
         XCTAssertEqual(service.loadedLocales, [.en])
+    }
+
+    func testRealCreateServicePublishesSavedMixIntoSharedCollectionStore() async throws {
+        let suite = "CreateMixIntegration-\(UUID().uuidString)"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let accountID = UUID()
+        let personalMixes = PersonalMixStore(defaults: defaults, accountId: accountID)
+        let inventory = InventoryStore(defaults: defaults, accountId: accountID)
+        let service = CreateMixService(content: PublicContentStore(), inventory: inventory, personalMixes: personalMixes, client: nil)
+        let record = PersonalMixRecord(id: UUID(), title: "Shared", components: [], createdAt: .distantPast)
+
+        try await service.save(record)
+
+        XCTAssertEqual(personalMixes.mixes.map(\.id), [record.id])
+        let reloaded = PersonalMixStore(defaults: defaults, accountId: accountID)
+        XCTAssertEqual(reloaded.mixes.map(\.id), [record.id])
     }
 
     private func option(sourceID: String, flavor: String) -> ComponentOption {
