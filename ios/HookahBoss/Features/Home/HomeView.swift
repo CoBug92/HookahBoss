@@ -6,6 +6,7 @@ struct HomeView: View {
     var onInventory:()->Void = {}
     var onProfile:()->Void = {}
     let makeMixDetailModel: (MixPreview) -> MixDetailViewModel
+    private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
     init(model: @autoclosure @escaping () -> HomeViewModel, onFindMix: @escaping () -> Void = {}, onInventory: @escaping () -> Void = {}, onProfile: @escaping () -> Void = {}, makeMixDetailModel: @escaping (MixPreview) -> MixDetailViewModel) {
         _model = StateObject(wrappedValue: model()); self.onFindMix = onFindMix; self.onInventory = onInventory; self.onProfile = onProfile; self.makeMixDetailModel = makeMixDetailModel
     }
@@ -92,7 +93,7 @@ struct HomeView: View {
                 Text(L10n.Home.recommended).font(.title3.weight(.bold))
             }
 
-            LazyVStack(spacing: 10) {
+            LazyVGrid(columns: columns, spacing: 12) {
                 ForEach(model.recommendations) { mix in
                     NavigationLink(value: mix) { MixCardView(mix: mix) }
                         .buttonStyle(.plain)
