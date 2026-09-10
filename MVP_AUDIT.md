@@ -44,7 +44,7 @@
 | Personal rating badge и rating-dependent gradient border | `MixCardView`, `AppTheme.ratingColor` | proven code |
 | Logical artwork mapping from flavor profiles | `ArtworkPalette.forProfiles`; `PublicContentStoreTests.testArtworkMapping...`; bundled PNG tests | proven |
 | Authoritative rich detail hydration from every navigation path | Home/Mixes/My pass their `PublicContentStore` into `MixDetailView`; summary renders immediately, then cached detail and `/v1/mixes/:id` refresh hydrate components/profile/intensities/strength while favorite/rating remain independent optimistic state | proven by detail hydration + stale fallback runtime test |
-| Rating sheet 1–5, mutable one-per-user | `RatingSheet`, `AuthRuntime.setRating`; DB unique constraint in `001_initial.sql`; personal API tests | proven |
+| Rating sheet 1–5, mutable one-per-user | `RatingSheet`, `AuthRuntime.setRating`; DB unique constraint in `001_initial.sql`; `MixPreview.applyingPersonalRatingChange` immediately projects create/change/delete into collective average/count, preserves rollback, and catalog `onAppear` resynchronizes the personal badge/favorite after detail dismissal | proven by API, aggregate projection, ViewModel rollback and catalog resynchronization tests |
 | Horizontal noninteractive component cards; no bulk inventory action | `MixDetailView.composition`, `IngredientCard`; no bulk action | proven code |
 | Rich ID-driven detail DTO | `/v1/mixes/:id`, `OfficialMixDetailDTO`, `PublicContentStore.cachedMixDetail/mixDetail`; every in-app entry passes its store and `MixDetailView.task` hydrates by ID | proven for all current in-app paths and future ID-driven construction; an external URL scheme is neither defined nor required by PRODUCT |
 
@@ -116,7 +116,7 @@
 | Collective ratings start at zero | ratings table empty by seeds; public SQL aggregates user ratings | proven by seed/schema inspection |
 | Cream light, graphite dark, system-only theme, gold | `AppTheme`, screen surfaces; `AppThemeTests`; `PRODUCT.md` | proven code/contrast tests; full visual runtime QA not run |
 | Official artwork bundled and profile-mapped | `ios/HookahBoss/Resources/Artwork`, typed `AssetFiles`, `MixArtwork`; bundle/mapping tests | proven |
-| Production iOS project architecture/tooling | `ios/project.yml` is the reproducible XcodeGen source; `App/Core/Domain/Data/Features/Resources/Generated` layout; shared concrete stores are created in the app composition root; feature services are protocol-injected; SwiftGen provides typed `L10n`/`AssetFiles`; `ArchitectureGuardTests` prevents concrete networking/persistence dependencies in Features; Make/Fastlane entry points are documented in `ios/README.md` | proven by generation hash stability, strict lint with 0 violations, and 101/101 unit + UI tests on iPhone 15 Pro / iOS 17.5 Simulator |
+| Production iOS project architecture/tooling | `ios/project.yml` is the reproducible XcodeGen source; `App/Core/Domain/Data/Features/Resources/Generated` layout; shared concrete stores are created in the app composition root; feature services are protocol-injected; SwiftGen provides typed `L10n`/`AssetFiles`; `ArchitectureGuardTests` prevents concrete networking/persistence dependencies in Features; Make/Fastlane entry points are documented in `ios/README.md` | proven by generation hash stability, strict lint with 0 violations, 102/102 unit/architecture tests and 5/5 UI tests on iPhone 15 Pro / iOS 17.5 Simulator |
 
 ## External blockers and release gates
 

@@ -19,6 +19,7 @@ final class MixCatalogViewModel: ObservableObject {
         let snapshot = await content.catalog(locale: .currentApp, force: force)
         catalog = snapshot.mixes.map { $0.personalized(rating: library.ratings[$0.id], favorite: library.favoriteMixIDs.contains($0.id)) }
     }
+    func syncLibraryState() { catalog = catalog.map { mix in mix.applyingPersonalRatingChange(from:mix.personalRating,to:library.ratings[mix.id]).personalized(rating:library.ratings[mix.id],favorite:library.favoriteMixIDs.contains(mix.id)) } }
     func apply(_ value: MixFilter) { filter = value }
 }
 

@@ -43,6 +43,22 @@ final class ViewModelTests: XCTestCase {
 
         XCTAssertEqual(auth.requestedRating, 5)
         XCTAssertEqual(model.personalRating, 2)
+        XCTAssertEqual(model.displayedMix.rating, 2)
+        XCTAssertEqual(model.displayedMix.ratingsCount, 1)
+    }
+
+    func testMixDetailViewModelKeepsCollectiveAggregateWhenRatingRollsBack() async {
+        let id = UUID()
+        let initial = MixPreview(id:id,title:"Mix",flavorTags:[],flavorProfiles:[],sweetness:.subtle,acidity:.subtle,freshness:.subtle,ingredients:[],rating:4,ratingsCount:10,strength:.medium,personalRating:nil,isFavorite:false,palette:.tropical)
+        let auth = AuthLibrarySpy()
+        auth.rejectsRating = true
+        let model = MixDetailViewModel(mix:initial,content:MixContentSpy(cached:nil,fresh:initial),auth:auth)
+
+        await model.submitRating(5)
+
+        XCTAssertNil(model.personalRating)
+        XCTAssertEqual(model.displayedMix.rating,4)
+        XCTAssertEqual(model.displayedMix.ratingsCount,10)
     }
 
     func testAdminEditorValidatesAndCreatesAggregate() async throws {
@@ -106,6 +122,7 @@ private final class AuthLibrarySpy: AuthLibraryServing {
     var bookmarkedArticleSlugs: Set<String> = []
     var libraryError: String?
     var ratingResult: Int?
+    var rejectsRating = false
     private(set) var requestedRating: Int?
     func authorize(_ action: ProtectedAction, resume: @escaping () -> Void) { resume() }
     func setFavorite(_ enabled: Bool, mixId: UUID) async {
@@ -113,6 +130,7 @@ private final class AuthLibrarySpy: AuthLibraryServing {
     }
     func setRating(_ score: Int?, mixId: UUID) async {
         requestedRating = score
+        if rejectsRating { return }
         ratings[mixId] = ratingResult ?? score
     }
     func setArticleBookmark(_ enabled: Bool, slug: String) async {}

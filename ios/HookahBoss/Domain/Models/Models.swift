@@ -18,6 +18,20 @@ struct MixPreview: Identifiable, Hashable {
 }
 extension MixPreview {
     func personalized(rating:Int?,favorite:Bool)->MixPreview { .init(id:id,title:title,flavorTags:flavorTags,flavorProfiles:flavorProfiles,sweetness:sweetness,acidity:acidity,freshness:freshness,ingredients:ingredients,rating:self.rating,ratingsCount:ratingsCount,strength:strength,personalRating:rating,isFavorite:favorite,palette:palette) }
+    func applyingPersonalRatingChange(from previous:Int?,to current:Int?)->MixPreview {
+        guard previous != current else { return personalized(rating:current,favorite:isFavorite) }
+        let previousSum=(rating ?? 0)*Double(ratingsCount)
+        let nextCount:Int
+        let nextSum:Double
+        switch(previous,current){
+        case(nil,.some(let score)):nextCount=ratingsCount+1;nextSum=previousSum+Double(score)
+        case(.some(let old),.some(let score)):nextCount=ratingsCount;nextSum=previousSum-Double(old)+Double(score)
+        case(.some(let old),nil):nextCount=max(0,ratingsCount-1);nextSum=previousSum-Double(old)
+        case(nil,nil):nextCount=ratingsCount;nextSum=previousSum
+        }
+        let nextRating:Double?=nextCount == 0 ? nil:max(1,min(5,nextSum/Double(nextCount)))
+        return .init(id:id,title:title,flavorTags:flavorTags,flavorProfiles:flavorProfiles,sweetness:sweetness,acidity:acidity,freshness:freshness,ingredients:ingredients,rating:nextRating,ratingsCount:nextCount,strength:strength,personalRating:current,isFavorite:isFavorite,palette:palette)
+    }
 }
 
 enum FlavorProfile: String, CaseIterable, Identifiable, Hashable {

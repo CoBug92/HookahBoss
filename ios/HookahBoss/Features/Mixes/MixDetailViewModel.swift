@@ -42,9 +42,12 @@ final class MixDetailViewModel: ObservableObject {
     }
 
     func submitRating(_ score: Int?) async {
+        let previous = personalRating
         personalRating = score
         await auth.setRating(score, mixId: mix.id)
-        personalRating = auth.ratings[mix.id]
+        let committed = auth.ratings[mix.id]
+        personalRating = committed
+        hydratedMix = displayedMix.applyingPersonalRatingChange(from: previous, to: committed)
         errorMessage = auth.libraryError
     }
     func submitRatingIntent(_ score: Int?) { Task { await submitRating(score) } }
