@@ -6,6 +6,7 @@ import { mixSupportBrandsV2, mixSupportSourcesV2 } from "../../seeds/catalog-mix
 import { mixSupportBrandsV3, mixSupportSourcesV3 } from "../../seeds/catalog-mix-support-v3.js";
 import { blackburnSnapshot } from "../../seeds/blackburn-generated.js";
 import { darksideSnapshot } from "../../seeds/darkside-generated.js";
+import { musthaveSnapshot } from "../../seeds/musthave-generated.js";
 
 const blackburnSource = {
   key: "blackburn-official", url: blackburnSnapshot.source.pageUrl,
@@ -41,8 +42,11 @@ export const darksideBrand:SeedBrand={slug:"darkside",name:"DARKSIDE",sourceKey:
   ...retainedReferencedProducts
 ]}]};
 
-export const allCatalogBrands = [...brands.filter(brand=>brand.slug!=="darkside"), ...brandsV2.filter(brand => brand.slug !== "blackburn"), ...brandsV3, ...mixSupportBrands, ...mixSupportBrandsV2.filter(brand=>brand.slug!=="darkside"), ...mixSupportBrandsV3, blackburnBrand,darksideBrand];
-export const allCatalogSources = [...sources.filter(source=>source.key!=="darkside-catalog"), ...sourcesV2.filter(source => !["blackburn-official", "blackburn-industry"].includes(source.key)), ...sourcesV3, ...mixSupportSourcesV2, ...mixSupportSourcesV3, blackburnSource,darksideSource];
+const musthaveSource={key:"musthave-catalog",url:musthaveSnapshot.source.categoryUrl,title:"MUSTHAVE official tobacco catalog",publisher:"MUSTHAVE",accessedAt:musthaveSnapshot.source.accessedAt,verifiedAt:musthaveSnapshot.source.verifiedAt,confidence:"high" as const,notes:`Official server-rendered tobacco category, ${musthaveSnapshot.source.pages} pages. Commerce, stock, packaging and media excluded.`};
+export const musthaveBrand:SeedBrand={slug:"musthave",name:"MUSTHAVE",sourceKey:musthaveSource.key,lines:[{slug:"original",name:"Original",strength:"medium",sourceKey:musthaveSource.key,products:musthaveSnapshot.products.map(product=>({slug:product.slug,nameRu:product.flavorNoteRu,nameEn:product.title,descriptionRu:product.flavorNoteRu,translationOrigin:"official" as const,sourceKey:musthaveSource.key,tags:product.tags,sweetness:product.sweetness,acidity:product.acidity,freshness:product.freshness}))}]};
+
+export const allCatalogBrands = [...brands.filter(brand=>!["darkside","musthave"].includes(brand.slug)), ...brandsV2.filter(brand => brand.slug !== "blackburn"), ...brandsV3, ...mixSupportBrands.filter(brand=>brand.slug!=="musthave"), ...mixSupportBrandsV2.filter(brand=>brand.slug!=="darkside"), ...mixSupportBrandsV3.filter(brand=>brand.slug!=="musthave"), blackburnBrand,darksideBrand,musthaveBrand];
+export const allCatalogSources = [...sources.filter(source=>!["darkside-catalog","musthave-catalog"].includes(source.key)), ...sourcesV2.filter(source => !["blackburn-official", "blackburn-industry"].includes(source.key)), ...sourcesV3, ...mixSupportSourcesV2, ...mixSupportSourcesV3, blackburnSource,darksideSource,musthaveSource];
 
 const nonblank = (value: unknown): value is string => typeof value === "string" && value.trim().length > 0;
 

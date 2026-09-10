@@ -17,6 +17,7 @@
     "sources:verify": "tsx src/verifySources.ts",
     "catalog:refresh:blackburn": "tsx src/refreshBlackburn.ts",
     "catalog:refresh:darkside": "tsx src/refreshDarkside.ts",
+    "catalog:refresh:musthave": "tsx src/refreshMusthave.ts",
     "integration:inventory-matching": "tsx src/integrationInventoryMatching.ts",
     "test": "node --import tsx --test test/**/*.test.ts",
     "check": "npm run build && npm test"

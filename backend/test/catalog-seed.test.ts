@@ -7,7 +7,7 @@ import { catalogStats, validateCatalogSeed } from "../src/seeds/catalog.js";
 
 test("catalog seed is complete and valid", () => {
   assert.deepEqual(validateCatalogSeed(), []);
-  assert.deepEqual(catalogStats(), { brands: 13, products: 340 });
+  assert.deepEqual(catalogStats(), { brands: 13, products: 383 });
   assert.equal(catalogStats(brandsV2).products, 60);
   assert.equal(catalogStats(brandsV3).products, 60);
 });
@@ -43,3 +43,5 @@ test("catalog validation detects uniqueness and provenance violations", () => {
   assert(errors.some(error => error.includes("duplicate product")));
   assert(errors.some(error => error.includes("unknown provenance")));
 });
+
+test("MUSTHAVE is one complete official line and preserves mix references",async()=>{const{musthaveBrand,allCatalogBrands}=await import("../src/seeds/catalog.js");const{validateMixSeed}=await import("../src/seeds/mixes.js");assert.equal(allCatalogBrands.filter(brand=>brand.slug==="musthave").length,1);assert.equal(musthaveBrand.lines[0]?.products.length,99);assert.deepEqual(validateMixSeed(),[])});
