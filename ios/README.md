@@ -51,13 +51,13 @@ make test DESTINATION='platform=iOS Simulator,name=iPhone 15 Pro,OS=17.5'
 Run lanes through Bundler:
 
 ```sh
-cd ios
+cd ios/scripts
 bundle exec fastlane ios test
 bundle exec fastlane ios build
 bundle exec fastlane ios archive
 ```
 
-The iOS Makefile automatically runs Bundler through rbenv when rbenv is available, avoiding an older system Ruby/Bundler earlier in `PATH`. Direct lane invocation should use `rbenv exec bundle exec fastlane …` on such machines.
+Fastlane configuration lives in [`scripts/fastlane`](scripts/fastlane). The iOS Makefile automatically runs Bundler through rbenv when rbenv is available, avoiding an older system Ruby/Bundler earlier in `PATH`. Direct lane invocation from `ios/scripts` should use `rbenv exec bundle exec fastlane …` on such machines.
 
 The archive lane prepares a local archive only; it never uploads or publishes. Its fixed App Store identifier is `ru.kostyuchenko.mixing`. Supply signing and release configuration through environment variables such as `DEVELOPMENT_TEAM`, `HOOKAHBOSS_RELEASE_API_BASE_URL`, `ARCHIVE_PATH` and `SKIP_CODE_SIGNING`. No credentials belong in the repository.
 

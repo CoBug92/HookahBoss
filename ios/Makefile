@@ -35,13 +35,13 @@ lint:
 	./scripts/swiftlint/run
 
 archive: generate
-	SCHEME='$(SCHEME)' CONFIGURATION=Release BUILD_DESTINATION='$(BUILD_DESTINATION)' DERIVED_DATA_PATH='$(DERIVED_DATA_PATH)' ARCHIVE_PATH='$(ARCHIVE_PATH)' $(BUNDLE) exec fastlane ios archive
+	cd scripts && SCHEME='$(SCHEME)' CONFIGURATION=Release BUILD_DESTINATION='$(BUILD_DESTINATION)' DERIVED_DATA_PATH='$(DERIVED_DATA_PATH)' ARCHIVE_PATH='$(ARCHIVE_PATH)' $(BUNDLE) exec fastlane ios archive
 
 release: generate
-	SCHEME='$(SCHEME)' DERIVED_DATA_PATH='$(DERIVED_DATA_PATH)' ARCHIVE_PATH='$(ARCHIVE_PATH)' $(BUNDLE) exec fastlane ios release
+	cd scripts && SCHEME='$(SCHEME)' DERIVED_DATA_PATH='$(DERIVED_DATA_PATH)' ARCHIVE_PATH='$(ARCHIVE_PATH)' $(BUNDLE) exec fastlane ios release
 
 deploy: generate
-	SCHEME='$(SCHEME)' DERIVED_DATA_PATH='$(DERIVED_DATA_PATH)' ARCHIVE_PATH='$(ARCHIVE_PATH)' $(BUNDLE) exec fastlane ios deploy
+	cd scripts && SCHEME='$(SCHEME)' DERIVED_DATA_PATH='$(DERIVED_DATA_PATH)' ARCHIVE_PATH='$(ARCHIVE_PATH)' $(BUNDLE) exec fastlane ios deploy
 
 backend-check:
 	cd ../backend && npm run check

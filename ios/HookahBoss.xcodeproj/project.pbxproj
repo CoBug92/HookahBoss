@@ -135,7 +135,7 @@
 		51BA2484A7DB93B79B0CC4A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5314F6EBE2CFC20ED024013D /* CreateMixModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMixModels.swift; sourceTree = "<group>"; };
 		54050A29F39CA502C52A8E3E /* AdminViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewModels.swift; sourceTree = "<group>"; };
-		58098A659657672CC273F18A /* HookahBoss.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HookahBoss.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		58098A659657672CC273F18A /* HookahBoss.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HookahBoss.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6136444B1EB2F83FAE642AC7 /* AuthCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCore.swift; sourceTree = "<group>"; };
 		6300DE45B08AD5D371275DBF /* HookahBossUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = HookahBossUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		65C30FF46F5BBE84C8946607 /* AuthGateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGateTests.swift; sourceTree = "<group>"; };
@@ -185,7 +185,7 @@
 		E1E93D044B3A2FF45452A803 /* CreateMixViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMixViewModelTests.swift; sourceTree = "<group>"; };
 		EBBCA03EFD6A7C181E736A53 /* PublicContentStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicContentStoreTests.swift; sourceTree = "<group>"; };
 		ECAE1325323F5D7B25112F28 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		ED7FF428746853C0B1BCCFC5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		ED7FF428746853C0B1BCCFC5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		EEE99631AB239A2F87504DCC /* MixDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixDetailViewModel.swift; sourceTree = "<group>"; };
 		F087E9FC9D6F898F0CFC97BF /* UserDefaultsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsStore.swift; sourceTree = "<group>"; };
 		F788B13D95F3CC3C22EA61B3 /* mix-berry-citrus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mix-berry-citrus.png"; sourceTree = "<group>"; };
@@ -604,7 +604,6 @@
 						TestTargetID = AD965C39EE30BC38BB6EEFB3;
 					};
 					AD965C39EE30BC38BB6EEFB3 = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					B8F01FAFC374C09374BA7EA1 = {
@@ -818,6 +817,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q9WXSNT6UT;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HookahBoss/App/Configuration/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -922,6 +922,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q9WXSNT6UT;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HookahBoss/App/Configuration/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
