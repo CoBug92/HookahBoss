@@ -92,8 +92,13 @@ struct InventoryMixResultsView: View {
             if model.state == .loading {
                 ProgressView().padding(.top, 80)
             } else if model.state == .failed {
-                ContentUnavailableView(L10n.Content.Error.title, systemImage: "wifi.exclamationmark", description: Text(L10n.Content.Error.network))
-                    .padding(.top, 80)
+                ContentUnavailableView {
+                    Label(L10n.Content.Error.title, systemImage: "wifi.exclamationmark")
+                } description: {
+                    Text(L10n.Content.Error.network)
+                } actions: {
+                    Button(L10n.Common.retry) { model.retry() }.buttonStyle(.borderedProminent)
+                }.padding(.top, 80)
             } else if model.isEmpty {
                 ContentUnavailableView(L10n.Inventory.Results.Empty.title, systemImage: "shippingbox", description: Text(L10n.Inventory.Results.Empty.message))
                     .padding(.top, 80)

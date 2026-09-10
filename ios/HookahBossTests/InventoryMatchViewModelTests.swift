@@ -31,6 +31,22 @@ final class InventoryMatchViewModelTests: XCTestCase {
         XCTAssertEqual(model.state, .failed)
     }
 
+    func testRetryRecoversAfterTransientFailure() async {
+        let mixID = UUID()
+        let service = InventoryMatchServiceSpy(matches: [.init(mixId: mixID, kind: "ready", missingFlavor: nil, sourceProductId: nil, substituteProductId: nil)])
+        service.shouldFail = true
+        let model = InventoryMatchViewModel(service: service, catalog: [mix(id: mixID)], products: [])
+        model.appear(locale: .en)
+        await waitUntil { model.state == .failed }
+
+        service.shouldFail = false
+        model.retry(locale: .en)
+        await waitUntil { model.state == .loaded }
+
+        XCTAssertEqual(model.ready.map(\.id), [mixID])
+        XCTAssertEqual(service.locales, [.en, .en])
+    }
+
     private func mix(id: UUID) -> MixPreview {
         MixPreview(id: id, title: id.uuidString, flavorTags: [], flavorProfiles: [], sweetness: .subtle,
                    acidity: .subtle, freshness: .subtle, ingredients: [], rating: nil, ratingsCount: 0,
@@ -51,6 +67,7 @@ final class InventoryMatchViewModelTests: XCTestCase {
 private final class InventoryMatchServiceSpy: InventoryMatchServing {
     let values: [InventoryMatchDTO]
     private(set) var locales: [AppLocale] = []
+    var shouldFail = false
     init(matches: [InventoryMatchDTO]) { values = matches }
-    func matches(locale: AppLocale) async throws -> [InventoryMatchDTO] { locales.append(locale); return values }
+    func matches(locale: AppLocale) async throws -> [InventoryMatchDTO] { locales.append(locale); if shouldFail { throw URLError(.notConnectedToInternet) }; return values }
 }

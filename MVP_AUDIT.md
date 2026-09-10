@@ -57,7 +57,7 @@
 | Add/search, custom private positions, delete | `InventoryAddView`, `PrivateProductAddView`; `/v1/me/private-products`; `personal.test.ts` ownership/validation | proven |
 | Three result sections and substitution/missing notes | `InventoryMixResultsView` | proven code |
 | Exact product, private exact flavor, tag substitute, deny rules | SQL in `GET /v1/me/inventory/matches`; `personal.test.ts: inventory matching applies deny rules...` | proven server logic |
-| Successful empty response is not mistaken for offline fallback | `InventoryMatchLoadState.loaded([])` and server-only classification; `SyncSupportTests.testInventoryMatchCacheDistinguishes...` | proven |
+| Successful empty response is not mistaken for offline fallback | `InventoryMatchLoadState.loaded([])` and server-only classification; failed state exposes a localized Retry action wired to `InventoryMatchViewModel.retry`; `SyncSupportTests.testInventoryMatchCacheDistinguishes...` and transient failure→retry→loaded regression | proven |
 | Offline matching | `InventoryMatchCache`, account-scoped last successful server result; no local invented substitute heuristic | proven cache semantics; first-ever offline visit correctly shows error because no authoritative result exists |
 | Inventory durable outbox/account isolation | `InventoryStore` outbox + projection; `SyncSupportTests` pending overlay, order, account isolation | proven |
 
@@ -116,7 +116,7 @@
 | Collective ratings start at zero | ratings table empty by seeds; public SQL aggregates user ratings | proven by seed/schema inspection |
 | Cream light, graphite dark, system-only theme, gold | `AppTheme`, screen surfaces; `AppThemeTests`; `PRODUCT.md` | proven code/contrast tests; full visual runtime QA not run |
 | Official artwork bundled and profile-mapped | `ios/HookahBoss/Resources/Artwork`, typed `AssetFiles`, `MixArtwork`; bundle/mapping tests | proven |
-| Production iOS project architecture/tooling | `ios/project.yml` is the reproducible XcodeGen source; `App/Core/Domain/Data/Features/Resources/Generated` layout; shared concrete stores are created in the app composition root; feature services are protocol-injected; SwiftGen provides typed `L10n`/`AssetFiles`; `ArchitectureGuardTests` prevents concrete networking/persistence dependencies in Features and now rejects interpolated raw localization keys; Make/Fastlane entry points are documented in `ios/README.md` | proven by generation hash stability, strict lint with 0 violations, 104/104 unit/architecture tests and 7/7 UI tests on iPhone 15 Pro / iOS 17.5 Simulator |
+| Production iOS project architecture/tooling | `ios/project.yml` is the reproducible XcodeGen source; `App/Core/Domain/Data/Features/Resources/Generated` layout; shared concrete stores are created in the app composition root; feature services are protocol-injected; SwiftGen provides typed `L10n`/`AssetFiles`; `ArchitectureGuardTests` prevents concrete networking/persistence dependencies in Features and now rejects interpolated raw localization keys; Make/Fastlane entry points are documented in `ios/README.md` | proven by generation hash stability, strict lint with 0 violations, 105/105 unit/architecture tests and 7/7 UI tests on iPhone 15 Pro / iOS 17.5 Simulator |
 
 ## External blockers and release gates
 
