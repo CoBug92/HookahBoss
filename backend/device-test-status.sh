@@ -8,9 +8,14 @@ PROJECT="${HOOKAHBOSS_DEVICE_PROJECT:-hookahboss}"
 ENV_FILE="${HOOKAHBOSS_DEVICE_ENV_FILE:-.env}"
 TUNNEL_SERVICE="${HOOKAHBOSS_TUNNEL_SERVICE:-hookahboss-test-tunnel.service}"
 
-ssh "$REMOTE_HOST" bash -s -- "$REMOTE_DIR" "$PROJECT" "$ENV_FILE" "$TUNNEL_SERVICE" <<'REMOTE'
+ssh "$REMOTE_HOST" bash -s -- "$REMOTE_DIR" "$PROJECT" "$REMOTE_DIR/$ENV_FILE" "$TUNNEL_SERVICE" <<'REMOTE'
 set -euo pipefail
-dir="$1"; project="$2"; env_file="$3"; tunnel_service="$4"
+root="$1"; project="$2"; env_file="$3"; tunnel_service="$4"
+if [[ -f "$root/backend/compose.device-test.yaml" ]]; then
+  dir="$root/backend"
+else
+  dir="$root"
+fi
 cd "$dir"
 compose=(docker compose -p "$project" --env-file "$env_file" -f compose.device-test.yaml)
 "${compose[@]}" ps

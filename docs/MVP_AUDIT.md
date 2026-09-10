@@ -1,12 +1,12 @@
 # HookahBoss MVP audit
 
-Дата аудита: 2026-09-09. Основание: `PRODUCT.md` и текущий worktree. Статус `proven` означает, что требование подтверждается конкретным кодом и/или автоматическим тестом. Компиляция сама по себе не считается доказательством runtime UX.
+Дата аудита: 2026-09-09. Основание: `docs/PRODUCT.md` и текущий worktree. Статус `proven` означает, что требование подтверждается конкретным кодом и/или автоматическим тестом. Компиляция сама по себе не считается доказательством runtime UX.
 
 ## Платформа, доступ и жизненный цикл аккаунта
 
 | Требование | Evidence | Статус |
 |---|---|---|
-| Нативный SwiftUI, iPhone, iOS 17+ | `ios/project.yml`: application/iOS, deployment 17.0, `TARGETED_DEVICE_FAMILY=1`; `ios/HookahBoss/App/HookahBossApp.swift` | proven |
+| Нативный SwiftUI, iPhone, iOS 17+ | `ios/scripts/xcodegen/Application.yml`: application/iOS, deployment 17.0, `TARGETED_DEVICE_FAMILY=1`; `ios/HookahBoss/App/HookahBossApp.swift` | proven |
 | RU и EN | RU/EN key sets имеют parity 280/280; locale передаётся в `APIClient`/`PublicContentStore`; Admin field/status/validation labels используют localization keys | proven source parity; runtime locale QA не выполнен |
 | Accessibility semantics | Icon-only bookmark/favorite/settings/delete/back controls have labels and practical targets; rating/inventory/bookmark/favorite expose state values; decorative artwork/badges are hidden; component cards use adaptive minimum height | proven source paths and localization parity; accessibility XXXL public-flow XCUITest passes; manual VoiceOver/device visual QA remains |
 | UI smoke matrix | DEBUG-only deterministic fixtures and age reset/bypass; XCUITest covers age gate plus Home recommendation→detail, Mixes→detail/composition, filters→results, Articles→reader→related reader, signed-out Create auth prompt and My placeholders in EN light, RU dark and EN accessibility XXXL; a separate fixture renders a persisted personal-mix detail without faking Apple authentication | proven by 7/7 XCUITest on iPhone 15 Pro / iOS 17.5 Simulator; no authenticated Apple/Admin flow is faked |
@@ -18,7 +18,7 @@
 | Logout сохраняет, но скрывает account cache | `AuthRuntime.logout`, `AccountCache.key`, `AccountWorkspace.activate(nil)`; account cache/workspace regression tests | proven |
 | Удаление аккаунта с подтверждением, provider revoke и server delete-all | `AccountCollectionView`; `DELETE /v1/me/account`; migrations `005_auth_sessions.sql`, `008_apple_provider_credentials.sql`; `appleProvider.ts`; `auth-core.test.ts`, `apple-provider.test.ts` | proven by fixtures — available provider token is revoked before transactional deletion; transient revoke failure preserves the account; legacy absence is explicit. Live Apple verification remains an external release smoke |
 | 18+ при первом запуске | `HookahBossApp.hasConfirmedAdultAge`, `AgeConfirmationView` | proven code path; persistence/runtime QA не прогнан |
-| Нет рекламы, покупок, уведомлений, публикаций | dependencies in `ios/project.yml`/`backend/package.json`; отсутствие StoreKit/ad/push/user-publish routes | proven статическим аудитом |
+| Нет рекламы, покупок, уведомлений, публикаций | dependencies in `ios/scripts/xcodegen/Application.yml`/`backend/package.json`; отсутствие StoreKit/ad/push/user-publish routes | proven статическим аудитом |
 | Нет продаж/магазинов/цен | public DTO/routes и seed validators/manifests не содержат commerce endpoints/data | proven для текущего контента |
 
 ## Навигация и публичный контент
@@ -33,7 +33,7 @@
 | Отдельная выдача ideal/possible без процента | `MixResultsView` | proven code path |
 | Ranking: match section, personal signals, collective, stable feed tie | `MixResultsView`, `MixRanker`; `MixRankingTests` | proven; «новизна» представлена только стабильным порядком feed, не отдельной publish-date метрикой |
 | Public cache/SWR/offline fallback | `DiskPublicCache`, `PublicContentStore`; `PublicContentStoreTests` | proven logic for list/detail cache; no network-transition UI test |
-| Release API config fail closed | explicit `ios/HookahBoss/App/Configuration/Info.plist`, Debug/Release settings in `ios/project.yml`, `AppConfig`; `AppConfigBundleTests` | proven build config; production HTTPS URL ещё не задан |
+| Release API config fail closed | explicit `ios/HookahBoss/App/Configuration/Info.plist`, Debug/Release settings in `ios/scripts/xcodegen/Application.yml`, `AppConfig`; `AppConfigBundleTests` | proven build config; production HTTPS URL ещё не задан |
 
 ## Карточка и экран официального микса
 
@@ -93,7 +93,7 @@
 | Требование | Evidence | Статус |
 |---|---|---|
 | Public contract hardening | Public mixes/matching exclude unpublished dependencies; matching locale is used; malformed catalog/inventory UUIDs return 400; article nullable storage is normalized to non-null DTOs; inventory upsert returns display metadata | proven by `app.test.ts`/`personal.test.ts` regression paths; backend 60/60 |
-| Node/TypeScript/PostgreSQL/Docker Compose | `backend/package.json`, migrations, `docker-compose.yml`, `compose.device-test.yaml` | proven locally; isolated VDS device-test API and PostgreSQL are healthy, and the public HTTPS tunnel passes `/health` plus live mixes/products/articles smoke checks |
+| Node/TypeScript/PostgreSQL/Docker Compose | `backend/package.json`, migrations, `backend/docker-compose.yml`, `backend/compose.device-test.yaml` | proven locally; isolated VDS device-test API and PostgreSQL are healthy, and the public HTTPS tunnel passes `/health` plus live mixes/products/articles smoke checks |
 | Apple JWKS signature/iss/aud/exp/iat/cache refresh | `backend/src/auth.ts`; `auth-core.test.ts` | proven fixture tests; live Apple JWKS/production credentials not exercised |
 | Short access + rotated hashed refresh, reuse revoke | migrations `005`, auth services/routes; `auth-core.test.ts`; actor-held refresh task; concurrent runtime single-flight test | proven |
 | Ratings/favorites/library sync optimistic + rollback/outbox | personal routes, `AuthRuntime`; `SyncSupportTests` | proven deterministic logic |
@@ -116,7 +116,7 @@
 | Collective ratings start at zero | ratings table empty by seeds; public SQL aggregates user ratings | proven by seed/schema inspection |
 | Cream light, graphite dark, system-only theme, gold | `AppTheme`, screen surfaces; `AppThemeTests`; `PRODUCT.md` | proven code/contrast tests; full visual runtime QA not run |
 | Official artwork bundled and profile-mapped | `ios/HookahBoss/Resources/Artwork`, typed `AssetFiles`, `MixArtwork`; bundle/mapping tests | proven |
-| Production iOS project architecture/tooling | `ios/project.yml` is the reproducible XcodeGen source; `App/Core/Domain/Data/Features/Resources/Generated` layout; shared concrete stores are created in the app composition root; feature services are protocol-injected; SwiftGen provides typed `L10n`/`AssetFiles`; `ArchitectureGuardTests` prevents concrete networking/persistence dependencies in Features and now rejects interpolated raw localization keys; Make/Fastlane entry points are documented in `ios/README.md` | proven by generation hash stability, strict lint with 0 violations, 108/108 unit/architecture tests and 7/7 UI tests on iPhone 15 Pro / iOS 17.5 Simulator |
+| Production iOS project architecture/tooling | `ios/scripts/xcodegen/Application.yml` is the reproducible XcodeGen source; `App/Core/Domain/Data/Features/Resources/Generated` layout; shared concrete stores are created in the app composition root; feature services are protocol-injected; SwiftGen provides typed `L10n`/`AssetFiles`; `ArchitectureGuardTests` prevents concrete networking/persistence dependencies in Features and now rejects interpolated raw localization keys; Make/Fastlane entry points are documented in `ios/README.md` | proven by generation hash stability, strict lint with 0 violations, 109/109 unit/architecture tests and 7/7 UI tests on iPhone 15 Pro / iOS 17.5 Simulator |
 
 ## External blockers and release gates
 
@@ -132,7 +132,7 @@ The `fresh` profile is propagated through the database constraint, private-produ
 
 The owner/input/validation handoff for these gates is maintained in [`RELEASE_CHECKLIST.md`](RELEASE_CHECKLIST.md).
 
-- Runtime XCTest: 108/108 unit and architecture tests plus 7/7 XCUITests passed on iPhone 15 Pro / iOS 17.5 Simulator. The generic `iphoneos` arm64 Debug target also builds successfully with signing disabled; its bundle identifies as `ru.kostyuchenko.mixing`, contains “Миксовка” / “Mixing” metadata in `ru.lproj` / `en.lproj`, and embeds the verified device-test HTTPS API URL. VoiceOver announcements and screenshot-level clipping still require a manual pass on a physical device.
+- Runtime XCTest: 109/109 unit and architecture tests plus 7/7 XCUITests passed on iPhone 15 Pro / iOS 17.5 Simulator. The generic `iphoneos` arm64 Debug target also builds successfully with signing disabled; its bundle identifies as `ru.kostyuchenko.mixing`, contains “Миксовка” / “Mixing” metadata in `ru.lproj` / `en.lproj`, and embeds the verified device-test HTTPS API URL. VoiceOver announcements and screenshot-level clipping still require a manual pass on a physical device.
 - `external blocker`: the isolated VDS device-test deployment is live, but a stable production HTTPS `HOOKAHBOSS_RELEASE_API_BASE_URL` is not configured; the Debug Quick Tunnel URL is temporary by design.
 - `external blocker`: live Sign in with Apple exchange/revoke requires signing/team/App ID and real Apple credentials. Implementation and local fixtures exist, but production Apple endpoints require staging smoke.
 - `external blocker`: App Store age-rating questionnaire, distribution strategy and review risk under Guideline 1.4.3 cannot be proven by repository tests.

@@ -1,6 +1,4 @@
-require 'dotenv'
+app_identifier("ru.kostyuchenko.mixing")
 
-Dotenv.load('../.env')
-Dotenv.load
-
-app_identifier(ENV["BUNDLE_ID"])
+# Apple ID, team and App Store Connect credentials come from the environment
+# or a private Fastlane configuration. No credentials belong in this repository.

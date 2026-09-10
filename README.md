@@ -1,4 +1,4 @@
-# HookahBoss
+# Mixing / Миксовка
 
 Native iOS application and its API live in one repository, with platform code kept in separate top-level directories.
 
@@ -6,14 +6,12 @@ Native iOS application and its API live in one repository, with platform code ke
 
 | Path | Purpose |
 |---|---|
-| `ios/` | SwiftUI application, Xcode project, unit/UI tests, localizations and iOS project specification |
-| `backend/` | Node.js/TypeScript API, PostgreSQL migrations, seeds, content refreshers, backend tests and VDS device-test scripts |
-| `docker-compose.yml` | Local backend/PostgreSQL environment |
-| `compose.device-test.yaml` | Isolated VDS device-test environment |
-| `PRODUCT.md` | Shared product specification |
-| `MVP_AUDIT.md` | Evidence-based implementation audit |
-| `RELEASE_CHECKLIST.md` | Cross-platform release gates |
-| `DEVICE_TEST.md` | Device-test deployment runbook |
+| `ios/` | SwiftUI application, project-local Makefile/Gemfile, Xcode project, tests, localization and generation/release tooling |
+| `backend/` | Node.js/TypeScript API, PostgreSQL, Compose definitions, seeds, tests and VDS helpers |
+| `docs/PRODUCT.md` | Shared product specification |
+| `docs/MVP_AUDIT.md` | Evidence-based implementation audit |
+| `docs/RELEASE_CHECKLIST.md` | Cross-platform release gates |
+| `docs/DEVICE_TEST.md` | Device-test deployment runbook |
 
 ## iOS
 
@@ -25,9 +23,10 @@ xcodebuild -project ios/HookahBoss.xcodeproj -scheme HookahBoss \
   CODE_SIGNING_ALLOWED=NO build
 ```
 
-The checked-in Xcode project and typed resources are generated from `ios/project.yml` and `ios/swiftgen.yml`. See [`ios/README.md`](ios/README.md) for architecture, tooling and Fastlane details. Regenerate them from the repository root:
+The checked-in Xcode project and typed resources are generated from specifications in `ios/scripts/`. See [`ios/README.md`](ios/README.md) for architecture, tooling and Fastlane details. Regenerate them with:
 
 ```sh
+cd ios
 make generate
 ```
 
@@ -39,11 +38,12 @@ npm ci
 npm run check
 ```
 
-After dependencies are installed, the same check is available from the root as `make backend-check`. `make verify` runs lint, iOS build/tests and the backend check.
+After dependencies are installed, the same check is available as `cd ios && make backend-check`. `cd ios && make verify` runs lint, iOS build/tests and the backend check.
 
 For the local Compose environment:
 
 ```sh
+cd backend
 docker compose up --build
 ```
 

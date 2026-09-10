@@ -35,7 +35,7 @@ The recipe batch in `seeds/mixes-v1.ts` contains 20 directly attributable recipe
 
 `seeds/articles-v1.ts` contains ten original bilingual editorial articles: two each for fundamentals, preparation, bowls/heat, care and safety. Bodies are structured into localized sections, include 2–3 related article slugs and retain all synthesis sources through `article_sources`. No personal author is stored. Run `npm run seed:articles:validate` and, after migrations, `npm run seed:articles`; repeated imports update articles, source links and related links transactionally. Safety content relies on WHO, CDC and NHS rather than industry marketing and does not claim that water, ventilation or equipment makes smoking safe.
 
-From the repository root, `docker compose up --build` starts the development PostgreSQL and exposes the API at `http://127.0.0.1:3010` (`3010` on the host to `3000` in the container), matching the iOS Debug configuration. Compose fallback credentials are explicitly local-only; production must supply independent database credentials and a random session secret. Run migrations and all seeds before the first API start with:
+From the `backend/` directory, `docker compose up --build` starts the development PostgreSQL and exposes the API at `http://127.0.0.1:3010` (`3010` on the host to `3000` in the container), matching the iOS Debug configuration. Compose fallback credentials are explicitly local-only; production must supply independent database credentials and a random session secret. Run migrations and all seeds before the first API start with:
 
 ```sh
 docker compose run --rm api node dist/src/db/migrate.js
@@ -47,8 +47,8 @@ docker compose run --rm api node dist/src/db/importArticleSeed.js
 The VDS device-test deployment and read-only status helpers are backend-owned and resolve repository paths from their own location, so they can be launched from any working directory:
 
 ```sh
-./backend/scripts/deploy-device-test.sh
-./backend/scripts/device-test-status.sh
+./backend/deploy-device-test.sh
+./backend/device-test-status.sh
 ```
 
 ## Provenance verification

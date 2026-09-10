@@ -1,20 +1,19 @@
 strings:
   inputs:
-    - ../../Main/Resources/Localization/ru.lproj/Localizable.strings
+    - ../../HookahBoss/Resources/Localization/en.lproj/Localizable.strings
   outputs:
     - templateName: structured-swift5
-      output: ../../Main/Resources/Generated/Strings+Generated.swift
+      output: ../../HookahBoss/Generated/Strings+Generated.swift
       params:
         enumName: L10n
         publicAccess: true
 
-xcassets:
+files:
   inputs:
-    - ../../Main/Resources/Assets/Colors.xcassets
-    - ../../Main/Resources/Assets/Images.xcassets
+    - ../../HookahBoss/Resources/Artwork
+  filter: .+\.png$
   outputs:
-    - templatePath: templates/xcassets-swift6.stencil
-      output: ../../Main/Resources/Generated/Assets+Generated.swift
+    - templateName: structured-swift5
+      output: ../../HookahBoss/Generated/AssetFiles+Generated.swift
       params:
-        enumName: Asset
-        publicAccess: true
+        enumName: AssetFiles

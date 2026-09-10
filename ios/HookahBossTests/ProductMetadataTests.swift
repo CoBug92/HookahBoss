@@ -3,7 +3,10 @@ import XCTest
 final class ProductMetadataTests: XCTestCase {
     func testProjectUsesMixingBundleIdentifiers() throws {
         let iosRoot = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
-        let project = try String(contentsOf: iosRoot.appending(path: "project.yml"), encoding: .utf8)
+        let project = try String(
+            contentsOf: iosRoot.appending(path: "scripts/xcodegen/Application.yml"),
+            encoding: .utf8
+        )
 
         XCTAssertTrue(project.contains("PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixing\n"))
         XCTAssertTrue(project.contains("PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixing.tests"))
@@ -24,5 +27,16 @@ final class ProductMetadataTests: XCTestCase {
 
         XCTAssertTrue(english.contains("\"CFBundleDisplayName\" = \"Mixing\";"))
         XCTAssertTrue(russian.contains("\"CFBundleDisplayName\" = \"Миксовка\";"))
+    }
+
+    func testInfoPlistUsesBuildSettingsForReleaseVersioning() throws {
+        let iosRoot = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
+        let infoPlist = try String(
+            contentsOf: iosRoot.appending(path: "HookahBoss/App/Configuration/Info.plist"),
+            encoding: .utf8
+        )
+
+        XCTAssertTrue(infoPlist.contains("$(MARKETING_VERSION)"))
+        XCTAssertTrue(infoPlist.contains("$(CURRENT_PROJECT_VERSION)"))
     }
 }

@@ -25,7 +25,7 @@ Verified versions:
 - Fastlane 2.238.0 through Bundler
 - SwiftLint is installed by `make bootstrap` when absent
 
-From the repository root:
+From the `ios/` directory:
 
 ```sh
 make bootstrap   # install Ruby gems and missing generation/lint tools
@@ -44,7 +44,7 @@ make test DESTINATION='platform=iOS Simulator,name=iPhone 15 Pro,OS=17.5'
 
 ## Generated resources
 
-[`swiftgen.yml`](swiftgen.yml) produces typed `L10n` and `AssetFiles` accessors from the English base localization and the artwork directory. Generation runs explicitly through `make generate` and as an Xcode pre-build phase, so stale generated output fails visibly when SwiftGen is unavailable. Generated Swift is checked in for review and deterministic builds.
+[`scripts/swiftgen/swiftgen.yml`](scripts/swiftgen/swiftgen.yml) produces typed `L10n` and `AssetFiles` accessors from the English base localization and the artwork directory. Generation runs explicitly through `make generate` and as an Xcode pre-build phase, so stale generated output fails visibly when SwiftGen is unavailable. Generated Swift is checked in for review and deterministic builds. XcodeGen uses [`scripts/xcodegen/Application.yml`](scripts/xcodegen/Application.yml) as the application source of truth.
 
 ## Fastlane
 
@@ -57,8 +57,8 @@ bundle exec fastlane ios build
 bundle exec fastlane ios archive
 ```
 
-The root Makefile automatically runs Bundler through rbenv when rbenv is available, avoiding an older system Ruby/Bundler earlier in `PATH`. Direct lane invocation should use `rbenv exec bundle exec fastlane …` on such machines.
+The iOS Makefile automatically runs Bundler through rbenv when rbenv is available, avoiding an older system Ruby/Bundler earlier in `PATH`. Direct lane invocation should use `rbenv exec bundle exec fastlane …` on such machines.
 
 The archive lane prepares a local archive only; it never uploads or publishes. Its fixed App Store identifier is `ru.kostyuchenko.mixing`. Supply signing and release configuration through environment variables such as `DEVELOPMENT_TEAM`, `HOOKAHBOSS_RELEASE_API_BASE_URL`, `ARCHIVE_PATH` and `SKIP_CODE_SIGNING`. No credentials belong in the repository.
 
-For a signed local App Store IPA (still without upload), provide all required release settings and run `make release` from the repository root. The lane fails before archiving unless `DEVELOPMENT_TEAM` and an HTTPS `HOOKAHBOSS_RELEASE_API_BASE_URL` are present. `OUTPUT_DIRECTORY` and `IPA_NAME` are optional.
+For a signed local App Store IPA (still without upload), provide all required release settings and run `make release` from `ios/`. The lane fails before archiving unless `TEAM_ID` and an HTTPS `HOOKAHBOSS_RELEASE_API_BASE_URL` are present. `make deploy` additionally requires App Store Connect API-key and match credentials, is restricted to `master`, and uploads to TestFlight. `OUTPUT_DIRECTORY` and `IPA_NAME` are optional.

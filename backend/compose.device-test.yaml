@@ -16,7 +16,7 @@ services:
 
   api:
     image: hookahboss-api:device-test
-    build: ./backend
+    build: .
     restart: unless-stopped
     environment:
       DATABASE_URL: postgres://hookahboss:${HOOKAHBOSS_POSTGRES_PASSWORD}@postgres:5432/hookahboss

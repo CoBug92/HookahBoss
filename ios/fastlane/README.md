@@ -1,65 +1,13 @@
-fastlane documentation
-----
+# Fastlane
 
-# Installation
-
-Make sure you have the latest version of the Xcode command line tools installed:
+Run from `ios/` through the pinned Bundler environment:
 
 ```sh
-xcode-select --install
+make archive
+make release
+make deploy
 ```
 
-For _fastlane_ installation instructions, see [Installing _fastlane_](https://docs.fastlane.tools/#installing-fastlane)
+`archive` creates an archive without upload. `release` creates a signed local App Store IPA. `deploy` is allowed only from `master`, reads App Store Connect credentials from the environment, synchronizes read-only signing assets with match, increments the TestFlight build number without editing tracked files, and uploads the resulting build.
 
-# Available Actions
-
-## iOS
-
-### ios generate
-
-```sh
-[bundle exec] fastlane ios generate
-```
-
-Generate resources and Xcode project
-
-### ios lint
-
-```sh
-[bundle exec] fastlane ios lint
-```
-
-Run SwiftLint
-
-### ios test
-
-```sh
-[bundle exec] fastlane ios test
-```
-
-Run unit tests on the configured simulator
-
-### ios build
-
-```sh
-[bundle exec] fastlane ios build
-```
-
-Build the Release configuration without signing
-
-### ios deploy
-
-```sh
-[bundle exec] fastlane ios deploy
-```
-
-Archive and upload a build to TestFlight
-
-
-----
-
-This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
-
-More information about _fastlane_ can be found on [fastlane.tools](https://fastlane.tools).
-
-The documentation of _fastlane_ can be found on [docs.fastlane.tools](https://docs.fastlane.tools).
+Required release variables are documented in `../scripts/.env.example`; never commit their values.

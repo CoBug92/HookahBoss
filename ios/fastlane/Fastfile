@@ -1,228 +1,185 @@
 fastlane_version "2.238.0"
 
-require "dotenv"
-require "fileutils"
-
-Dotenv.load("../.env")
-Dotenv.load
+require "shellwords"
+require "uri"
 
 default_platform(:ios)
+
+APP_IDENTIFIER = "ru.kostyuchenko.mixing"
 
 def required_env(key)
   value = ENV[key].to_s.strip
   UI.user_error!("Missing required environment variable #{key}") if value.empty?
-
   value
 end
 
-def project_root
-  File.expand_path("../..", __dir__)
+def ios_root
+  File.expand_path("..", __dir__)
 end
 
 def project_path
-  File.join(project_root, "#{required_env('PROJECT_NAME')}.xcodeproj")
+  File.join(ios_root, "HookahBoss.xcodeproj")
 end
 
 def scheme
-  required_env("TARGET_NAME")
+  ENV.fetch("SCHEME", "HookahBoss")
 end
 
 def derived_data_path(stage)
-  root = ENV["CI_DERIVED_DATA_ROOT"].to_s.strip
-  root = File.join(project_root, ".DerivedData", "CI") if root.empty?
-
-  path = File.join(root, stage)
-  FileUtils.mkdir_p(path)
-  path
+  root = ENV.fetch("DERIVED_DATA_PATH", File.join(ios_root, ".build", "DerivedData"))
+  File.join(root, stage)
 end
 
-def test_destination
-  explicit_destination = ENV["CI_XCODE_DESTINATION"].to_s.strip
-  return explicit_destination unless explicit_destination.empty?
-
-  output = sh(
-    "xcodebuild",
-    "-showdestinations",
-    "-project", project_path,
-    "-scheme", scheme,
-    log: false
-  )
-  match = output.each_line.lazy.map { |line|
-    line.match(/^\s*\{ platform:iOS Simulator,.*?id:([0-9A-F-]+),.*?name:(iPhone[^}]*) \}\s*$/)
-  }.find(&:itself)
-  UI.user_error!("No available iPhone simulator destination found for scheme #{scheme}") unless match
-
-  "platform=iOS Simulator,id=#{match[1]}"
+def validate_release_api_url!
+  uri = URI.parse(required_env("HOOKAHBOSS_RELEASE_API_BASE_URL"))
+  UI.user_error!("HOOKAHBOSS_RELEASE_API_BASE_URL must be an HTTPS origin") unless uri.is_a?(URI::HTTPS) && uri.host
+rescue URI::InvalidURIError
+  UI.user_error!("HOOKAHBOSS_RELEASE_API_BASE_URL must be a valid HTTPS URL")
 end
 
-def build_destination
-  explicit_destination = ENV["CI_BUILD_DESTINATION"].to_s.strip
-  return explicit_destination unless explicit_destination.empty?
-
-  "generic/platform=iOS Simulator"
-end
-
-def xcodegen_application_path
-  File.join(project_root, "scripts", "xcodegen", "Application.yml")
-end
-
-def update_xcodegen_setting!(key, value)
-  path = xcodegen_application_path
-  content = File.read(path)
-  found = false
-  updated = content.sub(/^(\s*)#{Regexp.escape(key)}:\s*.+$/) do
-    found = true
-    "#{$1}#{key}: #{value}"
-  end
-  UI.user_error!("Could not find #{key} in #{path}") unless found
-
-  File.write(path, updated)
-end
-
-def current_marketing_version
-  match = File.read(xcodegen_application_path).match(/^\s*MARKETING_VERSION:\s*(.+)$/)
-  UI.user_error!("Could not find MARKETING_VERSION in #{xcodegen_application_path}") unless match
-
-  match[1].strip.delete("'")
-end
-
-def update_project_versioning!(marketing_version:, build_number:)
-  update_xcodegen_setting!("MARKETING_VERSION", marketing_version)
-  update_xcodegen_setting!("CURRENT_PROJECT_VERSION", build_number)
-end
-
-def app_store_connect_api_key_options
-  {
-    key_id: required_env("APP_STORE_CONNECT_API_KEY_ID"),
-    issuer_id: required_env("APP_STORE_CONNECT_API_ISSUER_ID"),
-    key_content: required_env("APP_STORE_CONNECT_API_KEY_CONTENT"),
-    in_house: false,
-    is_key_content_base64: true
-  }
-end
-
-def current_branch
-  ENV["GITHUB_REF_NAME"] || git_branch
-end
-
-def ci_keychain_name
-  explicit_name = ENV["CI_KEYCHAIN_NAME"].to_s.strip
-  return explicit_name unless explicit_name.empty?
-
-  "compound_interest_ci"
+def release_xcargs(extra = {})
+  values = {
+    "PRODUCT_BUNDLE_IDENTIFIER" => APP_IDENTIFIER,
+    "HOOKAHBOSS_RELEASE_API_BASE_URL" => required_env("HOOKAHBOSS_RELEASE_API_BASE_URL")
+  }.merge(extra)
+  values.map { |key, value| "#{key}=#{Shellwords.escape(value)}" }.join(" ")
 end
 
 def ensure_deploy_branch!
-  branch = current_branch
-  allowed_branches = (ENV["DEPLOY_ALLOWED_BRANCHES"] || "master,main").split(",").map(&:strip)
-  return if allowed_branches.include?(branch)
-
-  UI.user_error!("Deploy is allowed only from #{allowed_branches.join(', ')}. Current branch: #{branch}")
+  branch = ENV["GITHUB_REF_NAME"].to_s.strip
+  branch = git_branch if branch.empty?
+  allowed = ENV.fetch("DEPLOY_ALLOWED_BRANCHES", "master").split(",").map(&:strip)
+  UI.user_error!("Deploy is allowed only from #{allowed.join(', ')}. Current branch: #{branch}") unless allowed.include?(branch)
 end
 
-def run_testflight_deploy
-  ensure_deploy_branch!
-
-  app_identifier = required_env("BUNDLE_ID")
-  team_id = required_env("TEAM_ID")
-  UI.important("Deploy: creating App Store Connect API key")
-  api_key = app_store_connect_api_key(app_store_connect_api_key_options)
-
-  UI.important("Deploy: running setup_ci")
-  setup_ci(
-    force: true,
-    keychain_name: ci_keychain_name,
-    timeout: 0
+def app_store_connect_key
+  app_store_connect_api_key(
+    key_id: required_env("APP_STORE_CONNECT_API_KEY_ID"),
+    issuer_id: required_env("APP_STORE_CONNECT_API_ISSUER_ID"),
+    key_content: required_env("APP_STORE_CONNECT_API_KEY_CONTENT"),
+    is_key_content_base64: true,
+    in_house: false
   )
-  UI.important("Deploy: syncing signing assets with match")
-  match(api_key: api_key)
-
-  UI.important("Deploy: reading current marketing version")
-  marketing_version = current_marketing_version
-  UI.important("Deploy: fetching latest TestFlight build number")
-  latest_build_number = latest_testflight_build_number(
-    api_key: api_key,
-    app_identifier: app_identifier,
-    version: marketing_version,
-    initial_build_number: 0
-  )
-  build_number = latest_build_number + 1
-
-  update_project_versioning!(
-    marketing_version: marketing_version,
-    build_number: build_number
-  )
-
-  UI.important("Deploy: regenerating project files")
-  sh("../generate.sh")
-
-  UI.important("Deploy: archiving app with gym")
-  gym(
-    project: project_path,
-    configuration: "Release",
-    scheme: scheme,
-    silent: false,
-    clean: true,
-    export_method: "app-store",
-    export_team_id: team_id,
-    include_symbols: true,
-    xcargs: "DEVELOPMENT_TEAM=#{team_id}",
-    export_options: {
-      signingStyle: "manual",
-      provisioningProfiles: {
-        app_identifier => "match AppStore #{app_identifier}"
-      }
-    }
-  )
-  UI.important("Deploy: uploading build to TestFlight")
-  upload_to_testflight(api_key: api_key)
 end
 
 platform :ios do
-  desc "Generate resources and Xcode project"
+  desc "Generate Swift resources and the Xcode project"
   lane :generate do
-    sh("../generate.sh")
+    sh(File.join(ios_root, "scripts", "swiftgen", "run"))
+    sh(File.join(ios_root, "scripts", "xcodegen", "run"))
   end
 
-  desc "Run SwiftLint"
+  desc "Run strict SwiftLint"
   lane :lint do
-    sh("../swiftlint/swiftlint.sh")
+    sh(File.join(ios_root, "scripts", "swiftlint", "run"))
   end
 
-  desc "Run unit tests on the configured simulator"
+  desc "Run unit and architecture tests"
   lane :test do
-    sh(
-      "xcodebuild",
-      "-project", project_path,
-      "-scheme", scheme,
-      "-destination", test_destination,
-      "-derivedDataPath", derived_data_path("test"),
-      "CODE_SIGNING_ALLOWED=NO",
-      "test"
+    generate
+    run_tests(
+      project: project_path,
+      scheme: scheme,
+      configuration: ENV.fetch("CONFIGURATION", "Debug"),
+      destination: ENV.fetch("DESTINATION", "platform=iOS Simulator,name=iPhone 17 Pro"),
+      derived_data_path: derived_data_path("test"),
+      only_testing: ["HookahBossTests"]
     )
   end
 
-  desc "Build the Release configuration without signing"
+  desc "Build without code signing"
   lane :build do
-    sh(
-      "xcodebuild",
-      "-project", project_path,
-      "-scheme", scheme,
-      "-configuration", "Release",
-      "-destination", build_destination,
-      "-derivedDataPath", derived_data_path("build"),
-      "CODE_SIGNING_ALLOWED=NO",
-      "build"
+    generate
+    build_app(
+      project: project_path,
+      scheme: scheme,
+      configuration: ENV.fetch("CONFIGURATION", "Debug"),
+      destination: ENV.fetch("BUILD_DESTINATION", "generic/platform=iOS"),
+      derived_data_path: derived_data_path("build"),
+      skip_codesigning: true,
+      skip_archive: true
     )
   end
 
-  desc "Deploy app to TestFlight"
-  lane :deploy_to_tf do
-    run_testflight_deploy
+  desc "Create a local archive without uploading"
+  lane :archive do
+    validate_release_api_url!
+    generate
+    build_app(
+      project: project_path,
+      scheme: scheme,
+      configuration: "Release",
+      destination: ENV.fetch("BUILD_DESTINATION", "generic/platform=iOS"),
+      archive_path: ENV.fetch("ARCHIVE_PATH", File.join(ios_root, ".build", "Mixing.xcarchive")),
+      derived_data_path: derived_data_path("archive"),
+      xcargs: release_xcargs("DEVELOPMENT_TEAM" => ENV["DEVELOPMENT_TEAM"].to_s),
+      skip_codesigning: ENV.fetch("SKIP_CODE_SIGNING", "false") == "true",
+      skip_package_ipa: true
+    )
   end
 
-  desc "Archive and upload a build to TestFlight"
+  desc "Create a signed App Store IPA locally without uploading"
+  lane :release do
+    validate_release_api_url!
+    team_id = required_env("TEAM_ID")
+    generate
+    build_app(
+      project: project_path,
+      scheme: scheme,
+      configuration: "Release",
+      destination: "generic/platform=iOS",
+      archive_path: ENV.fetch("ARCHIVE_PATH", File.join(ios_root, ".build", "Mixing.xcarchive")),
+      output_directory: ENV.fetch("OUTPUT_DIRECTORY", File.join(ios_root, ".build")),
+      output_name: ENV.fetch("IPA_NAME", "Mixing.ipa"),
+      derived_data_path: derived_data_path("release"),
+      export_method: "app-store",
+      export_team_id: team_id,
+      xcargs: release_xcargs("DEVELOPMENT_TEAM" => team_id)
+    )
+  end
+
+  desc "Increment the build, sign with match and upload to TestFlight"
   lane :deploy do
-    run_testflight_deploy
+    ensure_deploy_branch!
+    validate_release_api_url!
+    team_id = required_env("TEAM_ID")
+    api_key = app_store_connect_key
+    marketing_version = ENV.fetch("MARKETING_VERSION", "1.0.0")
+    build_number = latest_testflight_build_number(
+      api_key: api_key,
+      app_identifier: APP_IDENTIFIER,
+      version: marketing_version,
+      initial_build_number: 0
+    ) + 1
+
+    setup_ci(force: true, timeout: 0)
+    match(type: "appstore", readonly: true, app_identifier: APP_IDENTIFIER, api_key: api_key)
+    generate
+    build_app(
+      project: project_path,
+      scheme: scheme,
+      configuration: "Release",
+      clean: true,
+      export_method: "app-store",
+      export_team_id: team_id,
+      include_symbols: true,
+      output_directory: ENV.fetch("OUTPUT_DIRECTORY", File.join(ios_root, ".build")),
+      output_name: ENV.fetch("IPA_NAME", "Mixing.ipa"),
+      xcargs: release_xcargs(
+        "DEVELOPMENT_TEAM" => team_id,
+        "MARKETING_VERSION" => marketing_version,
+        "CURRENT_PROJECT_VERSION" => build_number.to_s
+      ),
+      export_options: {
+        signingStyle: "manual",
+        provisioningProfiles: { APP_IDENTIFIER => "match AppStore #{APP_IDENTIFIER}" }
+      }
+    )
+    upload_to_testflight(api_key: api_key)
+  end
+
+  desc "Alias for deploy"
+  lane :deploy_to_tf do
+    deploy
   end
 end

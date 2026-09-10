@@ -1,8 +1,8 @@
 #!/bin/sh
 
 set -eu
-SCRIPTS_DIRECTORY="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
-. "$SCRIPTS_DIRECTORY/common.sh"
+TOOL_DIRECTORY="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+. "$TOOL_DIRECTORY/../common.sh"
 
 actual_version="$(swiftgen --version | awk '{print $2}' | sed 's/^v//')"
 if [ "$actual_version" != "6.6.3" ]; then
@@ -10,5 +10,7 @@ if [ "$actual_version" != "6.6.3" ]; then
     exit 1
 fi
 
-cd "$SCRIPTS_DIRECTORY/swiftgen"
-exec swiftgen config run --config swiftgen.yml
+mkdir -p "$PROJECT_DIRECTORY/HookahBoss/Generated"
+cd "$TOOL_DIRECTORY"
+swiftgen config run --config swiftgen.yml
+perl -pi -e 's/[ \t]+$//' "$PROJECT_DIRECTORY"/HookahBoss/Generated/*.swift
