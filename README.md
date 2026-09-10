@@ -7,8 +7,7 @@ Native iOS application and its API live in one repository, with platform code ke
 | Path | Purpose |
 |---|---|
 | `ios/` | SwiftUI application, Xcode project, unit/UI tests, localizations and iOS project specification |
-| `backend/` | Node.js/TypeScript API, PostgreSQL migrations, seeds, content refreshers and backend tests |
-| `scripts/` | Repository-level deployment and environment-status scripts |
+| `backend/` | Node.js/TypeScript API, PostgreSQL migrations, seeds, content refreshers, backend tests and VDS device-test scripts |
 | `docker-compose.yml` | Local backend/PostgreSQL environment |
 | `compose.device-test.yaml` | Isolated VDS device-test environment |
 | `PRODUCT.md` | Shared product specification |

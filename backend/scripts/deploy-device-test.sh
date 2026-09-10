@@ -2,6 +2,10 @@
 set -euo pipefail
 set +x
 
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+BACKEND_DIR="$(cd -- "$SCRIPT_DIR/.." && pwd)"
+REPOSITORY_DIR="$(cd -- "$BACKEND_DIR/.." && pwd)"
+
 REMOTE_HOST="${HOOKAHBOSS_DEVICE_HOST:-timeweb_bm}"
 REMOTE_DIR="${HOOKAHBOSS_DEVICE_DIR:-/opt/hookahboss}"
 PROJECT="${HOOKAHBOSS_DEVICE_PROJECT:-hookahboss}"
@@ -24,12 +28,12 @@ IMAGE_ARCHIVE="$(mktemp -t hookahboss-device-image.XXXXXX.tar)"
 trap 'rm -f "$IMAGE_ARCHIVE"' EXIT
 
 echo "Building linux/amd64 device-test image..."
-docker buildx build --platform linux/amd64 --output "type=docker,dest=${IMAGE_ARCHIVE}" -t hookahboss-api:device-test backend
+docker buildx build --platform linux/amd64 --output "type=docker,dest=${IMAGE_ARCHIVE}" -t hookahboss-api:device-test "$BACKEND_DIR"
 
 echo "Checking remote configuration..."
 ssh "$REMOTE_HOST" "test -s '$REMOTE_DIR/$ENV_FILE' && mkdir -p '$REMOTE_DIR/backend'"
-rsync -a --delete --exclude node_modules --exclude reports backend/ "$REMOTE_HOST:$REMOTE_DIR/backend/"
-rsync -a compose.device-test.yaml "$REMOTE_HOST:$REMOTE_DIR/compose.device-test.yaml"
+rsync -a --delete --exclude node_modules --exclude reports "$BACKEND_DIR/" "$REMOTE_HOST:$REMOTE_DIR/backend/"
+rsync -a "$REPOSITORY_DIR/compose.device-test.yaml" "$REMOTE_HOST:$REMOTE_DIR/compose.device-test.yaml"
 scp "$IMAGE_ARCHIVE" "$REMOTE_HOST:$REMOTE_DIR/hookahboss-api-device-test.tar"
 
 echo "Loading image, migrating and seeding..."

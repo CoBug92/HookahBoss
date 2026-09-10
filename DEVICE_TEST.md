@@ -11,7 +11,7 @@ The optional Quick Tunnel service defaults to `hookahboss-test-tunnel.service`. 
 ## Deploy
 
 ```sh
-./scripts/deploy-device-test.sh
+./backend/scripts/deploy-device-test.sh
 ```
 
 The script builds `linux/amd64`, transfers the image and backend/Compose definitions, waits for the existing PostgreSQL volume to become healthy, applies ordered migrations, runs all three idempotent seed importers, starts only this project's API, and verifies health plus published brand/product/mix/article counts. It fails at the first error and suppresses command tracing so secrets are not echoed.
@@ -19,7 +19,7 @@ The script builds `linux/amd64`, transfers the image and backend/Compose definit
 The tunnel is deliberately untouched. Only when changing its URL is acceptable:
 
 ```sh
-./scripts/deploy-device-test.sh --restart-tunnel
+./backend/scripts/deploy-device-test.sh --restart-tunnel
 ```
 
 A Quick Tunnel restart can change the public URL and invalidate the `API_BASE_URL` embedded in an existing Debug build.
@@ -27,7 +27,7 @@ A Quick Tunnel restart can change the public URL and invalidate the `API_BASE_UR
 ## Read-only status
 
 ```sh
-./scripts/device-test-status.sh
+./backend/scripts/device-test-status.sh
 ```
 
 This prints only this Compose project's status, local API health, tunnel service state, and the latest public `trycloudflare.com` URL found in its journal. It does not restart or mutate services.

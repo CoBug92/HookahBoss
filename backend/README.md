@@ -44,6 +44,13 @@ docker compose run --rm api node dist/src/db/importMixSeed.js
 docker compose run --rm api node dist/src/db/importArticleSeed.js
 ```
 
+The VDS device-test deployment and read-only status helpers are backend-owned and resolve repository paths from their own location, so they can be launched from any working directory:
+
+```sh
+./backend/scripts/deploy-device-test.sh
+./backend/scripts/device-test-status.sh
+```
+
 ## Provenance verification
 
 Run `npm run sources:verify` to check every catalog, mix, and article source without changing seed `verifiedAt` values. The command deduplicates URLs, follows redirects, applies bounded concurrency/timeouts and transient-only retries, writes `reports/provenance-sources.json`, prints a human summary, and exits nonzero for unreachable, invalid, or semantically mismatched sources. MUSTHAVE recipe pages receive exact ID/component/percentage checks; other publishers are deliberately reported as `reachability_only` until a source-specific semantic verifier exists. The report is an audit artifact, not an automatic provenance-date update.
