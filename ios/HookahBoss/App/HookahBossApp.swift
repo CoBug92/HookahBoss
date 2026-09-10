@@ -117,6 +117,8 @@ private struct RootView: View {
                 .tag(AppTab.collection)
         }
         .tint(AppTheme.gold)
+        .toolbarBackground(AppTheme.card, for: .tabBar)
+        .toolbarBackground(.visible, for: .tabBar)
         .onChange(of: navigation.tab) { oldValue, newValue in
             if newValue == .create {
                 navigation.tab = oldValue == .create ? previousSelection : oldValue
@@ -157,54 +159,46 @@ private struct AgeConfirmationView: View {
 
     var body: some View {
         ZStack {
-            AppTheme.graphite.ignoresSafeArea()
-
-            VStack(spacing: 28) {
+            AppTheme.background.ignoresSafeArea()
+            Circle().fill(AppTheme.gold.opacity(0.13)).frame(width: 360, height: 360).blur(radius: 3).offset(x: 150, y: -320)
+            Circle().fill(Color.orange.opacity(0.09)).frame(width: 300, height: 300).blur(radius: 30).offset(x: -160, y: 250)
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(spacing: 9) {
+                    Image(systemName: "smoke.fill").foregroundStyle(AppTheme.gold)
+                    Text(L10n.App.brand).font(.caption.weight(.bold)).tracking(1.8)
+                }.padding(.top, 20)
                 Spacer()
-
                 ZStack {
-                    Circle()
-                        .fill(AppTheme.gold.opacity(0.16))
-                        .frame(width: 104, height: 104)
-
-                    Image(systemName: "18.circle.fill")
-                        .font(.system(size: 62, weight: .medium))
-                        .foregroundStyle(AppTheme.gold)
-                }
-
-                VStack(spacing: 12) {
+                    RoundedRectangle(cornerRadius: 34, style: .continuous).fill(LinearGradient(colors: [Color(red:0.55,green:0.32,blue:0.23), Color(red:0.16,green:0.12,blue:0.10)], startPoint: .topLeading, endPoint: .bottomTrailing))
+                    Circle().fill(Color.orange.opacity(0.38)).frame(width: 160).blur(radius: 20).offset(x: 110, y: -75)
+                    Image(systemName: "18.circle").font(.system(size: 78, weight: .light)).foregroundStyle(.white.opacity(0.94))
+                }.frame(height: 245).clipped().clipShape(RoundedRectangle(cornerRadius: 34, style: .continuous)).shadow(color:.black.opacity(0.2),radius:24,y:14)
+                VStack(alignment: .leading, spacing: 12) {
                     Text(L10n.Age.title)
-                        .font(.largeTitle.weight(.semibold))
-                        .foregroundStyle(.white)
-                        .multilineTextAlignment(.center)
+                        .font(.system(size: 38, weight: .bold, design: .serif)).tracking(-1)
 
                     Text(L10n.Age.message)
-                        .font(.body)
-                        .foregroundStyle(.white.opacity(0.68))
-                        .multilineTextAlignment(.center)
-                }
-
+                        .font(.body).foregroundStyle(.secondary).lineSpacing(4)
+                }.padding(.top, 30)
                 Spacer()
-
                 VStack(spacing: 14) {
                     Button(action: confirm) {
                         Text(L10n.Age.confirm)
                             .font(.headline)
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
+                            .padding(.vertical, 17)
                             .foregroundStyle(.white)
                             .background(AppTheme.gold)
-                            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                     }
                     .accessibilityIdentifier(AccessibilityID.ageConfirm)
 
                     Text(L10n.Age.notice)
-                        .font(.footnote)
-                        .foregroundStyle(.white.opacity(0.48))
+                        .font(.caption).foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
                 }
             }
-            .padding(24)
+            .padding(.horizontal, 22).padding(.bottom, 14)
         }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("screen.age")

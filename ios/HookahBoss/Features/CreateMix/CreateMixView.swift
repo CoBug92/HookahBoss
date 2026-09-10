@@ -11,8 +11,8 @@ struct CreateMixView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 26) {
-                    TextField(L10n.Create.Title.placeholder, text: $model.title).font(.title2.weight(.semibold)).padding(16)
-                        .background(AppTheme.card, in: RoundedRectangle(cornerRadius: 18))
+                    Text(L10n.Create.title).font(.system(size:34,weight:.bold,design:.serif)).tracking(-0.7)
+                    TextField(L10n.Create.Title.placeholder, text: $model.title).font(.title2.weight(.semibold)).padding(17).appCard(cornerRadius:18)
                     VStack(alignment: .leading, spacing: 12) {
                         Text(L10n.Create.composition).font(.title2.weight(.semibold))
                         if model.components.isEmpty { firstComponent } else { componentStrip }
@@ -23,7 +23,7 @@ struct CreateMixView: View {
                 }.padding(20)
             }
             .overlay { if model.isLoading { ProgressView() } }
-            .navigationTitle(L10n.Create.title).navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button(L10n.Common.cancel) { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
@@ -64,7 +64,7 @@ struct CreateMixView: View {
                 Image(systemName: "plus.circle.fill").font(.system(size: 34)).foregroundStyle(AppTheme.gold)
                 Text(L10n.Create.firstComponent).font(.headline)
                 Text(L10n.Create.FirstComponent.hint).font(.caption).foregroundStyle(.secondary)
-            }.frame(maxWidth: .infinity, minHeight: 170).background(AppTheme.card, in: RoundedRectangle(cornerRadius: 22))
+            }.frame(maxWidth: .infinity, minHeight: 170).appCard(cornerRadius:22)
         }.buttonStyle(.plain).disabled(model.isLoading)
     }
 
@@ -91,7 +91,7 @@ private struct DraftComponentCard: View {
                 TextField("—", text: $percentageText).keyboardType(.numberPad).textFieldStyle(.roundedBorder).frame(width: 52); Text("%")
                 if isAutomatic, let effectivePercentage { Text(L10n.Create.autoLld(effectivePercentage)).font(.caption2).foregroundStyle(AppTheme.gold) }
             }
-        }.padding(12).frame(width: 150).frame(minHeight: 180).background(AppTheme.card, in: RoundedRectangle(cornerRadius: 20))
+        }.padding(12).frame(width: 150).frame(minHeight: 180).appCard(cornerRadius:20)
         .contextMenu {
             Button(L10n.Create.moveLeft, systemImage: "arrow.left", action: onMoveLeft).disabled(!canMoveLeft)
             Button(L10n.Create.moveRight, systemImage: "arrow.right", action: onMoveRight).disabled(!canMoveRight)

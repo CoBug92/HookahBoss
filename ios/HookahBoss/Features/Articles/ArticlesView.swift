@@ -3,7 +3,6 @@ import SwiftUI
 struct ArticlesView: View {
     @StateObject private var model: ArticlesViewModel
     let makeDetailModel: (ArticleDTO) -> ArticleDetailViewModel
-    private let columns = [GridItem(.flexible()), GridItem(.flexible())]
 
     init(model: @autoclosure @escaping () -> ArticlesViewModel,
          makeDetailModel: @escaping (ArticleDTO) -> ArticleDetailViewModel) {
@@ -14,25 +13,19 @@ struct ArticlesView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVStack(alignment: .leading, spacing: 24) {
+                LazyVStack(alignment: .leading, spacing: 22) {
+                    Text(L10n.Tab.articles).font(.system(size:36,weight:.bold,design:.serif)).tracking(-0.8)
                     Text(L10n.Articles.subtitle).font(.subheadline).foregroundStyle(.secondary)
-                    LazyVGrid(columns: columns, spacing: 12) {
-                        ForEach(ArticleCategory.allCases) { category in
-                            NavigationLink(value: category) { CategoryCard(category: category, count: model.articles(in: category).count) }
-                                .buttonStyle(.plain)
-                        }
-                    }
-                    VStack(alignment: .leading) {
-                        Text(L10n.Articles.recommended).font(.title2.bold())
-                        ForEach(Array(model.articles.prefix(5))) { article in
-                            ArticleRow(article: article, bookmarked: model.isBookmarked(article), toggle: { model.toggleBookmark(article) })
-                        }
-                    }
+                    if let featured=model.articles.first { NavigationLink(value:featured){ArticleFeature(article:featured)}.buttonStyle(.plain) }
+                    AppSectionHeader(title:L10n.Articles.recommended)
+                    ScrollView(.horizontal,showsIndicators:false){HStack(spacing:11){ForEach(Array(model.articles.dropFirst().prefix(5))){article in NavigationLink(value:article){ArticleTile(article:article)}.buttonStyle(.plain)}}}.contentMargins(.trailing,18,for:.scrollContent)
+                    AppSectionHeader(title:L10n.Articles.categories)
+                    LazyVGrid(columns:[GridItem(.flexible()),GridItem(.flexible())],spacing:10){ForEach(ArticleCategory.allCases){category in NavigationLink(value:category){CategoryCard(category:category,count:model.articles(in:category).count)}.buttonStyle(.plain)}}
                 }.padding(18)
             }
             .overlay { if model.isLoading && model.articles.isEmpty { ProgressView() } }
             .refreshable { await model.refresh() }.task { await model.appear() }
-            .navigationTitle(L10n.Tab.articles)
+            .toolbar(.hidden,for:.navigationBar)
             .toolbar { NavigationLink(value: ArticleDestination.bookmarks) { Image(systemName: "bookmark") }.accessibilityLabel(Text(L10n.Articles.bookmarks)) }
             .navigationDestination(for: ArticleCategory.self) { category in ArticleListView(content: .category(category), model: model) }
             .navigationDestination(for: ArticleDestination.self) { _ in ArticleListView(content: .bookmarks, model: model) }
@@ -44,6 +37,10 @@ struct ArticlesView: View {
     }
 }
 
+private struct ArticleFeature:View { let article:ArticleDTO;var body:some View{ZStack(alignment:.bottomLeading){ArticleArtwork(category:article.appCategory);LinearGradient(colors:[.clear,.black.opacity(0.94)],startPoint:.top,endPoint:.bottom);VStack(alignment:.leading,spacing:7){Text(article.appCategory.title.uppercased()).font(.caption2.bold()).tracking(1).foregroundStyle(AppTheme.cream);Text(article.title).font(.system(size:25,weight:.bold,design:.serif)).lineLimit(3);Label(L10n.Articles.minutesLld(article.readingMinutes),systemImage:"clock") .font(.caption).foregroundStyle(.white.opacity(0.7))}.foregroundStyle(.white).padding(16)}.frame(height:220).clipShape(RoundedRectangle(cornerRadius:22)).shadow(color:.black.opacity(0.15),radius:16,y:8)}}
+private struct ArticleTile:View {let article:ArticleDTO;var body:some View{ZStack(alignment:.bottomLeading){ArticleArtwork(category:article.appCategory);LinearGradient(colors:[.clear,.black.opacity(0.9)],startPoint:.top,endPoint:.bottom);VStack(alignment:.leading,spacing:5){Text(article.title).font(.subheadline.bold()).lineLimit(3);Text(L10n.Articles.minutesLld(article.readingMinutes)).font(.caption2).foregroundStyle(.white.opacity(0.7))}.foregroundStyle(.white).padding(11)}.frame(width:145,height:150).clipShape(RoundedRectangle(cornerRadius:18))}}
+private struct ArticleArtwork:View {let category:ArticleCategory;var body:some View{ZStack{if let image=ArtworkResource.image(for:category){Image(uiImage:image).resizable().scaledToFill()}else{LinearGradient(colors:[AppTheme.gold,.brown],startPoint:.topLeading,endPoint:.bottomTrailing)}}.clipped().accessibilityHidden(true)}}
+
 private enum ArticleDestination: Hashable { case bookmarks }
 
 private struct CategoryCard: View {
@@ -53,7 +50,7 @@ private struct CategoryCard: View {
             Image(systemName: category.icon).font(.title2).foregroundStyle(AppTheme.gold)
             Text(category.title).font(.headline)
             Text(L10n.Articles.countLld(count)).font(.caption).foregroundStyle(.secondary)
-        }.frame(maxWidth: .infinity, minHeight: 112, alignment: .leading).padding(16).background(AppTheme.card).clipShape(RoundedRectangle(cornerRadius: 20))
+        }.frame(maxWidth: .infinity, minHeight: 96, alignment: .leading).padding(14).appCard(cornerRadius:17)
     }
 }
 
@@ -105,22 +102,22 @@ private struct ArticleReaderView: View {
     }
     private func bodyView(_ detail: ArticleDetailDTO) -> some View {
         VStack(alignment: .leading, spacing: 26) {
-            Text(detail.summary).font(.title3).foregroundStyle(.secondary)
-            ForEach(Array(detail.sections.enumerated()), id: \.offset) { _, section in VStack(alignment: .leading) { Text(section.heading).font(.title2.bold()); Text(section.body).lineSpacing(6) } }
+            Text(detail.summary).font(.title3.weight(.medium)).foregroundStyle(.secondary).lineSpacing(5)
+            ForEach(Array(detail.sections.enumerated()), id: \.offset) { _, section in VStack(alignment: .leading,spacing:10) { Text(section.heading).font(.title2.bold()); Text(section.body).font(.system(.body,design:.serif)).lineSpacing(7).foregroundStyle(.primary.opacity(0.82)) } }
             if !detail.related.isEmpty {
                 VStack(alignment: .leading, spacing: 12) {
                     Text(L10n.Articles.related).font(.title2.bold())
                     ForEach(detail.related) { related in NavigationLink(value: related) { RelatedArticleCard(article: related) }.buttonStyle(.plain).accessibilityIdentifier("article.related.\(related.slug)") }
                 }.accessibilityIdentifier("article.related")
             }
-        }.padding(20)
+        }.padding(20).background(AppTheme.background,in:UnevenRoundedRectangle(topLeadingRadius:28,topTrailingRadius:28)).offset(y:-24)
     }
     private var hero: some View {
         ZStack(alignment: .bottomLeading) {
-            LinearGradient(colors: [AppTheme.gold.opacity(0.8),AppTheme.graphite], startPoint: .topLeading, endPoint: .bottomTrailing)
+            ArticleArtwork(category:article.appCategory)
             LinearGradient(colors: [.clear,.black.opacity(0.94)], startPoint: .top, endPoint: .bottom)
-            VStack(alignment: .leading) { Text(article.title).font(.system(size: 34, weight: .bold, design: .rounded)).foregroundStyle(.white); Label(L10n.Articles.minutesLld(article.readingMinutes), systemImage: "clock").foregroundStyle(.white.opacity(0.8)) }.padding(20)
-        }.frame(height: 390).clipped()
+            VStack(alignment: .leading,spacing:9) { Text(article.appCategory.title.uppercased()).font(.caption2.bold()).tracking(1.2).foregroundStyle(AppTheme.cream);Text(article.title).font(.system(size: 35, weight: .bold, design: .serif)).foregroundStyle(.white); Label(L10n.Articles.minutesLld(article.readingMinutes), systemImage: "clock").font(.caption).foregroundStyle(.white.opacity(0.8)) }.padding(.horizontal,20).padding(.bottom,46)
+        }.frame(height: 360).clipped()
     }
 }
 

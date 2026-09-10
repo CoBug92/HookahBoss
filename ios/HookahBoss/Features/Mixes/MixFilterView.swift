@@ -122,7 +122,7 @@ private struct FilterSection<Content: View>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             VStack(alignment: .leading, spacing: 3) {
-                Text(title).font(.headline)
+                Text(title).font(.title3.weight(.bold))
                 if let subtitle { Text(subtitle).font(.caption).foregroundStyle(.secondary) }
             }
             content
@@ -140,11 +140,11 @@ private struct FilterChip: View {
             Text(title)
                 .font(.subheadline.weight(.medium))
                 .padding(.horizontal, 13)
-                .padding(.vertical, 9)
-                .foregroundStyle(isSelected ? AppTheme.gold : Color.secondary)
-                .background(isSelected ? AppTheme.gold.opacity(0.14) : AppTheme.card)
+                .padding(.horizontal, 14).padding(.vertical, 10)
+                .foregroundStyle(isSelected ? Color.white : Color.secondary)
+                .background(isSelected ? AppTheme.gold : AppTheme.card)
                 .clipShape(Capsule())
-                .overlay { Capsule().stroke(isSelected ? AppTheme.gold : .clear, lineWidth: 1) }
+                .overlay { Capsule().stroke(isSelected ? .clear : Color.primary.opacity(0.08), lineWidth: 1) }
         }
         .buttonStyle(.plain)
     }

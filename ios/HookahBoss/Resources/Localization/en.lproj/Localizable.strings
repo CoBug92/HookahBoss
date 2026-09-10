@@ -199,6 +199,7 @@
 "articles.subtitle" = "Practical guides from the editorial team";
 "articles.recommended" = "Recommended";
 "articles.bookmarks" = "Bookmarks";
+"articles.categories" = "Explore topics";
 "articles.bookmarks.empty" = "No bookmarked articles yet";
 "articles.empty" = "No articles in this category yet";
 "articles.count %lld" = "%lld article";
@@ -283,3 +284,4 @@
 "article.safety.title" = "A safer session at home";
 "article.safety.summary" = "Ventilation, stability, and handling charcoal.";
 "article.safety.body" = "Use a hookah only in a well-ventilated space and place it on a stable surface away from children, pets, and flammable materials.\n\nMove charcoal with tongs over a nonflammable surface. Never leave heat or charcoal unattended, and make sure it is fully extinguished afterward.";
+"app.brand" = "MIXING";

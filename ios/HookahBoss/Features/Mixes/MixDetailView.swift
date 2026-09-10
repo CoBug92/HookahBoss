@@ -11,7 +11,7 @@ struct MixDetailView: View {
         ScrollView {
             VStack(spacing: 0) {
                 cover
-                details
+                details.offset(y:-22)
             }
         }
         .background(AppTheme.background)
@@ -34,7 +34,7 @@ struct MixDetailView: View {
     private var cover: some View {
         ZStack(alignment: .bottomLeading) {
             MixArtwork(palette: displayedMix.palette)
-                .frame(height: 340)
+                .frame(height: 410)
 
             LinearGradient(
                 colors: [.clear, .black.opacity(0.12), .black.opacity(0.82)],
@@ -44,14 +44,14 @@ struct MixDetailView: View {
 
             VStack(alignment: .leading, spacing: 10) {
                 Text(displayedMix.title)
-                    .font(.system(size: 42, weight: .bold, design: .rounded))
+                    .font(.system(size: 42, weight: .bold, design: .serif))
                     .tracking(-1.2)
                     .lineLimit(2)
                 FlavorCloud(tags: displayedMix.flavorTags)
             }
             .foregroundStyle(.white)
             .padding(.horizontal, 22)
-            .padding(.bottom, 24)
+                .padding(.bottom, 44)
 
             VStack {
                 HStack {
@@ -73,7 +73,7 @@ struct MixDetailView: View {
             .padding(.horizontal, 20)
             .padding(.top, 58)
         }
-        .frame(height: 340)
+        .frame(height: 410)
     }
 
     private var details: some View {
@@ -98,27 +98,28 @@ struct MixDetailView: View {
                 .buttonStyle(.plain)
                 .accessibilityLabel(Text(L10n.Mix.yourRating))
                 .accessibilityValue(Text(personalRatingAccessibilityValue))
-            }
+            }.padding(.vertical,14).appCard(cornerRadius:18)
 
             VStack(alignment: .leading, spacing: 12) {
                 Text(L10n.Mix.composition)
                     .font(.title3.weight(.semibold))
                     .accessibilityIdentifier(AccessibilityID.mixComposition)
 
-                HStack(alignment: .top, spacing: 8) {
+                ScrollView(.horizontal,showsIndicators:false) { HStack(alignment: .top, spacing: 10) {
                     ForEach(displayedMix.ingredients) { ingredient in
                         IngredientCard(ingredient: ingredient, palette: displayedMix.palette)
                     }
-                }
+                }.padding(.vertical,2) }
 
                 Text(L10n.Mix.percentageNote)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
         }
-        .padding(.horizontal, 20)
-        .padding(.top, 16)
+        .padding(.horizontal, 18)
+        .padding(.top, 24)
         .padding(.bottom, 32)
+        .background(AppTheme.background, in: UnevenRoundedRectangle(topLeadingRadius:28,topTrailingRadius:28))
     }
     private var displayedMix:MixPreview { model.displayedMix }
     private var personalRatingValue: String {
@@ -159,7 +160,7 @@ private struct IngredientCard: View {
             .padding(9)
             .frame(maxWidth: .infinity, minHeight: 72, alignment: .topLeading)
         }
-        .frame(maxWidth: .infinity)
+        .frame(width: 145)
         .background(AppTheme.card)
         .clipShape(RoundedRectangle(cornerRadius: 17, style: .continuous))
     }
@@ -229,16 +230,74 @@ struct FlavorCloud: View {
     let tags: [String]
 
     var body: some View {
-        HStack(spacing: 4) {
+        FlavorFlowLayout(spacing: 4) {
             ForEach(tags.prefix(3), id: \.self) { tag in
                 Text(tag)
                     .font(.system(size: 9, weight: .medium))
+                    .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: false)
                     .padding(.horizontal, 7)
                     .padding(.vertical, 4)
                     .background(.white.opacity(0.12), in: Capsule())
                     .overlay { Capsule().stroke(.white.opacity(0.25), lineWidth: 0.8) }
             }
         }
+    }
+}
+
+private struct FlavorFlowLayout: Layout {
+    let spacing: CGFloat
+
+    func sizeThatFits(
+        proposal: ProposedViewSize,
+        subviews: Subviews,
+        cache: inout ()
+    ) -> CGSize {
+        arrange(subviews: subviews, width: proposal.width ?? .infinity).size
+    }
+
+    func placeSubviews(
+        in bounds: CGRect,
+        proposal: ProposedViewSize,
+        subviews: Subviews,
+        cache: inout ()
+    ) {
+        let result = arrange(subviews: subviews, width: bounds.width)
+        for item in result.items {
+            subviews[item.index].place(
+                at: CGPoint(x: bounds.minX + item.origin.x, y: bounds.minY + item.origin.y),
+                proposal: ProposedViewSize(item.size)
+            )
+        }
+    }
+
+    private func arrange(subviews: Subviews, width: CGFloat) -> (size: CGSize, items: [Item]) {
+        var x: CGFloat = 0
+        var y: CGFloat = 0
+        var rowHeight: CGFloat = 0
+        var items: [Item] = []
+
+        for index in subviews.indices {
+            let measured = subviews[index].sizeThatFits(.unspecified)
+            let itemWidth = min(measured.width, width)
+            if x > 0, x + itemWidth > width {
+                x = 0
+                y += rowHeight + spacing
+                rowHeight = 0
+            }
+            let size = CGSize(width: itemWidth, height: measured.height)
+            items.append(Item(index: index, origin: CGPoint(x: x, y: y), size: size))
+            x += itemWidth + spacing
+            rowHeight = max(rowHeight, measured.height)
+        }
+
+        return (CGSize(width: width.isFinite ? width : x, height: y + rowHeight), items)
+    }
+
+    private struct Item {
+        let index: Int
+        let origin: CGPoint
+        let size: CGSize
     }
 }
 

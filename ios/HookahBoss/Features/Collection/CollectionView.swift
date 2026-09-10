@@ -41,7 +41,7 @@ struct CollectionView: View {
                     HStack(spacing:12){Image(systemName:"wrench.and.screwdriver.fill").foregroundStyle(AppTheme.gold).frame(width:28);VStack(alignment:.leading,spacing:3){Text(L10n.Admin.title).font(.body.weight(.medium));Text(L10n.Admin.serviceHint).font(.caption).foregroundStyle(.secondary)};Spacer();Image(systemName:"chevron.right").font(.caption.weight(.semibold)).foregroundStyle(.tertiary)}
                 }.buttonStyle(.plain).accessibilityIdentifier("admin.entry").accessibilityHint(Text(L10n.Admin.serviceHint)) } }
             }
-            .navigationTitle(L10n.Tab.collection).appScreenBackground()
+            .listStyle(.insetGrouped).navigationTitle(L10n.Tab.collection).appScreenBackground()
             .alert(L10n.Content.Error.title,isPresented:Binding(get:{model.errorMessage != nil},set:{if !$0{model.clearError()}})){Button(L10n.Common.close){model.clearError()}}message:{Text(model.errorMessage ?? "")}
             .sheet(isPresented:$model.showAddInventory){InventoryAddView(model:model)}
             .toolbar { Button { model.showSettings=true } label:{Image(systemName:"person.crop.circle")}.accessibilityLabel(Text(L10n.Account.settings)) }
@@ -54,7 +54,7 @@ struct CollectionView: View {
         }
     }
 
-    private func counter(title:String,value:String,icon:String)->some View { VStack(alignment:.leading,spacing:6){Image(systemName:icon).foregroundStyle(AppTheme.gold);Text(value).font(.title2.bold());Text(title).font(.caption).foregroundStyle(.secondary)}.frame(maxWidth:.infinity,alignment:.leading).padding(14).background(AppTheme.card,in:RoundedRectangle(cornerRadius:18)) }
+    private func counter(title:String,value:String,icon:String)->some View { VStack(alignment:.leading,spacing:9){Image(systemName:icon).font(.headline).foregroundStyle(.white).frame(width:34,height:34).background(AppTheme.gold.opacity(0.9),in:RoundedRectangle(cornerRadius:11));Text(value).font(.system(size:26,weight:.bold,design:.serif));Text(title).font(.caption).foregroundStyle(.secondary)}.frame(maxWidth:.infinity,alignment:.leading).padding(14).appCard(cornerRadius:18) }
     private func personalRow(_ mix:PersonalMixRecord)->some View { HStack(spacing:12){PersonalMixArtwork(mix:mix).frame(width:52,height:52);VStack(alignment:.leading,spacing:5){Text(mix.title ?? L10n.Collection.untitledMix).font(.headline);Text(L10n.Collection.componentsLld(mix.components.count)).font(.caption).foregroundStyle(.secondary);if mix.isApproximate == true{Text(L10n.PersonalMix.approximate).font(.caption2).foregroundStyle(AppTheme.gold)}}} }
 }
 

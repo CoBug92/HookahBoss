@@ -11,16 +11,17 @@ struct MixCardView: View {
             MixArtwork(palette: mix.palette)
 
             LinearGradient(
-                colors: [.clear, .black.opacity(0.18), .black.opacity(0.92)],
+                colors: [.clear, .black.opacity(0.12), .black.opacity(0.62), .black.opacity(0.96)],
                 startPoint: .top,
                 endPoint: .bottom
             )
 
             VStack(alignment: .leading, spacing: 8) {
                 Text(mix.title)
-                    .font(.system(size: 24, weight: .bold, design: .rounded))
+                    .font(.system(size: 22, weight: .bold, design: .serif))
                     .tracking(-0.6)
-                    .lineLimit(2)
+                    .lineLimit(3)
+                    .minimumScaleFactor(0.82)
                     .multilineTextAlignment(.leading)
 
                 FlavorCloud(tags: mix.flavorTags)
@@ -36,7 +37,7 @@ struct MixCardView: View {
                 .foregroundStyle(.white.opacity(0.72))
             }
             .foregroundStyle(.white)
-            .padding(12)
+            .padding(14)
 
             VStack {
                 HStack(alignment: .top) {
@@ -56,7 +57,7 @@ struct MixCardView: View {
                     Spacer()
 
                     Image(systemName: mix.isFavorite ? "heart.fill" : "heart")
-                        .font(.system(size: 23, weight: .medium))
+                        .font(.system(size: 18, weight: .medium))
                         .foregroundStyle(.white)
                         .frame(height: 27)
                         .shadow(color: .black.opacity(0.5), radius: 3, y: 2)
@@ -64,21 +65,22 @@ struct MixCardView: View {
                 }
                 Spacer()
             }
-            .padding(12)
+            .padding(14)
         }
-        .aspectRatio(0.86, contentMode: .fit)
-        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+        .aspectRatio(0.84, contentMode: .fit)
+        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         .overlay {
-            RoundedRectangle(cornerRadius: 22, style: .continuous)
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .stroke(
                     LinearGradient(
                         colors: [ratingColor.opacity(mix.personalRating == nil ? 0.55 : 1), .black],
                         startPoint: .top,
                         endPoint: .bottom
                     ),
-                    lineWidth: 2
+                    lineWidth: mix.personalRating == nil ? 1 : 2
                 )
         }
+        .shadow(color:.black.opacity(0.14),radius:14,y:7)
         .accessibilityElement(children: .combine)
     }
 }

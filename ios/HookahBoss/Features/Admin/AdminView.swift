@@ -1,16 +1,30 @@
 import SwiftUI
 
-struct AdminDashboardView:View {
- let client:any AdminServing
- @StateObject private var model:AdminDashboardViewModel
- init(client:any AdminServing){self.client=client;_model=StateObject(wrappedValue:AdminDashboardViewModel(service:client))}
- var body:some View{NavigationStack{List(AdminResource.all){resource in NavigationLink{AdminResourceListView(client:client,resource:resource)}label:{AdminDashboardRow(state:model.state(for:resource),resource:resource,icon:icon(resource.path))}.listRowBackground(AppTheme.card)}.listStyle(.plain).navigationTitle(L10n.Admin.title).appScreenBackground().onAppear{model.appear()}}}
- private func icon(_ path:String)->String{switch path{case "sources":"link";case "brands":"building.2";case "lines":"square.stack.3d.up";case "flavor-tags":"tag";case "products":"leaf";case "official-mixes":"square.grid.2x2";case "articles":"doc.text";default:"arrow.triangle.swap"}}
+struct AdminDashboardView: View {
+ let client: any AdminServing
+ @StateObject private var model: AdminDashboardViewModel
+ init(client: any AdminServing) { self.client = client; _model = StateObject(wrappedValue: AdminDashboardViewModel(service: client)) }
+ var body: some View {
+  NavigationStack {
+   List {
+    Section {
+     ForEach(AdminResource.all) { resource in
+      NavigationLink { AdminResourceListView(client: client, resource: resource) } label: {
+       AdminDashboardRow(state: model.state(for: resource), resource: resource, icon: icon(resource.path))
+      }
+     }
+     .listRowBackground(AppTheme.card)
+    } header: { Text(L10n.Admin.serviceSection).font(.caption.bold()).tracking(1) }
+   }
+   .listStyle(.insetGrouped).navigationTitle(L10n.Admin.title).appScreenBackground().onAppear { model.appear() }
+  }
+ }
+ private func icon(_ path: String) -> String { switch path { case "sources": "link"; case "brands": "building.2"; case "lines": "square.stack.3d.up"; case "flavor-tags": "tag"; case "products": "leaf"; case "official-mixes": "square.grid.2x2"; case "articles": "doc.text"; default: "arrow.triangle.swap" } }
 }
 
 private struct AdminDashboardRow:View {
  let state:AdminDashboardState;let resource:AdminResource;let icon:String
- var body:some View{HStack(spacing:12){Image(systemName:icon).foregroundStyle(AppTheme.gold).frame(width:30);VStack(alignment:.leading,spacing:3){Text(resource.title).font(.body.weight(.medium));switch state{case .loading:Text(L10n.Admin.Dashboard.loading).foregroundStyle(.secondary);case .count(let count):Text(L10n.Admin.Dashboard.items(count)).foregroundStyle(.secondary);case .failed:Text(L10n.Admin.Dashboard.unavailable).foregroundStyle(.secondary)}}.font(.caption);Spacer()}.contentShape(Rectangle())}
+ var body:some View{HStack(spacing:13){Image(systemName:icon).font(.subheadline.bold()).foregroundStyle(.white).frame(width:39,height:39).background(AppTheme.gold,in:RoundedRectangle(cornerRadius:12));VStack(alignment:.leading,spacing:4){Text(resource.title).font(.body.weight(.semibold));switch state{case .loading:Text(L10n.Admin.Dashboard.loading).foregroundStyle(.secondary);case .count(let count):Text(L10n.Admin.Dashboard.items(count)).foregroundStyle(.secondary);case .failed:Text(L10n.Admin.Dashboard.unavailable).foregroundStyle(.secondary)}}.font(.caption);Spacer()}.padding(.vertical,4).contentShape(Rectangle())}
 }
 
 private struct AdminResourceListView:View {

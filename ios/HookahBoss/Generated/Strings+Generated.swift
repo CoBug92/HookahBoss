@@ -214,6 +214,10 @@ public enum L10n {
     /// For adults only
     public static let title = L10n.tr("Localizable", "age.title", fallback: "For adults only")
   }
+  public enum App {
+    /// MIXING
+    public static let brand = L10n.tr("Localizable", "app.brand", fallback: "MIXING")
+  }
   public enum Article {
     public enum Balance {
       /// Choose one clear primary flavor. A second component should support it or provide an intentional contrast. Strong spices, herbs, and cooling work best as accents.
@@ -289,6 +293,8 @@ public enum L10n {
   public enum Articles {
     /// Bookmarks
     public static let bookmarks = L10n.tr("Localizable", "articles.bookmarks", fallback: "Bookmarks")
+    /// Explore topics
+    public static let categories = L10n.tr("Localizable", "articles.categories", fallback: "Explore topics")
     /// %lld article
     public static func countLld(_ p1: Int) -> String {
       return L10n.tr("Localizable", "articles.count %lld", p1, fallback: "%lld article")
