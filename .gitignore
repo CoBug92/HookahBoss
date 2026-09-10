@@ -1,6 +1,7 @@
 # macOS and Xcode user state
 .DS_Store
 *.xcuserstate
+*.xcodeproj
 xcuserdata/
 DerivedData/
 .build/
