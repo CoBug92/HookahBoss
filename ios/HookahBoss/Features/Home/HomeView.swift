@@ -94,7 +94,7 @@ struct HomeView: View {
 
             LazyVStack(spacing: 10) {
                 ForEach(model.recommendations) { mix in
-                    NavigationLink(value: mix) { MixRow(mix: mix) }
+                    NavigationLink(value: mix) { MixCardView(mix: mix) }
                         .buttonStyle(.plain)
                         .accessibilityIdentifier(AccessibilityID.homeRecommendation(mix.id))
                 }
@@ -127,42 +127,5 @@ private struct QuickAction: View {
             .overlay{RoundedRectangle(cornerRadius:18).stroke(emphasized ? .clear:Color.primary.opacity(0.07))}
         }
         .buttonStyle(.plain)
-    }
-}
-
-private struct MixRow: View {
-    let mix: MixPreview
-
-    var body: some View {
-        HStack(spacing: 13) {
-            MixArtwork(palette: mix.palette)
-                .frame(width: 82, height: 82)
-                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(mix.title)
-                    .font(.headline.weight(.bold))
-                    .lineLimit(2)
-                Text(mix.flavorTags.prefix(3).joined(separator: " · "))
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-                HStack(spacing: 10) {
-                    if let rating = mix.rating {
-                        Label(rating.formatted(.number.precision(.fractionLength(1))), systemImage: "star.fill")
-                            .foregroundStyle(AppTheme.gold)
-                    }
-                    Text(mix.strength.title).foregroundStyle(.secondary)
-                }
-                .font(.caption2.weight(.semibold))
-            }
-
-            Spacer(minLength: 8)
-
-            Image(systemName: mix.isFavorite ? "heart.fill" : "heart")
-                .font(.subheadline)
-                .foregroundStyle(mix.isFavorite ? AppTheme.gold : Color.secondary)
-        }
-        .padding(10).appCard(cornerRadius: 20)
     }
 }
