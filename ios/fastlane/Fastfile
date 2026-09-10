@@ -6,6 +6,7 @@ platform :ios do
   ios_dir = File.expand_path("..", __dir__)
   project = File.join(ios_dir, "HookahBoss.xcodeproj")
   scheme = ENV.fetch("SCHEME", "HookahBoss")
+  app_identifier = "ru.kostyuchenko.mixing"
   configuration = ENV.fetch("CONFIGURATION", "Debug")
   destination = ENV.fetch("DESTINATION", "platform=iOS Simulator,name=iPhone 17 Pro")
   derived_data = ENV.fetch("DERIVED_DATA_PATH", File.expand_path("../../build/DerivedData", __dir__))
@@ -50,10 +51,10 @@ platform :ios do
   desc "Prepare a local archive; does not export or upload it"
   lane :archive do
     generate
-    archive_path = ENV.fetch("ARCHIVE_PATH", File.expand_path("../../build/HookahBoss.xcarchive", __dir__))
+    archive_path = ENV.fetch("ARCHIVE_PATH", File.expand_path("../../build/Mixing.xcarchive", __dir__))
     overrides = {
       "DEVELOPMENT_TEAM" => ENV["DEVELOPMENT_TEAM"],
-      "PRODUCT_BUNDLE_IDENTIFIER" => ENV["PRODUCT_BUNDLE_IDENTIFIER"],
+      "PRODUCT_BUNDLE_IDENTIFIER" => app_identifier,
       "HOOKAHBOSS_RELEASE_API_BASE_URL" => ENV["HOOKAHBOSS_RELEASE_API_BASE_URL"]
     }.compact.map { |key, value| "#{key}=#{Shellwords.escape(value)}" }.join(" ")
     build_app(
@@ -71,16 +72,17 @@ platform :ios do
 
   desc "Create a signed App Store IPA locally; validates config and never uploads"
   lane :release do
-    required = %w[DEVELOPMENT_TEAM PRODUCT_BUNDLE_IDENTIFIER HOOKAHBOSS_RELEASE_API_BASE_URL]
+    required = %w[DEVELOPMENT_TEAM HOOKAHBOSS_RELEASE_API_BASE_URL]
     missing = required.select { |key| ENV[key].to_s.strip.empty? }
     UI.user_error!("Missing required release environment: #{missing.join(', ')}") unless missing.empty?
     api_url = URI.parse(ENV.fetch("HOOKAHBOSS_RELEASE_API_BASE_URL"))
     UI.user_error!("HOOKAHBOSS_RELEASE_API_BASE_URL must be an HTTPS URL") unless api_url.is_a?(URI::HTTPS) && api_url.host
 
     generate
-    archive_path = ENV.fetch("ARCHIVE_PATH", File.expand_path("../../build/HookahBoss.xcarchive", __dir__))
+    archive_path = ENV.fetch("ARCHIVE_PATH", File.expand_path("../../build/Mixing.xcarchive", __dir__))
     output_directory = ENV.fetch("OUTPUT_DIRECTORY", File.expand_path("../../build", __dir__))
-    overrides = required.map { |key| "#{key}=#{Shellwords.escape(ENV.fetch(key))}" }.join(" ")
+    overrides = ({ "PRODUCT_BUNDLE_IDENTIFIER" => app_identifier }.merge(required.to_h { |key| [key, ENV.fetch(key)] }))
+      .map { |key, value| "#{key}=#{Shellwords.escape(value)}" }.join(" ")
     build_app(
       project: project,
       scheme: scheme,
@@ -88,7 +90,7 @@ platform :ios do
       destination: "generic/platform=iOS",
       archive_path: archive_path,
       output_directory: output_directory,
-      output_name: ENV.fetch("IPA_NAME", "HookahBoss.ipa"),
+      output_name: ENV.fetch("IPA_NAME", "Mixing.ipa"),
       derived_data_path: derived_data,
       export_method: "app-store",
       xcargs: overrides,

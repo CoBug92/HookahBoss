@@ -8,8 +8,9 @@ CONFIGURATION ?= Debug
 DESTINATION ?= platform=iOS Simulator,name=iPhone 17 Pro
 BUILD_DESTINATION ?= generic/platform=iOS
 DERIVED_DATA_PATH ?= $(CURDIR)/build/DerivedData
-ARCHIVE_PATH ?= $(CURDIR)/build/HookahBoss.xcarchive
-BUNDLE ?= bundle
+ARCHIVE_PATH ?= $(CURDIR)/build/Mixing.xcarchive
+RBENV ?= $(shell command -v rbenv 2>/dev/null)
+BUNDLE ?= $(if $(RBENV),$(RBENV) exec bundle,bundle)
 
 .PHONY: bootstrap generate build test ui-test lint archive release backend-check verify
 

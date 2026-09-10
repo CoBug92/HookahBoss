@@ -116,7 +116,7 @@
 | Collective ratings start at zero | ratings table empty by seeds; public SQL aggregates user ratings | proven by seed/schema inspection |
 | Cream light, graphite dark, system-only theme, gold | `AppTheme`, screen surfaces; `AppThemeTests`; `PRODUCT.md` | proven code/contrast tests; full visual runtime QA not run |
 | Official artwork bundled and profile-mapped | `ios/HookahBoss/Resources/Artwork`, typed `AssetFiles`, `MixArtwork`; bundle/mapping tests | proven |
-| Production iOS project architecture/tooling | `ios/project.yml` is the reproducible XcodeGen source; `App/Core/Domain/Data/Features/Resources/Generated` layout; shared concrete stores are created in the app composition root; feature services are protocol-injected; SwiftGen provides typed `L10n`/`AssetFiles`; `ArchitectureGuardTests` prevents concrete networking/persistence dependencies in Features and now rejects interpolated raw localization keys; Make/Fastlane entry points are documented in `ios/README.md` | proven by generation hash stability, strict lint with 0 violations, 106/106 unit/architecture tests and 7/7 UI tests on iPhone 15 Pro / iOS 17.5 Simulator |
+| Production iOS project architecture/tooling | `ios/project.yml` is the reproducible XcodeGen source; `App/Core/Domain/Data/Features/Resources/Generated` layout; shared concrete stores are created in the app composition root; feature services are protocol-injected; SwiftGen provides typed `L10n`/`AssetFiles`; `ArchitectureGuardTests` prevents concrete networking/persistence dependencies in Features and now rejects interpolated raw localization keys; Make/Fastlane entry points are documented in `ios/README.md` | proven by generation hash stability, strict lint with 0 violations, 108/108 unit/architecture tests and 7/7 UI tests on iPhone 15 Pro / iOS 17.5 Simulator |
 
 ## External blockers and release gates
 
@@ -132,11 +132,11 @@ The `fresh` profile is propagated through the database constraint, private-produ
 
 The owner/input/validation handoff for these gates is maintained in [`RELEASE_CHECKLIST.md`](RELEASE_CHECKLIST.md).
 
-- Runtime XCTest: 106/106 unit and architecture tests plus 7/7 XCUITests passed on iPhone 15 Pro / iOS 17.5 Simulator. The generic `iphoneos` arm64 Debug target also builds successfully with signing disabled; its bundle contains both `ru.lproj` and `en.lproj` and the verified device-test HTTPS API URL. VoiceOver announcements and screenshot-level clipping still require a manual pass on a physical device.
+- Runtime XCTest: 108/108 unit and architecture tests plus 7/7 XCUITests passed on iPhone 15 Pro / iOS 17.5 Simulator. The generic `iphoneos` arm64 Debug target also builds successfully with signing disabled; its bundle identifies as `ru.kostyuchenko.mixing`, contains “Миксовка” / “Mixing” metadata in `ru.lproj` / `en.lproj`, and embeds the verified device-test HTTPS API URL. VoiceOver announcements and screenshot-level clipping still require a manual pass on a physical device.
 - `external blocker`: the isolated VDS device-test deployment is live, but a stable production HTTPS `HOOKAHBOSS_RELEASE_API_BASE_URL` is not configured; the Debug Quick Tunnel URL is temporary by design.
 - `external blocker`: live Sign in with Apple exchange/revoke requires signing/team/App ID and real Apple credentials. Implementation and local fixtures exist, but production Apple endpoints require staging smoke.
 - `external blocker`: App Store age-rating questionnaire, distribution strategy and review risk under Guideline 1.4.3 cannot be proven by repository tests.
-- `missing by explicit deferral`: final product name, icon and distribution choice.
+- `missing by explicit deferral`: final icon and distribution choice.
 
 ## Verification commands
 

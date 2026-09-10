@@ -1,6 +1,6 @@
 name: HookahBoss
 options:
-  bundleIdPrefix: com.hookahboss
+  bundleIdPrefix: ru.kostyuchenko
   deploymentTarget:
     iOS: "17.0"
 settings:
@@ -40,7 +40,7 @@ targets:
           perl -pi -e 's/[ \t]+$//' "$SRCROOT"/HookahBoss/Generated/*.swift
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.hookahboss.app
+        PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixing
         GENERATE_INFOPLIST_FILE: NO
         INFOPLIST_FILE: HookahBoss/App/Configuration/Info.plist
         TARGETED_DEVICE_FAMILY: "1"
@@ -65,7 +65,7 @@ targets:
       - target: HookahBoss
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.hookahboss.tests
+        PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixing.tests
         GENERATE_INFOPLIST_FILE: YES
   HookahBossUITests:
     type: bundle.ui-testing
@@ -76,5 +76,5 @@ targets:
       - target: HookahBoss
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.hookahboss.uitests
+        PRODUCT_BUNDLE_IDENTIFIER: ru.kostyuchenko.mixing.uitests
         GENERATE_INFOPLIST_FILE: YES

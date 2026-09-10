@@ -10,26 +10,26 @@ async function fixture() {
   const jwk = await exportJWK(publicKey); Object.assign(jwk, { kid: "key-1", alg: "RS256", use: "sig" });
   const sign = (claims: Record<string, unknown> = {}, kid = "key-1") => new SignJWT({ email: "hidden@example.com" })
     .setProtectedHeader({ alg: "RS256", kid }).setSubject("apple-subject").setIssuer("https://appleid.apple.com")
-    .setAudience("com.hookahboss.app").setIssuedAt().setExpirationTime("5m").setIssuer(String(claims.iss ?? "https://appleid.apple.com"))
-    .setAudience(String(claims.aud ?? "com.hookahboss.app")).setIssuedAt(Number(claims.iat ?? Math.floor(Date.now()/1000)))
+    .setAudience("ru.kostyuchenko.mixing").setIssuedAt().setExpirationTime("5m").setIssuer(String(claims.iss ?? "https://appleid.apple.com"))
+    .setAudience(String(claims.aud ?? "ru.kostyuchenko.mixing")).setIssuedAt(Number(claims.iat ?? Math.floor(Date.now()/1000)))
     .setExpirationTime(Number(claims.exp ?? Math.floor(Date.now()/1000)+300)).sign(privateKey);
   return { jwks: { keys: [jwk] }, sign };
 }
 
 test("production Apple verifier validates signature and required claims", async () => {
-  const f = await fixture(); const verifier = new ProductionAppleTokenVerifier(["com.hookahboss.app"], async () => f.jwks);
+  const f = await fixture(); const verifier = new ProductionAppleTokenVerifier(["ru.kostyuchenko.mixing"], async () => f.jwks);
   assert.deepEqual(await verifier.verify(await f.sign()), { subject: "apple-subject", email: "hidden@example.com" });
 });
 
 test("production Apple verifier rejects issuer, audience, expiry, future iat and malformed token", async () => {
-  const f = await fixture(); const verifier = new ProductionAppleTokenVerifier(["com.hookahboss.app"], async () => f.jwks);
+  const f = await fixture(); const verifier = new ProductionAppleTokenVerifier(["ru.kostyuchenko.mixing"], async () => f.jwks);
   const tokens = [await f.sign({ iss: "bad" }), await f.sign({ aud: "bad" }), await f.sign({ exp: 1 }), await f.sign({ iat: Math.floor(Date.now()/1000)+60 }), "not.jwt"];
   for (const token of tokens) await assert.rejects(verifier.verify(token), InvalidAppleTokenError);
 });
 
 test("Apple JWKS is cached and refreshed once for an unknown kid", async () => {
   const f = await fixture(); let calls = 0;
-  const verifier = new ProductionAppleTokenVerifier(["com.hookahboss.app"], async () => { calls++; return f.jwks; });
+  const verifier = new ProductionAppleTokenVerifier(["ru.kostyuchenko.mixing"], async () => { calls++; return f.jwks; });
   await verifier.verify(await f.sign()); await verifier.verify(await f.sign()); assert.equal(calls, 1);
   await assert.rejects(verifier.verify(await f.sign({}, "unknown")), InvalidAppleTokenError); assert.equal(calls, 2);
 });

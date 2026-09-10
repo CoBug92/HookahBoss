@@ -1,4 +1,4 @@
-# HookahBoss iOS
+# Mixing iOS
 
 Native SwiftUI client targeting iPhone on iOS 17 and later.
 
@@ -57,6 +57,8 @@ bundle exec fastlane ios build
 bundle exec fastlane ios archive
 ```
 
-The archive lane prepares a local archive only; it never uploads or publishes. Supply signing and release configuration through environment variables such as `DEVELOPMENT_TEAM`, `PRODUCT_BUNDLE_IDENTIFIER`, `HOOKAHBOSS_RELEASE_API_BASE_URL`, `ARCHIVE_PATH` and `SKIP_CODE_SIGNING`. No credentials belong in the repository.
+The root Makefile automatically runs Bundler through rbenv when rbenv is available, avoiding an older system Ruby/Bundler earlier in `PATH`. Direct lane invocation should use `rbenv exec bundle exec fastlane …` on such machines.
 
-For a signed local App Store IPA (still without upload), provide all required release settings and run `make release` from the repository root. The lane fails before archiving unless `DEVELOPMENT_TEAM`, `PRODUCT_BUNDLE_IDENTIFIER` and an HTTPS `HOOKAHBOSS_RELEASE_API_BASE_URL` are present. `OUTPUT_DIRECTORY` and `IPA_NAME` are optional.
+The archive lane prepares a local archive only; it never uploads or publishes. Its fixed App Store identifier is `ru.kostyuchenko.mixing`. Supply signing and release configuration through environment variables such as `DEVELOPMENT_TEAM`, `HOOKAHBOSS_RELEASE_API_BASE_URL`, `ARCHIVE_PATH` and `SKIP_CODE_SIGNING`. No credentials belong in the repository.
+
+For a signed local App Store IPA (still without upload), provide all required release settings and run `make release` from the repository root. The lane fails before archiving unless `DEVELOPMENT_TEAM` and an HTTPS `HOOKAHBOSS_RELEASE_API_BASE_URL` are present. `OUTPUT_DIRECTORY` and `IPA_NAME` are optional.

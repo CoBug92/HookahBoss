@@ -1,2 +1,4 @@
-# Signing and App Store Connect credentials are intentionally supplied by the
-# environment or a developer's private fastlane configuration.
+app_identifier("ru.kostyuchenko.mixing")
+
+# Apple ID and team credentials are intentionally supplied by the environment
+# or a developer's private Fastlane configuration.

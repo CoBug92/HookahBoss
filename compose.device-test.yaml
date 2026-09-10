@@ -22,7 +22,7 @@ services:
       DATABASE_URL: postgres://hookahboss:${HOOKAHBOSS_POSTGRES_PASSWORD}@postgres:5432/hookahboss
       NODE_ENV: development
       APPLE_PROVIDER_MODE: disabled
-      APPLE_CLIENT_ID: com.hookahboss.app
+      APPLE_CLIENT_ID: ru.kostyuchenko.mixing
       SESSION_TOKEN_SECRET: ${HOOKAHBOSS_SESSION_TOKEN_SECRET}
       HOST: 0.0.0.0
       PORT: 3000
