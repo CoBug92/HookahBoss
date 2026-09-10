@@ -11,7 +11,7 @@ final class HomeViewModel: ObservableObject {
         self.library = library
     }
     var mixOfDay: MixPreview? { MixRanker.mixOfDay(from: mixes) }
-    var recommendations: [MixPreview] { Array(MixRanker.ranked(mixes).prefix(4)) }
+    var recommendations: [MixPreview] { MixRanker.dailyRecommendations(from: mixes) }
     func appear() async { await refresh(force: false) }
     func refresh(force: Bool) async {
         let snapshot = await content.catalog(locale: .currentApp, force: force)

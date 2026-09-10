@@ -9,4 +9,20 @@ final class MixRankingTests:XCTestCase {
     func testCollectiveProjectionHandlesCreateChangeAndDelete(){let initial=mix(1,rating:4,count:1);let created=initial.applyingPersonalRatingChange(from:nil,to:2);XCTAssertEqual(created.rating,3);XCTAssertEqual(created.ratingsCount,2);let changed=created.applyingPersonalRatingChange(from:2,to:5);XCTAssertEqual(changed.rating,4.5);XCTAssertEqual(changed.ratingsCount,2);let deleted=changed.applyingPersonalRatingChange(from:5,to:nil);XCTAssertEqual(deleted.rating,4);XCTAssertEqual(deleted.ratingsCount,1)}
     func testRemovingOnlyRatingProducesUnratedMix(){let initial=mix(1,rating:3,count:1,personal:3);let result=initial.applyingPersonalRatingChange(from:3,to:nil);XCTAssertNil(result.rating);XCTAssertEqual(result.ratingsCount,0);XCTAssertNil(result.personalRating)}
     func testMixOfDayIsStableAndChangesOnNextDay(){var calendar=Calendar(identifier:.gregorian);calendar.timeZone=TimeZone(secondsFromGMT:0)!;let mixes=[mix(1),mix(2),mix(3)];let date=Date(timeIntervalSince1970:1_700_000_000);let first=MixRanker.mixOfDay(from:mixes,date:date,calendar:calendar);XCTAssertEqual(first,MixRanker.mixOfDay(from:mixes,date:date.addingTimeInterval(60),calendar:calendar));XCTAssertNotEqual(first,MixRanker.mixOfDay(from:mixes,date:calendar.date(byAdding:.day,value:1,to:date)!,calendar:calendar))}
+    func testDailyRecommendationsContainTenAndRotateOnNextDay() {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
+        let mixes = (1...12).map { mix($0) }
+        let date = Date(timeIntervalSince1970: 1_700_000_000)
+        let today = MixRanker.dailyRecommendations(from: mixes, date: date, calendar: calendar)
+        let sameDay = MixRanker.dailyRecommendations(from: mixes, date: date.addingTimeInterval(60), calendar: calendar)
+        let tomorrow = MixRanker.dailyRecommendations(
+            from: mixes,
+            date: calendar.date(byAdding: .day, value: 1, to: date)!,
+            calendar: calendar
+        )
+        XCTAssertEqual(today.count, 10)
+        XCTAssertEqual(today, sameDay)
+        XCTAssertNotEqual(today, tomorrow)
+    }
 }

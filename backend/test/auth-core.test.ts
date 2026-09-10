@@ -45,7 +45,7 @@ test("Apple exchange returns an API session and rejects malformed identity token
   const apple = { verify: async (token: string) => { if (token !== "apple") throw new InvalidAppleTokenError(); return { subject: "sub" }; } };
   const database = { query: async (sql: unknown) => String(sql).includes("auth_sessions") ? ({ rows: [{ id: "session-id" }], rowCount: 1 }) as never : ({ rows: [{ id: "user-id", apple_subject: "sub", auth_session_version: 1 }], rowCount: 1 }) as never };
   const app = buildApp(database, false, sessions, undefined, apple, sessions);
-  const ok = await app.inject({ method: "POST", url: "/v1/auth/apple", payload: { identityToken: "apple" } });
+  const ok = await app.inject({ method: "POST", url: "/v1/auth/apple", payload: { identityToken: "apple", authorizationCode: "device-code" } });
   const bad = await app.inject({ method: "POST", url: "/v1/auth/apple", payload: { identityToken: "bad" } });
   assert.equal(ok.statusCode, 200); assert.equal(typeof ok.json().data.accessToken, "string"); assert.equal(ok.json().data.expiresIn, 900);assert.equal(ok.json().data.accountId,"user-id");
   assert.equal(bad.statusCode, 401); await app.close();

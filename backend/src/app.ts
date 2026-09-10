@@ -94,8 +94,7 @@ export function buildApp(
         hasStoredProviderToken=existing.rows[0]?.has_token===true;
         if(!request.body.authorizationCode&&!hasStoredProviderToken)return reply.code(401).send({error:"authorization_code_required"});
       }
-      if(request.body.authorizationCode){
-        if(!appleProvider||!providerCipher)return reply.code(503).send({error:"apple_provider_exchange_unavailable"});
+      if(request.body.authorizationCode&&appleProvider&&providerCipher){
         try{encrypted=providerCipher.encrypt(await appleProvider.exchange(request.body.authorizationCode))}catch{
           if(!hasStoredProviderToken)return reply.code(401).send({error:"invalid_authorization_code"});
         }

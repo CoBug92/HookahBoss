@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject private var navigation:AppNavigation
     @StateObject private var model: HomeViewModel
     var onFindMix:()->Void = {}
     var onInventory:()->Void = {}
@@ -14,7 +13,6 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 24) {
-                    header
                     hero
                     quickActions
                     recommendations
@@ -22,62 +20,68 @@ struct HomeView: View {
                 .padding(.horizontal, 18).padding(.top, 4).padding(.bottom, 34)
             }
             .background(background.ignoresSafeArea())
-            .toolbar(.hidden, for: .navigationBar)
+            .navigationTitle(L10n.Home.question)
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: onProfile) {
+                        Image(systemName: "person.crop.circle")
+                            .font(.title3.weight(.medium))
+                            .foregroundStyle(AppTheme.gold)
+                    }
+                    .accessibilityLabel(Text(L10n.Home.profile))
+                    .accessibilityIdentifier(AccessibilityID.homeLogin)
+                }
+            }
             .navigationDestination(for:MixPreview.self){MixDetailView(model:makeMixDetailModel($0))}
         }.onAppear{model.syncLibraryState()}.accessibilityIdentifier("screen.home")
     }
 
     private var background: Color { AppTheme.background }
 
-    private var header: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(L10n.Home.question)
-                    .font(.system(size: 34, weight: .bold, design: .serif)).tracking(-0.7)
-                Text(L10n.Home.greeting).font(.subheadline).foregroundStyle(.secondary)
-            }
-
-            Spacer()
-
-            Button(action: onProfile) {
-                Image(systemName: "person.fill").font(.subheadline).foregroundStyle(AppTheme.gold)
-                    .frame(width: 42, height: 42).background(AppTheme.card, in: Circle())
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel(Text(L10n.Home.profile))
-        }
-        .padding(.top, 12)
-    }
-
     private var hero: some View {
         Group { if let mix=model.mixOfDay { NavigationLink(value:mix) {
-            ZStack(alignment: .bottomLeading) {
-                MixArtwork(palette: mix.palette)
-                LinearGradient(colors:[.black.opacity(0.06),.black.opacity(0.88)],startPoint:.top,endPoint:.bottom)
-
+            MixArtwork(palette: mix.palette)
+                .frame(maxWidth: .infinity)
+                .frame(height: 280)
+                .overlay {
+                    LinearGradient(colors:[.black.opacity(0.06),.black.opacity(0.88)],startPoint:.top,endPoint:.bottom)
+                }
+                .overlay(alignment: .bottomLeading) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(L10n.Home.mixOfDay)
                         .font(.caption.weight(.bold)).textCase(.uppercase).foregroundStyle(AppTheme.cream)
                     Text(mix.title)
-                        .font(.system(size: 29, weight: .bold, design: .serif))
+                        .font(.system(size: 27, weight: .bold, design: .serif))
                         .tracking(-0.5)
                         .lineLimit(2)
                         .minimumScaleFactor(0.78)
-                    FlavorCloud(tags: mix.flavorTags)
+                    HStack(spacing: 5) {
+                        ForEach(Array(mix.flavorTags.prefix(3)), id: \.self) { tag in
+                            Text(tag)
+                                .font(.system(size: 10, weight: .semibold))
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.75)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 5)
+                                .background(.white.opacity(0.16), in: Capsule())
+                        }
+                    }
                     HStack { if let rating=mix.rating { Label(rating.formatted(.number.precision(.fractionLength(1))),systemImage:"star.fill") }; Spacer(); Text(mix.strength.title) }.font(.caption).foregroundStyle(.white.opacity(0.72))
                 }
                 .foregroundStyle(.white)
-                .padding(20)
-            }
-            .frame(height: 300)
+                .padding(18)
+                .frame(maxWidth: .infinity, alignment: .bottomLeading)
+                }
             .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
             .shadow(color:.black.opacity(0.16),radius:20,y:10)
-        }.buttonStyle(.plain) } else { RoundedRectangle(cornerRadius:26).fill(AppTheme.card).frame(height:300).overlay{ProgressView()} } }
+        }.buttonStyle(.plain) } else { RoundedRectangle(cornerRadius:26).fill(AppTheme.card).frame(height:280).overlay{ProgressView()} } }
     }
 
     private var quickActions: some View {
         HStack(spacing: 10) {
             QuickAction(title: L10n.Home.findMix, icon: "slider.horizontal.3", emphasized: true, action:onFindMix)
+                .accessibilityIdentifier(AccessibilityID.homeFindMix)
             QuickAction(title: L10n.Inventory.findMixes, icon: "shippingbox.fill", emphasized: false, action:onInventory)
         }
     }
@@ -86,12 +90,15 @@ struct HomeView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment:.firstTextBaseline) {
                 Text(L10n.Home.recommended).font(.title3.weight(.bold))
-                Spacer()
-                Button(L10n.Common.all) { navigation.openMixFinder() }
-                    .foregroundStyle(AppTheme.gold)
             }
 
-            ScrollView(.horizontal,showsIndicators:false){HStack(spacing:12){ForEach(model.recommendations){mix in NavigationLink(value:mix){MixCardView(mix:mix).frame(width:178)}.buttonStyle(.plain).accessibilityIdentifier(AccessibilityID.homeRecommendation(mix.id))}}}.contentMargins(.trailing,18,for:.scrollContent)
+            LazyVStack(spacing: 10) {
+                ForEach(model.recommendations) { mix in
+                    NavigationLink(value: mix) { MixRow(mix: mix) }
+                        .buttonStyle(.plain)
+                        .accessibilityIdentifier(AccessibilityID.homeRecommendation(mix.id))
+                }
+            }
         }
         .task { await model.appear() }
     }
@@ -127,29 +134,35 @@ private struct MixRow: View {
     let mix: MixPreview
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 13) {
             MixArtwork(palette: mix.palette)
-                .frame(width: 68, height: 68)
+                .frame(width: 82, height: 82)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(mix.title)
-                    .font(.headline)
-                Text(mix.flavorTags.joined(separator: " · "))
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .font(.headline.weight(.bold))
                     .lineLimit(2)
+                Text(mix.flavorTags.prefix(3).joined(separator: " · "))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                HStack(spacing: 10) {
+                    if let rating = mix.rating {
+                        Label(rating.formatted(.number.precision(.fractionLength(1))), systemImage: "star.fill")
+                            .foregroundStyle(AppTheme.gold)
+                    }
+                    Text(mix.strength.title).foregroundStyle(.secondary)
+                }
+                .font(.caption2.weight(.semibold))
             }
 
             Spacer(minLength: 8)
 
-            if let rating = mix.rating {
-                Label(rating.formatted(.number.precision(.fractionLength(1))), systemImage: "star.fill")
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(AppTheme.gold)
-            }
+            Image(systemName: mix.isFavorite ? "heart.fill" : "heart")
+                .font(.subheadline)
+                .foregroundStyle(mix.isFavorite ? AppTheme.gold : Color.secondary)
         }
-        .padding(10)
-        .background(AppTheme.card)
-        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .padding(10).appCard(cornerRadius: 20)
     }
 }

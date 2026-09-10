@@ -86,9 +86,12 @@ private struct RootView: View {
 
     var body: some View {
         TabView(selection: $navigation.tab) {
-            HomeView(model:HomeViewModel(content:publicContent,library:auth),onFindMix:{navigation.openMixFinder()},onInventory:{
+            HomeView(model:HomeViewModel(content:publicContent,library:auth),onFindMix:{navigation.openMixFinder(showFilters: true)},onInventory:{
                 if auth.isAuthenticated { navigation.openInventoryResults() } else { auth.gate.request(.inventory){navigation.openInventoryResults()} }
-            },onProfile:{navigation.tab = .collection},makeMixDetailModel:{MixDetailViewModel(mix:$0,content:publicContent,auth:auth)})
+            },onProfile:{
+                if auth.isAuthenticated { navigation.tab = .collection }
+                else { auth.gate.request(.personal) { navigation.tab = .collection } }
+            },makeMixDetailModel:{MixDetailViewModel(mix:$0,content:publicContent,auth:auth)})
                 .tabItem { Label(L10n.Tab.home, systemImage: "house.fill") }
                 .tag(AppTab.home)
 

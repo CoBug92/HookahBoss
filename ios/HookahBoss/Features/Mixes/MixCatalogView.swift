@@ -1,9 +1,11 @@
 import SwiftUI
 
 struct MixesView: View {
+    @EnvironmentObject private var navigation: AppNavigation
     @StateObject private var model: MixCatalogViewModel
     @State private var filters = false
     @State private var results = false
+    @State private var handledFiltersRequest = 0
     let makeMixDetailModel: (MixPreview) -> MixDetailViewModel
     private let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
 
@@ -35,10 +37,18 @@ struct MixesView: View {
             .background(AppTheme.background).toolbar(.hidden, for: .navigationBar)
             .overlay { if model.isLoading && model.catalog.isEmpty { ProgressView().controlSize(.large) } }
             .refreshable { await model.refresh() }.task { await model.appear() }.onAppear { model.syncLibraryState() }
+            .onAppear { presentRequestedFilters() }
+            .onChange(of: navigation.mixFiltersRequest) { _, _ in presentRequestedFilters() }
             .sheet(isPresented: $filters) { MixFilterView(model: MixFilterViewModel(catalog: model.catalog, filter: model.filter)) { model.apply($0); results = true } }
             .navigationDestination(isPresented: $results) { MixResultsView(model: model) }
             .navigationDestination(for: MixPreview.self) { MixDetailView(model: makeMixDetailModel($0)) }
         }
+    }
+
+    private func presentRequestedFilters() {
+        guard navigation.mixFiltersRequest > handledFiltersRequest else { return }
+        handledFiltersRequest = navigation.mixFiltersRequest
+        filters = true
     }
 }
 
