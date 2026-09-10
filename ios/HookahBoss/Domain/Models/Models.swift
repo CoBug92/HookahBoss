@@ -78,17 +78,45 @@ enum MixStrength: String, Hashable {
     }
 }
 
-enum MixPalette: Hashable {
+enum MixPalette: CaseIterable, Hashable {
     case tropical
     case berry
     case citrus
     case dessert
+    case beverage
+    case herbal
+    case spicy
+    case fresh
 
     static func forProfiles(_ profiles:Set<FlavorProfile>)->Self {
         if profiles.contains(.dessert) { return .dessert }
+        if profiles.contains(.beverage) { return .beverage }
+        if profiles.contains(.herbal) { return .herbal }
+        if profiles.contains(.spicy) { return .spicy }
+        if profiles.contains(.fresh) { return .fresh }
         if profiles.contains(.berry) { return .berry }
         if profiles.contains(.citrus) { return .citrus }
         return .tropical
+    }
+
+    static func forProfiles(_ profiles: Set<FlavorProfile>, seed: UUID) -> Self {
+        let available = profiles.sorted { $0.rawValue < $1.rawValue }
+        guard !available.isEmpty else { return .tropical }
+        let checksum = seed.uuidString.utf8.reduce(0) { ($0 + Int($1)) % Int.max }
+        return palette(for: available[checksum % available.count])
+    }
+
+    private static func palette(for profile: FlavorProfile) -> Self {
+        switch profile {
+        case .berry: .berry
+        case .fruit: .tropical
+        case .citrus: .citrus
+        case .dessert: .dessert
+        case .beverage: .beverage
+        case .herbal: .herbal
+        case .spicy: .spicy
+        case .fresh: .fresh
+        }
     }
 }
 

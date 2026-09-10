@@ -29,15 +29,15 @@ final class PublicContentStoreTests: XCTestCase {
         XCTAssertEqual(MixPalette.forProfiles([.dessert,.berry]),.dessert)
         XCTAssertEqual(MixPalette.forProfiles([.berry]),.berry)
         XCTAssertEqual(MixPalette.forProfiles([.citrus]),.citrus)
-        XCTAssertEqual(MixPalette.forProfiles([.fruit,.beverage]),.tropical)
-        XCTAssertEqual(MixPalette.forProfiles([.fresh]),.tropical)
+        XCTAssertEqual(MixPalette.forProfiles([.fruit,.beverage]),.beverage)
+        XCTAssertEqual(MixPalette.forProfiles([.fresh]),.fresh)
         XCTAssertNotNil(ArtworkResource.image(for: .dessert))
         XCTAssertNotNil(ArtworkResource.image(for: .berry))
         XCTAssertNotNil(ArtworkResource.image(for: .tropical))
     }
 
     func testArtworkPNGsAreCopiedIntoApplicationBundle() {
-        for palette in [MixPalette.dessert, .berry, .citrus, .tropical] {
+        for palette in MixPalette.allCases {
             XCTAssertNotNil(ArtworkResource.image(for: palette))
         }
     }
@@ -53,7 +53,7 @@ final class PublicContentStoreTests: XCTestCase {
     func testRichDetailRetainsFreshProfile() {
         let dto=OfficialMixDetailDTO(id:UUID(),slug:"iceberg",title:"Iceberg",summary:"Cooling",rating:4,ratingsCount:1,components:[],tags:["Cooling"],profiles:["fresh"],sweetness:"subtle",acidity:"subtle",freshness:"pronounced",strength:"medium")
         let mix=MixPreview(dto:dto)
-        XCTAssertEqual(mix.flavorProfiles,[.fresh]);XCTAssertEqual(mix.palette,.tropical)
+        XCTAssertEqual(mix.flavorProfiles,[.fresh]);XCTAssertEqual(mix.palette,.fresh)
     }
     @MainActor func testMapsNetworkSnapshotAndRestoresItWhenOffline() async {
         let cache = MemoryPublicCache()

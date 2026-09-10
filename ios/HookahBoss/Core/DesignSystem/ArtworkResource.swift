@@ -3,9 +3,14 @@ import UIKit
 enum ArtworkResource {
     static func image(for palette: MixPalette) -> UIImage? {
         let file: File = switch palette {
-        case .dessert: AssetFiles.mixDessertPng
-        case .berry, .citrus: AssetFiles.mixBerryCitrusPng
-        case .tropical: AssetFiles.mixTropicalPng
+        case .berry: AssetFiles.mixBerryV2Png
+        case .tropical: AssetFiles.mixFruitV2Png
+        case .citrus: AssetFiles.mixCitrusV2Png
+        case .dessert: AssetFiles.mixDessertV2Png
+        case .beverage: AssetFiles.mixBeverageV2Png
+        case .herbal: AssetFiles.mixHerbalV2Png
+        case .spicy: AssetFiles.mixSpicyV2Png
+        case .fresh: AssetFiles.mixFreshV2Png
         }
         return load(file)
     }

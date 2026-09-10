@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		028D4DD21B29FED05DD9F268 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFC986F8BCCB42AA46AB2FF /* HomeView.swift */; };
 		02A1593FCA9C04C10C374F5A /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AA2FB05D97F196056E9479 /* ViewModelTests.swift */; };
+		038092CF8BF1AC164F42CAAB /* mix-herbal-v2.png in Resources */ = {isa = PBXBuildFile; fileRef = 36DFF971EEAF9AC7D1BE2AE7 /* mix-herbal-v2.png */; };
 		049A3B54023137373CC567D2 /* CreateMixViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5E22B2A3CDB728AF532055 /* CreateMixViewModel.swift */; };
 		073CBA5E69BE67915621140B /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E373A6EC292FBEE2605084 /* AdminView.swift */; };
 		0AE890F5D8D48C45FC7B629D /* AppNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DEE4A2B61B7A2BA2986CFDC /* AppNavigation.swift */; };
@@ -24,6 +25,7 @@
 		34BAC78F018DB8F23A97A874 /* AuthGateSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF11E801F22041A5C6213625 /* AuthGateSheet.swift */; };
 		352DE4A7E2F06256D03D1BDC /* AssetFiles+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A5126A73528390F9A81B56 /* AssetFiles+Generated.swift */; };
 		35B9C5B9241882BA06F7DF07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ADDEE9736252F30C57D0D7E6 /* InfoPlist.strings */; };
+		361AB15E9E229595616B3B0D /* mix-dessert-v2.png in Resources */ = {isa = PBXBuildFile; fileRef = 243BD99A18F9403121C5240A /* mix-dessert-v2.png */; };
 		38E8725FCDCFFB526852BE66 /* InventoryMatchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833E8C3BA51910984F79E91B /* InventoryMatchViewModel.swift */; };
 		41E81C52317EA2C6D0A60C27 /* AppConfigBundleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F8A92337E80121363057B6 /* AppConfigBundleTests.swift */; };
 		463E2C51067C84A15A89C988 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FF5B7C8E2AFAE0E02E44B7 /* AppConfig.swift */; };
@@ -38,8 +40,10 @@
 		586F6CC8B100A81E15BDA82E /* UserDefaultsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F087E9FC9D6F898F0CFC97BF /* UserDefaultsStore.swift */; };
 		597823E8523527A8F78AE109 /* PercentageDistributorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253CBF0B6EA27809C578D5BB /* PercentageDistributorTests.swift */; };
 		5FFF0353822073672BDBE844 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8675E265D401B6B94A63264C /* Localizable.strings */; };
+		652BFEAE2F14BB4F57644331 /* mix-berry-v2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F8F22ECED2A42F9399F0943 /* mix-berry-v2.png */; };
 		659C75CF9CF779B149E3C67F /* ArtworkResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119DA1E78F66B6CC7847CAAF /* ArtworkResource.swift */; };
 		665BFA0C91E7957A378E799F /* CollectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EC6CAEBF55C5D79D3E95FE /* CollectionService.swift */; };
+		67CA661879B53B6C8F74B590 /* mix-citrus-v2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5BD3FA6F0503D3D6C88E798E /* mix-citrus-v2.png */; };
 		694B782E2A90C557B0C74AE6 /* AppNavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7189FB3C3D31DB955A5083 /* AppNavigationTests.swift */; };
 		6A50D577D1FF4A5CB0636899 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECAE1325323F5D7B25112F28 /* APIClient.swift */; };
 		6C4B7A0BCB025809FF84A2FB /* PersonalMixDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A3B9D7D382FE8812AEAE1B /* PersonalMixDetailViewModel.swift */; };
@@ -52,6 +56,7 @@
 		821088405FFDA80604E40FF1 /* article-basics.png in Resources */ = {isa = PBXBuildFile; fileRef = CB54F2E8FB1A4D4486ACCFC9 /* article-basics.png */; };
 		8406C5A53BB90ACCF336AA74 /* EntitlementsManifestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C33E045613DA5752F0DEA1 /* EntitlementsManifestTests.swift */; };
 		86BDC4EECCA0B627545C06B3 /* CollectionViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD76F97A0750BF0B577DACF /* CollectionViewModelTests.swift */; };
+		8A344582393652558E246ED4 /* mix-fresh-v2.png in Resources */ = {isa = PBXBuildFile; fileRef = D73009A0678B17E24DA68092 /* mix-fresh-v2.png */; };
 		8B49BD3079BBE1A4A1EBC01A /* AdminViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54050A29F39CA502C52A8E3E /* AdminViewModels.swift */; };
 		8C1E5EED5A2AD8494B0AD6CD /* InventoryMatchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D6EAEC1299C3980F91EF7A5 /* InventoryMatchService.swift */; };
 		909B77D7BA4A60F34D9DB010 /* AdminFormTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAC2BC48DF65FF26C823ACC /* AdminFormTests.swift */; };
@@ -74,9 +79,12 @@
 		BB60B1598AA0326D8B96921C /* MixRanking.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD42539F0561C72B2DFE42DB /* MixRanking.swift */; };
 		C3DF05F0E0DDEAD31BED1FFE /* mix-tropical.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5880F89FCBA0671A59B5F4 /* mix-tropical.png */; };
 		CA5B4ACFAC94EE2B99986F5C /* ArticlesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AC7BA6F07785FA6539AE5D /* ArticlesView.swift */; };
+		CFA762ACDFE18F2C03B82865 /* mix-spicy-v2.png in Resources */ = {isa = PBXBuildFile; fileRef = CD96B8377E0FBB50B718CEE2 /* mix-spicy-v2.png */; };
+		D1D5130B4A75DFCC656CE03A /* mix-beverage-v2.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A35777BCA1A1BE2FE2983E /* mix-beverage-v2.png */; };
 		D6A3E9A7FD60D45FFDF0B9C2 /* PublicFeatureViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FA0BCC43C2B3DDECB5E0B2E /* PublicFeatureViewModelTests.swift */; };
 		D8FB055B6173422E98B30615 /* MixDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEE99631AB239A2F87504DCC /* MixDetailViewModel.swift */; };
 		DAAA9806F461CDE462EC5324 /* Strings+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CFD3FA04FCF9117CEC6C3B /* Strings+Generated.swift */; };
+		DE3639A41B5BA8437670E7D2 /* mix-fruit-v2.png in Resources */ = {isa = PBXBuildFile; fileRef = 646A4771B0A2ACE39AABF7D6 /* mix-fruit-v2.png */; };
 		E0D7420C5C9E8726F7C28431 /* ArchitectureGuardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C34CA94F8C3331D5CDF5689A /* ArchitectureGuardTests.swift */; };
 		E124F9E8FBFD5F898FB75747 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1112A4760EC08908B9693E29 /* CollectionView.swift */; };
 		E859C88C2AA809465DCABFC1 /* article-heat.png in Resources */ = {isa = PBXBuildFile; fileRef = B7BBEDCA9D87B225D128E144 /* article-heat.png */; };
@@ -116,11 +124,13 @@
 		13F8A92337E80121363057B6 /* AppConfigBundleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigBundleTests.swift; sourceTree = "<group>"; };
 		1DB883D07C6CE1A93A41FF8E /* AccessibilityID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityID.swift; sourceTree = "<group>"; };
 		22E1E83D286572201E1B0766 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		243BD99A18F9403121C5240A /* mix-dessert-v2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mix-dessert-v2.png"; sourceTree = "<group>"; };
 		253CBF0B6EA27809C578D5BB /* PercentageDistributorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentageDistributorTests.swift; sourceTree = "<group>"; };
 		25AA0A267E580FB44FA9CD67 /* ProductMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductMetadataTests.swift; sourceTree = "<group>"; };
 		2ED9A36973AB2B8CF1AA8678 /* PrivacyManifestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyManifestTests.swift; sourceTree = "<group>"; };
 		3584771B70B7832E7425FF4F /* MixFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixFilterView.swift; sourceTree = "<group>"; };
 		36948AB54137B537BC4CD1D3 /* PersonalMixModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalMixModels.swift; sourceTree = "<group>"; };
+		36DFF971EEAF9AC7D1BE2AE7 /* mix-herbal-v2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mix-herbal-v2.png"; sourceTree = "<group>"; };
 		36E373A6EC292FBEE2605084 /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
 		3B6D2A39633B5381C77B67FE /* InventoryMatchViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryMatchViewModelTests.swift; sourceTree = "<group>"; };
 		3EB4330380900EFED07BB986 /* CollectionComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionComponents.swift; sourceTree = "<group>"; };
@@ -135,9 +145,12 @@
 		51BA2484A7DB93B79B0CC4A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5314F6EBE2CFC20ED024013D /* CreateMixModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMixModels.swift; sourceTree = "<group>"; };
 		54050A29F39CA502C52A8E3E /* AdminViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewModels.swift; sourceTree = "<group>"; };
-		58098A659657672CC273F18A /* HookahBoss.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HookahBoss.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		58098A659657672CC273F18A /* HookahBoss.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HookahBoss.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BD3FA6F0503D3D6C88E798E /* mix-citrus-v2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mix-citrus-v2.png"; sourceTree = "<group>"; };
+		5F8F22ECED2A42F9399F0943 /* mix-berry-v2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mix-berry-v2.png"; sourceTree = "<group>"; };
 		6136444B1EB2F83FAE642AC7 /* AuthCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCore.swift; sourceTree = "<group>"; };
 		6300DE45B08AD5D371275DBF /* HookahBossUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = HookahBossUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		646A4771B0A2ACE39AABF7D6 /* mix-fruit-v2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mix-fruit-v2.png"; sourceTree = "<group>"; };
 		65C30FF46F5BBE84C8946607 /* AuthGateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGateTests.swift; sourceTree = "<group>"; };
 		689E03403490A3839B1F2699 /* CreateMixView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMixView.swift; sourceTree = "<group>"; };
 		6BBD84C465E26424376F085E /* MixDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixDetailView.swift; sourceTree = "<group>"; };
@@ -157,6 +170,7 @@
 		91EF239986382910AB94A406 /* AppLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocalization.swift; sourceTree = "<group>"; };
 		9488ED534930A3A1546E4A3C /* HookahBossSmokeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HookahBossSmokeUITests.swift; sourceTree = "<group>"; };
 		94E0035677F775AB485BFE35 /* HookahBossTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = HookahBossTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		96A35777BCA1A1BE2FE2983E /* mix-beverage-v2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mix-beverage-v2.png"; sourceTree = "<group>"; };
 		99C33E045613DA5752F0DEA1 /* EntitlementsManifestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitlementsManifestTests.swift; sourceTree = "<group>"; };
 		9FA0BCC43C2B3DDECB5E0B2E /* PublicFeatureViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicFeatureViewModelTests.swift; sourceTree = "<group>"; };
 		A0FF5B7C8E2AFAE0E02E44B7 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
@@ -175,9 +189,11 @@
 		CAFC986F8BCCB42AA46AB2FF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		CB54F2E8FB1A4D4486ACCFC9 /* article-basics.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "article-basics.png"; sourceTree = "<group>"; };
 		CD2D0E92C635CF2B136AA426 /* CollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
+		CD96B8377E0FBB50B718CEE2 /* mix-spicy-v2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mix-spicy-v2.png"; sourceTree = "<group>"; };
 		CE18781059F4B7F08C8D22A9 /* PersonalMixDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalMixDetailView.swift; sourceTree = "<group>"; };
 		D17217AD5AC11624E0B1FD62 /* mix-dessert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mix-dessert.png"; sourceTree = "<group>"; };
 		D5C37D3A86A40C45A1C21938 /* SyncSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSupport.swift; sourceTree = "<group>"; };
+		D73009A0678B17E24DA68092 /* mix-fresh-v2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mix-fresh-v2.png"; sourceTree = "<group>"; };
 		DA58B1825E7190256D991476 /* article-safety.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "article-safety.png"; sourceTree = "<group>"; };
 		DA89494E0145529F58CF7ABB /* PersonalMixDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalMixDetailViewModelTests.swift; sourceTree = "<group>"; };
 		DF11E801F22041A5C6213625 /* AuthGateSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGateSheet.swift; sourceTree = "<group>"; };
@@ -185,7 +201,7 @@
 		E1E93D044B3A2FF45452A803 /* CreateMixViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMixViewModelTests.swift; sourceTree = "<group>"; };
 		EBBCA03EFD6A7C181E736A53 /* PublicContentStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicContentStoreTests.swift; sourceTree = "<group>"; };
 		ECAE1325323F5D7B25112F28 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		ED7FF428746853C0B1BCCFC5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		ED7FF428746853C0B1BCCFC5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		EEE99631AB239A2F87504DCC /* MixDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixDetailViewModel.swift; sourceTree = "<group>"; };
 		F087E9FC9D6F898F0CFC97BF /* UserDefaultsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsStore.swift; sourceTree = "<group>"; };
 		F788B13D95F3CC3C22EA61B3 /* mix-berry-citrus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mix-berry-citrus.png"; sourceTree = "<group>"; };
@@ -390,7 +406,15 @@
 				BEC2340E0101A5547A54BEEB /* article-preparation.png */,
 				DA58B1825E7190256D991476 /* article-safety.png */,
 				F788B13D95F3CC3C22EA61B3 /* mix-berry-citrus.png */,
+				5F8F22ECED2A42F9399F0943 /* mix-berry-v2.png */,
+				96A35777BCA1A1BE2FE2983E /* mix-beverage-v2.png */,
+				5BD3FA6F0503D3D6C88E798E /* mix-citrus-v2.png */,
+				243BD99A18F9403121C5240A /* mix-dessert-v2.png */,
 				D17217AD5AC11624E0B1FD62 /* mix-dessert.png */,
+				D73009A0678B17E24DA68092 /* mix-fresh-v2.png */,
+				646A4771B0A2ACE39AABF7D6 /* mix-fruit-v2.png */,
+				36DFF971EEAF9AC7D1BE2AE7 /* mix-herbal-v2.png */,
+				CD96B8377E0FBB50B718CEE2 /* mix-spicy-v2.png */,
 				8E5880F89FCBA0671A59B5F4 /* mix-tropical.png */,
 			);
 			path = Artwork;
@@ -604,6 +628,7 @@
 						TestTargetID = AD965C39EE30BC38BB6EEFB3;
 					};
 					AD965C39EE30BC38BB6EEFB3 = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					B8F01FAFC374C09374BA7EA1 = {
@@ -647,7 +672,15 @@
 				9BFA2438A295F583509467D4 /* article-preparation.png in Resources */,
 				4C6CDC672BAAD902CAD869E9 /* article-safety.png in Resources */,
 				B8CA9DE6664B4AEB97044C9D /* mix-berry-citrus.png in Resources */,
+				652BFEAE2F14BB4F57644331 /* mix-berry-v2.png in Resources */,
+				D1D5130B4A75DFCC656CE03A /* mix-beverage-v2.png in Resources */,
+				67CA661879B53B6C8F74B590 /* mix-citrus-v2.png in Resources */,
+				361AB15E9E229595616B3B0D /* mix-dessert-v2.png in Resources */,
 				F16E3E5E7F8D2A3B56D54EB8 /* mix-dessert.png in Resources */,
+				8A344582393652558E246ED4 /* mix-fresh-v2.png in Resources */,
+				DE3639A41B5BA8437670E7D2 /* mix-fruit-v2.png in Resources */,
+				038092CF8BF1AC164F42CAAB /* mix-herbal-v2.png in Resources */,
+				CFA762ACDFE18F2C03B82865 /* mix-spicy-v2.png in Resources */,
 				C3DF05F0E0DDEAD31BED1FFE /* mix-tropical.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -817,7 +850,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Q9WXSNT6UT;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HookahBoss/App/Configuration/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -922,7 +954,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = Q9WXSNT6UT;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HookahBoss/App/Configuration/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

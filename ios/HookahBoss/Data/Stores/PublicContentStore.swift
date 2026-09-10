@@ -134,10 +134,10 @@ extension MixPreview {
                   freshness: FlavorIntensity(rawValue: dto.freshness) ?? .subtle,
                   ingredients: dto.components.sorted { $0.position < $1.position }.map { MixIngredient(id: $0.productId, brand: $0.brand, line: $0.line, flavor: $0.flavor, percentage: $0.percentage) },
                   rating: dto.rating, ratingsCount: dto.ratingsCount, strength: strength,
-                  personalRating: nil, isFavorite: false, palette: .forProfiles(Set(dto.profiles.compactMap(FlavorProfile.init(rawValue:)))))
+                  personalRating: nil, isFavorite: false, palette: .forProfiles(Set(dto.profiles.compactMap(FlavorProfile.init(rawValue:))), seed: dto.id))
     }
     init(dto: OfficialMixDetailDTO) {
         let profiles=Set(dto.profiles.compactMap(FlavorProfile.init(rawValue:)))
-        self.init(id:dto.id,title:dto.title,flavorTags:dto.tags,flavorProfiles:profiles,sweetness:FlavorIntensity(rawValue:dto.sweetness) ?? .subtle,acidity:FlavorIntensity(rawValue:dto.acidity) ?? .subtle,freshness:FlavorIntensity(rawValue:dto.freshness) ?? .subtle,ingredients:dto.domainIngredients,rating:dto.rating,ratingsCount:dto.ratingsCount,strength:MixStrength(rawValue:dto.strength) ?? .medium,personalRating:nil,isFavorite:false,palette:.forProfiles(profiles))
+        self.init(id:dto.id,title:dto.title,flavorTags:dto.tags,flavorProfiles:profiles,sweetness:FlavorIntensity(rawValue:dto.sweetness) ?? .subtle,acidity:FlavorIntensity(rawValue:dto.acidity) ?? .subtle,freshness:FlavorIntensity(rawValue:dto.freshness) ?? .subtle,ingredients:dto.domainIngredients,rating:dto.rating,ratingsCount:dto.ratingsCount,strength:MixStrength(rawValue:dto.strength) ?? .medium,personalRating:nil,isFavorite:false,palette:.forProfiles(profiles,seed:dto.id))
     }
 }

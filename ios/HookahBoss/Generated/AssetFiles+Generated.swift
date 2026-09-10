@@ -22,8 +22,24 @@ internal enum AssetFiles {
   internal static let articleSafetyPng = File(name: "article-safety", ext: "png", relativePath: "", mimeType: "image/png")
   /// mix-berry-citrus.png
   internal static let mixBerryCitrusPng = File(name: "mix-berry-citrus", ext: "png", relativePath: "", mimeType: "image/png")
+  /// mix-berry-v2.png
+  internal static let mixBerryV2Png = File(name: "mix-berry-v2", ext: "png", relativePath: "", mimeType: "image/png")
+  /// mix-beverage-v2.png
+  internal static let mixBeverageV2Png = File(name: "mix-beverage-v2", ext: "png", relativePath: "", mimeType: "image/png")
+  /// mix-citrus-v2.png
+  internal static let mixCitrusV2Png = File(name: "mix-citrus-v2", ext: "png", relativePath: "", mimeType: "image/png")
   /// mix-dessert.png
   internal static let mixDessertPng = File(name: "mix-dessert", ext: "png", relativePath: "", mimeType: "image/png")
+  /// mix-dessert-v2.png
+  internal static let mixDessertV2Png = File(name: "mix-dessert-v2", ext: "png", relativePath: "", mimeType: "image/png")
+  /// mix-fresh-v2.png
+  internal static let mixFreshV2Png = File(name: "mix-fresh-v2", ext: "png", relativePath: "", mimeType: "image/png")
+  /// mix-fruit-v2.png
+  internal static let mixFruitV2Png = File(name: "mix-fruit-v2", ext: "png", relativePath: "", mimeType: "image/png")
+  /// mix-herbal-v2.png
+  internal static let mixHerbalV2Png = File(name: "mix-herbal-v2", ext: "png", relativePath: "", mimeType: "image/png")
+  /// mix-spicy-v2.png
+  internal static let mixSpicyV2Png = File(name: "mix-spicy-v2", ext: "png", relativePath: "", mimeType: "image/png")
   /// mix-tropical.png
   internal static let mixTropicalPng = File(name: "mix-tropical", ext: "png", relativePath: "", mimeType: "image/png")
 }
