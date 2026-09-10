@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: hookahboss
+      POSTGRES_USER: hookahboss
+      POSTGRES_PASSWORD: ${HOOKAHBOSS_POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hookahboss -d hookahboss"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    image: hookahboss-api:device-test
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://hookahboss:${HOOKAHBOSS_POSTGRES_PASSWORD}@postgres:5432/hookahboss
+      NODE_ENV: development
+      APPLE_PROVIDER_MODE: disabled
+      APPLE_CLIENT_ID: com.hookahboss.app
+      SESSION_TOKEN_SECRET: ${HOOKAHBOSS_SESSION_TOKEN_SECRET}
+      HOST: 0.0.0.0
+      PORT: 3000
+      LOG_LEVEL: info
+    ports:
+      - "127.0.0.1:3010:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

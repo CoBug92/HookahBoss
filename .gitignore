@@ -1,0 +1,27 @@
+# macOS and Xcode user state
+.DS_Store
+*.xcuserstate
+xcuserdata/
+DerivedData/
+.build/
+
+# Backend generated dependencies and build output
+backend/node_modules/
+backend/dist/
+backend/coverage/
+backend/reports/*.json
+!backend/reports/provenance-sources-live-2026-09-10-blackburn.json
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.p8
+*.pem
+*.key
+
+# Local deployment/runtime artifacts
+*.log
+*.xcresult
+*.ipa
+*.dSYM/

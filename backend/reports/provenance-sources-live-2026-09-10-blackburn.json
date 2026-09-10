@@ -1,0 +1,1044 @@
+{
+  "generatedAt": "2026-09-10T02:51:10.073Z",
+  "summary": {
+    "sourceKeys": 67,
+    "uniqueUrls": 64,
+    "passed": 64,
+    "failed": 0,
+    "semanticVerified": 34,
+    "reachabilityOnly": 30
+  },
+  "results": [
+    {
+      "url": "https://musthave.ru/category/tabak-dlya-kalyana/",
+      "keys": [
+        "musthave-catalog"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/category/tabak-dlya-kalyana/",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://darkside-world.com/products/catalog",
+      "keys": [
+        "darkside-catalog"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://darkside-world.com/products/catalog",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://element-tobacco.ru/tobacco",
+      "keys": [
+        "element-lines"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://element-tobacco.ru/tobacco",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://www.hookahportal.ru/tobaccos/element-zemlya",
+      "keys": [
+        "element-earth-catalog"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://www.hookahportal.ru/tobaccos/element-zemlya",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://www.brusko.ru/catalog/tobacco",
+      "keys": [
+        "brusko-official"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://www.brusko.ru/catalog/tobacco",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://hookahportal.ru/tobaccos/duft",
+      "keys": [
+        "duft-industry"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://hookahportal.ru/tobaccos/duft",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://hookahportal.ru/tobaccos/daily-hookah",
+      "keys": [
+        "daily-industry"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://hookahportal.ru/tobaccos/daily-hookah",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://chabacco.ru/product/chabacco",
+      "keys": [
+        "chabacco-official"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://chabacco.ru/product/chabacco",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://chabacco.ru/en",
+      "keys": [
+        "chabacco-strength"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://chabacco.ru/en",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://seberotobacco.com/",
+      "keys": [
+        "sebero-official"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://seberotobacco.com/",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://hookahportal.ru/tobaccos/sebero",
+      "keys": [
+        "sebero-industry"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://hookahportal.ru/tobaccos/sebero",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://hookahportal.ru/tobaccos/spectrum",
+      "keys": [
+        "spectrum-industry"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://hookahportal.ru/tobaccos/spectrum",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://bonche.ru/products",
+      "keys": [
+        "bonche-official"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://bonche.ru/products",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://hookahportal.ru/tobaccos/bonche",
+      "keys": [
+        "bonche-industry"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://hookahportal.ru/tobaccos/bonche",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://t.me/s/trydarkside/6233",
+      "keys": [
+        "darkside-telegram-catalog",
+        "ds-root-pack"
+      ],
+      "collections": [
+        "catalog",
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://t.me/s/trydarkside/6233",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://t.me/s/trydarkside/5757",
+      "keys": [
+        "darkside-telegram-catalog-5757",
+        "ds-liquidator-pack",
+        "ds-tea-battle"
+      ],
+      "collections": [
+        "catalog",
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://t.me/s/trydarkside/5757",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/tabak-dlya-kalyana-musthave-rocketman/",
+      "keys": [
+        "musthave-rocketman"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/tabak-dlya-kalyana-musthave-rocketman/",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/tabak-dlya-kalyana-musthave-strawberry-lychee/",
+      "keys": [
+        "musthave-strawberry-lychee"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/tabak-dlya-kalyana-musthave-strawberry-lychee/",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/category/tabak-dlya-kalyana/napitki/",
+      "keys": [
+        "musthave-drinks"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/category/tabak-dlya-kalyana/napitki/",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/tabak-dlya-kalyana-musthave-mandarin/",
+      "keys": [
+        "musthave-mandarin"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/tabak-dlya-kalyana-musthave-mandarin/",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/tabak-dlya-kalyana-musthave-cream-soda/",
+      "keys": [
+        "musthave-cream-soda"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/tabak-dlya-kalyana-musthave-cream-soda/",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://www.blckburn.com/taste",
+      "keys": [
+        "blackburn-official"
+      ],
+      "collections": [
+        "catalog"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://www.blckburn.com/taste",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/434/",
+      "keys": [
+        "musthave-mix-434"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/434/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/1133/",
+      "keys": [
+        "musthave-mix-1133"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/1133/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/1215/",
+      "keys": [
+        "musthave-mix-1215"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/1215/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/120/",
+      "keys": [
+        "musthave-mix-120"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/120/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/682/",
+      "keys": [
+        "musthave-mix-682"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/682/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/702/",
+      "keys": [
+        "musthave-mix-702"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/702/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/1116/",
+      "keys": [
+        "musthave-mix-1116"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/1116/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/700/",
+      "keys": [
+        "musthave-mix-700"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/700/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/457/",
+      "keys": [
+        "musthave-mix-457"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/457/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/103/",
+      "keys": [
+        "musthave-mix-103"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/103/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/1192/",
+      "keys": [
+        "musthave-mix-1192"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/1192/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/431/",
+      "keys": [
+        "musthave-mix-431"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/431/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/121/",
+      "keys": [
+        "musthave-mix-121"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/121/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/911/",
+      "keys": [
+        "musthave-mix-911"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/911/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/567/",
+      "keys": [
+        "musthave-mix-567"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/567/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/1485/",
+      "keys": [
+        "musthave-mix-1485"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/1485/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/648/",
+      "keys": [
+        "musthave-mix-648"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/648/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/581/",
+      "keys": [
+        "musthave-mix-581"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/581/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/467/",
+      "keys": [
+        "musthave-mix-467"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/467/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/809/",
+      "keys": [
+        "musthave-mix-809"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/809/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://darkside-world.com/products/mixbot/645005c4b905de05a5afe15e",
+      "keys": [
+        "ds-mixbot-lemonade"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://darkside-world.com/products/mixbot/645005c4b905de05a5afe15e",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://darkside-world.com/products/mixbot/6425b6dfb845831a7b5ffcd1",
+      "keys": [
+        "ds-mixbot-basil"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://darkside-world.com/products/mixbot/6425b6dfb845831a7b5ffcd1",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/1436/",
+      "keys": [
+        "musthave-mix-v3-1436"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/1436/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/267/",
+      "keys": [
+        "musthave-mix-v3-267"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/267/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/241/",
+      "keys": [
+        "musthave-mix-v3-241"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/241/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/1271/",
+      "keys": [
+        "musthave-mix-v3-1271"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/1271/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/1298/",
+      "keys": [
+        "musthave-mix-v3-1298"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/1298/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/1453/",
+      "keys": [
+        "musthave-mix-v3-1453"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/1453/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/1553/",
+      "keys": [
+        "musthave-mix-v3-1553"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/1553/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/935/",
+      "keys": [
+        "musthave-mix-v3-935"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/935/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/845/",
+      "keys": [
+        "musthave-mix-v3-845"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/845/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/503/",
+      "keys": [
+        "musthave-mix-v3-503"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/503/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/1389/",
+      "keys": [
+        "musthave-mix-v3-1389"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/1389/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/1172/",
+      "keys": [
+        "musthave-mix-v3-1172"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/1172/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/1473/",
+      "keys": [
+        "musthave-mix-v3-1473"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/1473/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://musthave.ru/showmixes/view/473/",
+      "keys": [
+        "musthave-mix-v3-473"
+      ],
+      "collections": [
+        "mix"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://musthave.ru/showmixes/view/473/",
+      "semanticStatus": "verified",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://www.cdc.gov/tobacco/other-tobacco-products/hookahs.html",
+      "keys": [
+        "cdc-hookah"
+      ],
+      "collections": [
+        "article"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://www.cdc.gov/tobacco/other-tobacco-products/hookahs.html",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://www.who.int/publications-detail-redirect/fact-sheet-waterpipe-tobacco-smoking-and-health",
+      "keys": [
+        "who-waterpipe"
+      ],
+      "collections": [
+        "article"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://www.who.int/publications-detail-redirect/fact-sheet-waterpipe-tobacco-smoking-and-health",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://www.nhs.uk/live-well/quit-smoking/paan-bidi-and-shisha-risks/",
+      "keys": [
+        "nhs-shisha"
+      ],
+      "collections": [
+        "article"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://www.nhs.uk/live-well/quit-smoking/paan-bidi-and-shisha-risks/",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://kaloud.com/pages/faq",
+      "keys": [
+        "kaloud-faq"
+      ],
+      "collections": [
+        "article"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://kaloud.com/pages/faq",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://kaloud.com/pages/instructions",
+      "keys": [
+        "kaloud-instructions"
+      ],
+      "collections": [
+        "article"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://kaloud.com/pages/instructions",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": []
+    },
+    {
+      "url": "https://darkside-world.com/academy/wiki",
+      "keys": [
+        "darkside-academy"
+      ],
+      "collections": [
+        "article"
+      ],
+      "ok": true,
+      "httpStatus": 200,
+      "attempts": 1,
+      "finalUrl": "https://darkside-world.com/academy/wiki",
+      "semanticStatus": "reachability_only",
+      "errors": [],
+      "warnings": [
+        "dynamic_shell_visible_text_short"
+      ]
+    }
+  ]
+}
