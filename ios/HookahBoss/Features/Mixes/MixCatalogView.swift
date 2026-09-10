@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct MixesView: View {
     @EnvironmentObject private var navigation: AppNavigation
@@ -19,13 +20,6 @@ struct MixesView: View {
         NavigationStack {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 16) {
-                    Text(L10n.Tab.mixes).font(.system(size: 36, weight: .bold, design: .serif)).tracking(-0.8)
-                    HStack(spacing: 9) {
-                        HStack { Image(systemName: "magnifyingglass").foregroundStyle(.secondary); TextField(L10n.Mix.search, text: $model.search) }
-                            .padding(.horizontal, 13).frame(height: 46).appCard(cornerRadius: 14)
-                        Button { filters = true } label: { Image(systemName: "slider.horizontal.3").font(.headline).foregroundStyle(.white).frame(width: 46, height: 46).background(AppTheme.gold, in: RoundedRectangle(cornerRadius: 14)) }
-                            .accessibilityLabel(Text(L10n.Filters.title)).accessibilityIdentifier("mix.filters")
-                    }
                     LazyVGrid(columns: columns, spacing: 12) {
                         ForEach(model.visibleMixes) { mix in
                             NavigationLink(value: mix) { MixCardView(mix: mix) }.buttonStyle(.plain)
@@ -34,7 +28,26 @@ struct MixesView: View {
                     }
                 }.padding(.horizontal, 16).padding(.bottom, 30)
             }
-            .background(AppTheme.background).toolbar(.hidden, for: .navigationBar)
+            .background(AppTheme.background)
+            .navigationTitle(L10n.Tab.mixes)
+            .navigationBarTitleDisplayMode(.large)
+            .searchable(
+                text: $model.search,
+                placement: .navigationBarDrawer(displayMode: .automatic),
+                prompt: L10n.Mix.search
+            )
+            .scrollDismissesKeyboard(.immediately)
+            .simultaneousGesture(TapGesture().onEnded { dismissKeyboard() })
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button { filters = true } label: {
+                        Image(systemName: "slider.horizontal.3")
+                    }
+                    .accessibilityLabel(Text(L10n.Filters.title))
+                    .accessibilityIdentifier("mix.filters")
+                }
+            }
+            .toolbarBackground(AppTheme.background, for: .navigationBar)
             .overlay { if model.isLoading && model.catalog.isEmpty { ProgressView().controlSize(.large) } }
             .refreshable { await model.refresh() }.task { await model.appear() }.onAppear { model.syncLibraryState() }
             .onAppear { presentRequestedFilters() }
@@ -49,6 +62,15 @@ struct MixesView: View {
         guard navigation.mixFiltersRequest > handledFiltersRequest else { return }
         handledFiltersRequest = navigation.mixFiltersRequest
         filters = true
+    }
+
+    private func dismissKeyboard() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil,
+            from: nil,
+            for: nil
+        )
     }
 }
 

@@ -93,6 +93,7 @@
 "flavor.raspberry" = "малина";
 "flavor.bergamot" = "бергамот";
 "mix.ratingsCount %lld" = "%lld оценок";
+"mix.noRatings" = "Нет оценок";
 "mix.strength" = "крепость";
 "mix.rate" = "Оценить";
 "mix.yourRating" = "ваша оценка";

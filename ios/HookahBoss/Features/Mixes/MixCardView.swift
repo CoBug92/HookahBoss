@@ -27,9 +27,10 @@ struct MixCardView: View {
                 FlavorCloud(tags: mix.flavorTags)
 
                 HStack {
-                    if let rating = mix.rating {
-                        Label(rating.formatted(.number.precision(.fractionLength(1))), systemImage: "star.fill")
-                    }
+                    Label(
+                        mix.rating?.formatted(.number.precision(.fractionLength(1))) ?? L10n.Mix.noRatings,
+                        systemImage: "star.fill"
+                    )
                     Spacer(minLength: 4)
                     Text(mix.strength.title)
                 }
@@ -56,12 +57,14 @@ struct MixCardView: View {
 
                     Spacer()
 
-                    Image(systemName: mix.isFavorite ? "heart.fill" : "heart")
-                        .font(.system(size: 18, weight: .medium))
-                        .foregroundStyle(.white)
-                        .frame(height: 27)
-                        .shadow(color: .black.opacity(0.5), radius: 3, y: 2)
-                        .accessibilityHidden(true)
+                    if mix.isFavorite {
+                        Image(systemName: "heart.fill")
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundStyle(.white)
+                            .frame(height: 27)
+                            .shadow(color: .black.opacity(0.5), radius: 3, y: 2)
+                            .accessibilityHidden(true)
+                    }
                 }
                 Spacer()
             }

@@ -93,6 +93,7 @@
 "flavor.raspberry" = "raspberry";
 "flavor.bergamot" = "bergamot";
 "mix.ratingsCount %lld" = "%lld ratings";
+"mix.noRatings" = "No ratings";
 "mix.strength" = "strength";
 "mix.rate" = "Rate";
 "mix.yourRating" = "your rating";

@@ -657,6 +657,8 @@ public enum L10n {
     public static let creamyCoffee = L10n.tr("Localizable", "mix.creamyCoffee", fallback: "Creamy Coffee")
     /// Forest Lemonade
     public static let forestLemonade = L10n.tr("Localizable", "mix.forestLemonade", fallback: "Forest Lemonade")
+    /// No ratings
+    public static let noRatings = L10n.tr("Localizable", "mix.noRatings", fallback: "No ratings")
     /// Percentages refer to the total bowl.
     public static let percentageNote = L10n.tr("Localizable", "mix.percentageNote", fallback: "Percentages refer to the total bowl.")
     /// Rate
