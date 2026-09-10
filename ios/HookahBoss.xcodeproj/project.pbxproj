@@ -23,7 +23,6 @@
 		3312F1F5EB36195FBBCBCAC2 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF84E5F6012A2FFECDFA2728 /* Models.swift */; };
 		34BAC78F018DB8F23A97A874 /* AuthGateSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF11E801F22041A5C6213625 /* AuthGateSheet.swift */; };
 		352DE4A7E2F06256D03D1BDC /* AssetFiles+Generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A5126A73528390F9A81B56 /* AssetFiles+Generated.swift */; };
-		35B9C5B9241882BA06F7DF07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = ADDEE9736252F30C57D0D7E6 /* InfoPlist.strings */; };
 		38E8725FCDCFFB526852BE66 /* InventoryMatchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 833E8C3BA51910984F79E91B /* InventoryMatchViewModel.swift */; };
 		41E81C52317EA2C6D0A60C27 /* AppConfigBundleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F8A92337E80121363057B6 /* AppConfigBundleTests.swift */; };
 		463E2C51067C84A15A89C988 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FF5B7C8E2AFAE0E02E44B7 /* AppConfig.swift */; };
@@ -86,7 +85,6 @@
 		F0C049534A8071B3198D792B /* PersonalMixDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA89494E0145529F58CF7ABB /* PersonalMixDetailViewModelTests.swift */; };
 		F16E3E5E7F8D2A3B56D54EB8 /* mix-dessert.png in Resources */ = {isa = PBXBuildFile; fileRef = D17217AD5AC11624E0B1FD62 /* mix-dessert.png */; };
 		F3777A49E3E4A68E86BA76A6 /* MixRankingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38D1E4AD9D9508D21BA8DB1 /* MixRankingTests.swift */; };
-		F3870C7CF1D49B5207399EEA /* ProductMetadataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AA0A267E580FB44FA9CD67 /* ProductMetadataTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,7 +115,6 @@
 		1DB883D07C6CE1A93A41FF8E /* AccessibilityID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityID.swift; sourceTree = "<group>"; };
 		22E1E83D286572201E1B0766 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		253CBF0B6EA27809C578D5BB /* PercentageDistributorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentageDistributorTests.swift; sourceTree = "<group>"; };
-		25AA0A267E580FB44FA9CD67 /* ProductMetadataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductMetadataTests.swift; sourceTree = "<group>"; };
 		2ED9A36973AB2B8CF1AA8678 /* PrivacyManifestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyManifestTests.swift; sourceTree = "<group>"; };
 		3584771B70B7832E7425FF4F /* MixFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixFilterView.swift; sourceTree = "<group>"; };
 		36948AB54137B537BC4CD1D3 /* PersonalMixModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalMixModels.swift; sourceTree = "<group>"; };
@@ -132,17 +129,15 @@
 		4A574D504DFB95ED8621C6C4 /* CreateMixService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMixService.swift; sourceTree = "<group>"; };
 		4A5E22B2A3CDB728AF532055 /* CreateMixViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMixViewModel.swift; sourceTree = "<group>"; };
 		50B558D1D48CB04541EC876B /* PersonalMixStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalMixStore.swift; sourceTree = "<group>"; };
-		51BA2484A7DB93B79B0CC4A5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5314F6EBE2CFC20ED024013D /* CreateMixModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMixModels.swift; sourceTree = "<group>"; };
 		54050A29F39CA502C52A8E3E /* AdminViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewModels.swift; sourceTree = "<group>"; };
-		58098A659657672CC273F18A /* HookahBoss.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = HookahBoss.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		58098A659657672CC273F18A /* HookahBoss.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HookahBoss.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6136444B1EB2F83FAE642AC7 /* AuthCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCore.swift; sourceTree = "<group>"; };
 		6300DE45B08AD5D371275DBF /* HookahBossUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = HookahBossUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		65C30FF46F5BBE84C8946607 /* AuthGateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGateTests.swift; sourceTree = "<group>"; };
 		689E03403490A3839B1F2699 /* CreateMixView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMixView.swift; sourceTree = "<group>"; };
 		6BBD84C465E26424376F085E /* MixDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixDetailView.swift; sourceTree = "<group>"; };
 		75AA2FB05D97F196056E9479 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
-		76286861141BC0505DBF9194 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7D6EAEC1299C3980F91EF7A5 /* InventoryMatchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryMatchService.swift; sourceTree = "<group>"; };
 		7DEE4A2B61B7A2BA2986CFDC /* AppNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigation.swift; sourceTree = "<group>"; };
 		7DF6A6B7CD9E448B18685405 /* SyncSupportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSupportTests.swift; sourceTree = "<group>"; };
@@ -185,7 +180,7 @@
 		E1E93D044B3A2FF45452A803 /* CreateMixViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMixViewModelTests.swift; sourceTree = "<group>"; };
 		EBBCA03EFD6A7C181E736A53 /* PublicContentStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicContentStoreTests.swift; sourceTree = "<group>"; };
 		ECAE1325323F5D7B25112F28 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		ED7FF428746853C0B1BCCFC5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		ED7FF428746853C0B1BCCFC5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		EEE99631AB239A2F87504DCC /* MixDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixDetailViewModel.swift; sourceTree = "<group>"; };
 		F087E9FC9D6F898F0CFC97BF /* UserDefaultsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsStore.swift; sourceTree = "<group>"; };
 		F788B13D95F3CC3C22EA61B3 /* mix-berry-citrus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mix-berry-citrus.png"; sourceTree = "<group>"; };
@@ -238,7 +233,6 @@
 		20E3472688DF880428B1069C /* Localization */ = {
 			isa = PBXGroup;
 			children = (
-				ADDEE9736252F30C57D0D7E6 /* InfoPlist.strings */,
 				8675E265D401B6B94A63264C /* Localizable.strings */,
 			);
 			path = Localization;
@@ -342,7 +336,6 @@
 				253CBF0B6EA27809C578D5BB /* PercentageDistributorTests.swift */,
 				DA89494E0145529F58CF7ABB /* PersonalMixDetailViewModelTests.swift */,
 				2ED9A36973AB2B8CF1AA8678 /* PrivacyManifestTests.swift */,
-				25AA0A267E580FB44FA9CD67 /* ProductMetadataTests.swift */,
 				EBBCA03EFD6A7C181E736A53 /* PublicContentStoreTests.swift */,
 				9FA0BCC43C2B3DDECB5E0B2E /* PublicFeatureViewModelTests.swift */,
 				7DF6A6B7CD9E448B18685405 /* SyncSupportTests.swift */,
@@ -603,10 +596,6 @@
 						DevelopmentTeam = "";
 						TestTargetID = AD965C39EE30BC38BB6EEFB3;
 					};
-					AD965C39EE30BC38BB6EEFB3 = {
-						DevelopmentTeam = "";
-						ProvisioningStyle = Automatic;
-					};
 					B8F01FAFC374C09374BA7EA1 = {
 						DevelopmentTeam = "";
 					};
@@ -639,7 +628,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35B9C5B9241882BA06F7DF07 /* InfoPlist.strings in Resources */,
 				5FFF0353822073672BDBE844 /* Localizable.strings in Resources */,
 				EE924C091EAA1A77A6946247 /* PrivacyInfo.xcprivacy in Resources */,
 				821088405FFDA80604E40FF1 /* article-basics.png in Resources */,
@@ -701,7 +689,6 @@
 				597823E8523527A8F78AE109 /* PercentageDistributorTests.swift in Sources */,
 				F0C049534A8071B3198D792B /* PersonalMixDetailViewModelTests.swift in Sources */,
 				B0C56B3402322D6881168B7D /* PrivacyManifestTests.swift in Sources */,
-				F3870C7CF1D49B5207399EEA /* ProductMetadataTests.swift in Sources */,
 				AF9EB31B4DAF2E0AD3F628B3 /* PublicContentStoreTests.swift in Sources */,
 				D6A3E9A7FD60D45FFDF0B9C2 /* PublicFeatureViewModelTests.swift in Sources */,
 				9F12718AA4130FD834502588 /* SyncSupportTests.swift in Sources */,
@@ -797,15 +784,6 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		ADDEE9736252F30C57D0D7E6 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				51BA2484A7DB93B79B0CC4A5 /* en */,
-				76286861141BC0505DBF9194 /* ru */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -816,14 +794,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = HookahBoss/App/Configuration/HookahBoss.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HookahBoss/App/Configuration/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixing;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.hookahboss;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -904,7 +884,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixing.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.hookahboss.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HookahBoss.app/HookahBoss";
@@ -918,14 +898,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = HookahBoss/App/Configuration/HookahBoss.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = HookahBoss/App/Configuration/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixing;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.hookahboss;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -999,7 +981,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixing.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.hookahboss.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HookahBoss.app/HookahBoss";
@@ -1016,7 +998,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixing.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.hookahboss.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = HookahBoss;
@@ -1033,7 +1015,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.mixing.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.kostyuchenko.hookahboss.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = HookahBoss;
