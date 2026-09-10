@@ -24,6 +24,18 @@ export async function archiveMissingBlackburnProducts(client: Pick<PoolClient,"q
   return result.rowCount ?? 0;
 }
 
+export async function archiveMissingDarksideProducts(client:Pick<PoolClient,"query">,present:Array<{lineSlug:string;productSlug:string}>):Promise<number>{
+  const sourceUrls=["https://darkside-world.com/products/brand/darkside","https://darkside-world.com/products/catalog","https://t.me/s/trydarkside/6233","https://t.me/s/trydarkside/5757"];
+  const result=await client.query(`UPDATE tobacco_products p SET status='archived',updated_at=now()
+    FROM tobacco_lines l,brands b,content_sources s
+    WHERE p.line_id=l.id AND l.brand_id=b.id AND p.source_id=s.id
+      AND b.slug='darkside' AND s.url=ANY($1::text[]) AND p.status<>'archived'
+      AND NOT EXISTS (SELECT 1 FROM unnest($2::text[],$3::text[]) current(line_slug,product_slug)
+        WHERE current.line_slug=l.slug AND current.product_slug=p.slug)`,
+    [sourceUrls,present.map(item=>item.lineSlug),present.map(item=>item.productSlug)]);
+  return result.rowCount??0;
+}
+
 export async function importCatalogSeed(databaseUrl: string): Promise<void> {
   const errors = validateCatalogSeed();
   if (errors.length) throw new Error(`Invalid catalog seed:\n${errors.join("\n")}`);
@@ -63,6 +75,8 @@ export async function importCatalogSeed(databaseUrl: string): Promise<void> {
     }
     const blackburn=brands.find(brand=>brand.slug==="blackburn");
     if(blackburn) await archiveMissingBlackburnProducts(client,blackburn.lines.flatMap(line=>line.products.map(product=>({lineSlug:line.slug,productSlug:product.slug}))));
+    const darkside=brands.find(brand=>brand.slug==="darkside");
+    if(darkside) await archiveMissingDarksideProducts(client,darkside.lines.flatMap(line=>line.products.map(product=>({lineSlug:line.slug,productSlug:product.slug}))));
     await client.query("COMMIT");
   } catch (error) {
     await client.query("ROLLBACK");

@@ -1,0 +1,19 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import {buildDarksideSnapshot,diffDarksideSnapshots,discoverDarksideRuntime,normalizeDarksideTags,renderDarksideSnapshot} from "../src/darksideRefresh.js";
+import {loadDarksidePages} from "../src/refreshDarkside.js";
+import {archiveMissingDarksideProducts} from "../src/db/importCatalogSeed.js";
+
+const brandId="64077e63d3e3abe4a6ce3d6a";
+const source={pageUrl:"https://darkside-world.com/products/brand/darkside",catalogUrl:"https://darkside-world.com/products/catalog",apiUrl:"https://official.example/ext_api/v1/flavors",brandId,accessedAt:"2026-09-10",verifiedAt:"2026-09-10",publisher:"DARKSIDE" as const};
+const product=(id:string,title:string,slug=title.toLowerCase())=>({id,title,friendlyUrl:slug,description:"Официальное описание",brand:{id:brandId,title:"DARKSIDE"},tags:["лимон"],categories:["Цитрусы"],strength:2,price:999,img:"media.jpg",available:true});
+
+test("discovers API and DARKSIDE brand id only from one official runtime",()=>{const html='apiServer:"https://official.example",apiAccessToken:"public-client-token"',bundle=`label:"DARKSIDE",value:"${brandId}"`;assert.deepEqual(discoverDarksideRuntime(html,[bundle]),{apiBase:"https://official.example",accessToken:"public-client-token",brandId});assert.throws(()=>discoverDarksideRuntime(html,[bundle,bundle.replace(brandId,"111111111111111111111111")]),/one official/) });
+
+test("loads every declared DARKSIDE page with official brand filtering",async()=>{const calls:string[]=[];let firstApi=true;const html='<script src="/products/_nuxt/catalog.js"></script><script>apiServer:"https://official.example",apiAccessToken:"public-client-token"</script>';const fetcher=async(url:string)=>{calls.push(url);if(url.includes("brand/darkside"))return new Response(html);if(url.endsWith("catalog.js"))return new Response(`label:"DARKSIDE",value:"${brandId}"`);if(firstApi){firstApi=false;return new Response("retry",{status:503})}const page=Number(new URL(url).searchParams.get("page"));return new Response(JSON.stringify({data:{page,totalPages:2,totalDocs:3,docs:page===1?[product("1","A"),product("2","B")]:[product("3","C")]}}))};const loaded=await loadDarksidePages(fetcher);assert.equal(loaded.pages.length,2);assert(calls.some(url=>url.includes(`brand=${brandId}`)));assert.equal(calls.filter(url=>url.includes("/flavors?")).length,3)});
+
+test("snapshot is deterministic and excludes commerce availability and media",()=>{const snapshot=buildDarksideSnapshot([{page:1,totalPages:1,totalDocs:1,docs:[product("1","KALEE GRAPEFRUIT 2.0","kalee-grapefruit-2-0")]}],source);assert.equal(snapshot.products[0]?.slug,"kalee-grapefruit-2");const rendered=renderDarksideSnapshot(snapshot);for(const forbidden of ["price","999","media.jpg","available"])assert(!rendered.includes(forbidden));assert.deepEqual(diffDarksideSnapshots(snapshot,snapshot),{added:[],changed:[],removed:[],unclassified:[]})});
+
+test("classification uses official tags and keeps cooling distinct from mint",()=>{assert.deepEqual(normalizeDarksideTags(["ментол"]),["cooling"]);assert.deepEqual(normalizeDarksideTags(["мята"]),["mint"]);assert.throws(()=>buildDarksideSnapshot([{page:1,totalPages:1,totalDocs:1,docs:[{...product("1","Unknown"),tags:["новый_неизвестный"]}]}],source),/Unknown official/)});
+
+test("DARKSIDE archival query is source scoped and never deletes",async()=>{let sql="",values:unknown[]=[];const client={query:async(text:string,args?:unknown[])=>{sql=text;values=args??[];return{rowCount:2,rows:[]}}};assert.equal(await archiveMissingDarksideProducts(client as never,[{lineSlug:"core",productSlug:"lemonblast"}]),2);assert.match(sql,/UPDATE tobacco_products/);assert.doesNotMatch(sql,/DELETE/i);assert.match(sql,/b\.slug='darkside'/);assert.match(sql,/s\.url=ANY/);assert.equal((values[0] as string[]).length,4)});

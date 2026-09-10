@@ -11,6 +11,7 @@ backend/dist/
 backend/coverage/
 backend/reports/*.json
 !backend/reports/provenance-sources-live-2026-09-10-blackburn.json
+!backend/reports/provenance-sources-live-2026-09-10-darkside.json
 
 # Local configuration and credentials
 .env

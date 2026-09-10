@@ -9,7 +9,13 @@ test("provider credential encryption is authenticated and versioned",()=>{
   const envelope=cipher.encrypt("provider-refresh-secret");
   assert.notEqual(envelope,"provider-refresh-secret");
   assert.equal(cipher.decrypt(envelope,"v1"),"provider-refresh-secret");
-  assert.throws(()=>cipher.decrypt(envelope.slice(0,-1)+"x","v1"));
+  const parts=envelope.split(".");
+  const tamperedTag=Buffer.from(parts[1]!,"base64url");
+  tamperedTag[0]^=0x01;
+  parts[1]=tamperedTag.toString("base64url");
+  const tamperedEnvelope=parts.join(".");
+  assert.notEqual(tamperedEnvelope,envelope);
+  assert.throws(()=>cipher.decrypt(tamperedEnvelope,"v1"));
   assert.throws(()=>cipher.decrypt(envelope,"v2"));
 });
 

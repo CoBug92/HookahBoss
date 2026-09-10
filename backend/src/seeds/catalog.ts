@@ -5,6 +5,7 @@ import { mixSupportBrands } from "../../seeds/catalog-mix-support-v1.js";
 import { mixSupportBrandsV2, mixSupportSourcesV2 } from "../../seeds/catalog-mix-support-v2.js";
 import { mixSupportBrandsV3, mixSupportSourcesV3 } from "../../seeds/catalog-mix-support-v3.js";
 import { blackburnSnapshot } from "../../seeds/blackburn-generated.js";
+import { darksideSnapshot } from "../../seeds/darkside-generated.js";
 
 const blackburnSource = {
   key: "blackburn-official", url: blackburnSnapshot.source.pageUrl,
@@ -27,8 +28,21 @@ export const blackburnBrand: SeedBrand = {
   }))
 };
 
-export const allCatalogBrands = [...brands, ...brandsV2.filter(brand => brand.slug !== "blackburn"), ...brandsV3, ...mixSupportBrands, ...mixSupportBrandsV2, ...mixSupportBrandsV3, blackburnBrand];
-export const allCatalogSources = [...sources, ...sourcesV2.filter(source => !["blackburn-official", "blackburn-industry"].includes(source.key)), ...sourcesV3, ...mixSupportSourcesV2, ...mixSupportSourcesV3, blackburnSource];
+const darksideSource = {
+  key:"darkside-official",url:darksideSnapshot.source.pageUrl,title:"DARKSIDE official full flavor catalog",publisher:darksideSnapshot.source.publisher,
+  accessedAt:darksideSnapshot.source.accessedAt,verifiedAt:darksideSnapshot.source.verifiedAt,confidence:"high" as const,
+  notes:`Official product page and catalog; ${darksideSnapshot.source.apiUrl} and brand id were discovered from the public Nuxt runtime. Commerce, availability and media fields are excluded.`
+};
+const previousDarkside=mixSupportBrandsV2.find(brand=>brand.slug==="darkside");
+const officialDarksideSlugs=new Set(darksideSnapshot.products.map(product=>product.slug));
+const retainedReferencedProducts=previousDarkside?.lines.flatMap(line=>line.products).filter(product=>!officialDarksideSlugs.has(product.slug))??[];
+export const darksideBrand:SeedBrand={slug:"darkside",name:"DARKSIDE",sourceKey:darksideSource.key,lines:[{slug:"core",name:"Core",strength:"medium",sourceKey:darksideSource.key,products:[
+  ...darksideSnapshot.products.map(product=>({slug:product.slug,nameRu:product.title,nameEn:product.title,descriptionRu:product.descriptionRu,translationOrigin:"official" as const,sourceKey:darksideSource.key,tags:product.tags,sweetness:product.sweetness,acidity:product.acidity,freshness:product.freshness})),
+  ...retainedReferencedProducts
+]}]};
+
+export const allCatalogBrands = [...brands.filter(brand=>brand.slug!=="darkside"), ...brandsV2.filter(brand => brand.slug !== "blackburn"), ...brandsV3, ...mixSupportBrands, ...mixSupportBrandsV2.filter(brand=>brand.slug!=="darkside"), ...mixSupportBrandsV3, blackburnBrand,darksideBrand];
+export const allCatalogSources = [...sources.filter(source=>source.key!=="darkside-catalog"), ...sourcesV2.filter(source => !["blackburn-official", "blackburn-industry"].includes(source.key)), ...sourcesV3, ...mixSupportSourcesV2, ...mixSupportSourcesV3, blackburnSource,darksideSource];
 
 const nonblank = (value: unknown): value is string => typeof value === "string" && value.trim().length > 0;
 
