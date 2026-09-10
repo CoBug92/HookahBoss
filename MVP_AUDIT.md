@@ -93,7 +93,7 @@
 | Требование | Evidence | Статус |
 |---|---|---|
 | Public contract hardening | Public mixes/matching exclude unpublished dependencies; matching locale is used; malformed catalog/inventory UUIDs return 400; article nullable storage is normalized to non-null DTOs; inventory upsert returns display metadata | proven by `app.test.ts`/`personal.test.ts` regression paths; backend 60/60 |
-| Node/TypeScript/PostgreSQL/Docker Compose | `backend/package.json`, migrations, `docker-compose.yml` | proven locally; VDS deployment missing |
+| Node/TypeScript/PostgreSQL/Docker Compose | `backend/package.json`, migrations, `docker-compose.yml`, `compose.device-test.yaml` | proven locally; isolated VDS device-test API and PostgreSQL are healthy, and the public HTTPS tunnel passes `/health` plus live mixes/products/articles smoke checks |
 | Apple JWKS signature/iss/aud/exp/iat/cache refresh | `backend/src/auth.ts`; `auth-core.test.ts` | proven fixture tests; live Apple JWKS/production credentials not exercised |
 | Short access + rotated hashed refresh, reuse revoke | migrations `005`, auth services/routes; `auth-core.test.ts`; actor-held refresh task; concurrent runtime single-flight test | proven |
 | Ratings/favorites/library sync optimistic + rollback/outbox | personal routes, `AuthRuntime`; `SyncSupportTests` | proven deterministic logic |
@@ -132,8 +132,8 @@ The `fresh` profile is propagated through the database constraint, private-produ
 
 The owner/input/validation handoff for these gates is maintained in [`RELEASE_CHECKLIST.md`](RELEASE_CHECKLIST.md).
 
-- Runtime unit XCTest: 72/72 passed from the production-structured project (`/private/tmp/hb-prod-tests3/Logs/Test/Test-HookahBoss-2026.09.10_12-13-27-+0300.xcresult`), including ViewModel behavior and strict architecture guards. The app, unit and UI-test targets also pass `build-for-testing`. The post-refactor combined XCUITest suite passed 4/4 (`/private/tmp/hb-prod-ui/Logs/Test/Test-HookahBoss-2026.09.10_12-19-08-+0300.xcresult`): age EN, anonymous EN light, anonymous RU dark and anonymous EN accessibility XXXL. VoiceOver announcements and screenshot-level device clipping still require a manual pass.
-- `external blocker`: production VDS deployment and a real HTTPS `HOOKAHBOSS_RELEASE_API_BASE_URL` are not configured.
+- Runtime XCTest: 106/106 unit and architecture tests plus 7/7 XCUITests passed on iPhone 15 Pro / iOS 17.5 Simulator. The generic `iphoneos` arm64 Debug target also builds successfully with signing disabled; its bundle contains both `ru.lproj` and `en.lproj` and the verified device-test HTTPS API URL. VoiceOver announcements and screenshot-level clipping still require a manual pass on a physical device.
+- `external blocker`: the isolated VDS device-test deployment is live, but a stable production HTTPS `HOOKAHBOSS_RELEASE_API_BASE_URL` is not configured; the Debug Quick Tunnel URL is temporary by design.
 - `external blocker`: live Sign in with Apple exchange/revoke requires signing/team/App ID and real Apple credentials. Implementation and local fixtures exist, but production Apple endpoints require staging smoke.
 - `external blocker`: App Store age-rating questionnaire, distribution strategy and review risk under Guideline 1.4.3 cannot be proven by repository tests.
 - `missing by explicit deferral`: final product name, icon and distribution choice.
