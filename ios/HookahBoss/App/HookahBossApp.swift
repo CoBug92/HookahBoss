@@ -4,10 +4,12 @@ import SwiftUI
 struct HookahBossApp: App {
     @AppStorage("hasConfirmedAdultAge") private var hasConfirmedAdultAge = false
     private let testAgeOverride: Bool?
+    private let showsPersonalMixFixture: Bool
 
     init() {
         #if DEBUG
         let process=ProcessInfo.processInfo
+        showsPersonalMixFixture = process.arguments.contains("--ui-test-personal-mix-detail")
         if process.arguments.contains("--ui-test-age-gate") {
             testAgeOverride = false
         } else if process.arguments.contains("--ui-test-bypass-age") {
@@ -17,13 +19,18 @@ struct HookahBossApp: App {
         } else { testAgeOverride = nil }
         #else
         testAgeOverride = nil
+        showsPersonalMixFixture = false
         #endif
     }
 
     var body: some Scene {
         WindowGroup {
             Group {
-                if testAgeOverride ?? hasConfirmedAdultAge {
+                if showsPersonalMixFixture {
+                    NavigationStack {
+                        PersonalMixDetailView(model: PersonalMixDetailViewModel(mix: .uiTestFixture))
+                    }
+                } else if testAgeOverride ?? hasConfirmedAdultAge {
                     RootView()
                 } else {
                     AgeConfirmationView {
@@ -35,6 +42,39 @@ struct HookahBossApp: App {
         }
     }
 }
+
+#if DEBUG
+private extension PersonalMixRecord {
+    static let uiTestFixture = PersonalMixRecord(
+        id: UUID(uuidString: "30000000-0000-0000-0000-000000000001")!,
+        title: "Tropical Test Mix",
+        components: [
+            PersonalMixComponentRecord(
+                id: UUID(uuidString: "31000000-0000-0000-0000-000000000001")!,
+                source: .catalog,
+                sourceID: "product-1",
+                brand: "DARKSIDE",
+                line: "Core",
+                flavor: "Mango",
+                percentage: 60,
+                flavorProfiles: ["fruit"]
+            ),
+            PersonalMixComponentRecord(
+                id: UUID(uuidString: "31000000-0000-0000-0000-000000000002")!,
+                source: .personal,
+                sourceID: "private-1",
+                brand: "Home",
+                line: nil,
+                flavor: "Lime",
+                percentage: 40,
+                flavorProfiles: ["citrus"]
+            )
+        ],
+        createdAt: .distantPast,
+        isApproximate: false
+    )
+}
+#endif
 
 private struct RootView: View {
     @StateObject private var auth = AuthRuntime()

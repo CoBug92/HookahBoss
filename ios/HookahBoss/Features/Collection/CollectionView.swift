@@ -24,10 +24,10 @@ struct CollectionView: View {
         NavigationStack {
             List {
                 Section { HStack(spacing:12) {
-                    NavigationLink(value:CollectionSection.favorites){counter(title:"favorite.title",value:String(model.favoriteMixIDs.count),icon:"heart.fill")}.buttonStyle(.plain)
+                    NavigationLink(value:CollectionSection.favorites){counter(title:L10n.Collection.favorites,value:String(model.favoriteMixIDs.count),icon:"heart.fill")}.buttonStyle(.plain)
                     NavigationLink(value:CollectionSection.personal){counter(title:L10n.Collection.personalMixes,value:String(model.personalMixes.count),icon:"square.stack.3d.up.fill")}.buttonStyle(.plain)
                 }.listRowInsets(EdgeInsets()) }
-                if !model.personalMixes.isEmpty { Section(L10n.Collection.personalMixes) { ForEach(model.personalMixes) { mix in personalRow(mix) } } }
+                if !model.personalMixes.isEmpty { Section(L10n.Collection.personalMixes) { ForEach(model.personalMixes) { mix in NavigationLink { PersonalMixDetailView(model: PersonalMixDetailViewModel(mix: mix)) } label: { personalRow(mix) } } } }
                 Section {
                     if model.inventory.isEmpty { Label(L10n.Inventory.empty,systemImage:"shippingbox").foregroundStyle(.secondary) }
                     ForEach(model.inventory.prefix(5)) { item in InventoryRow(item:item,isExpanded:model.expandedItemID==item.id) {
@@ -51,7 +51,7 @@ struct CollectionView: View {
             .alert(L10n.Account.Delete.ProviderUnavailable.title,isPresented:$model.showProviderUnavailable){Button(L10n.Common.close){} }message:{Text(L10n.Account.Delete.ProviderUnavailable.message)}
             .navigationDestination(for:MixPreview.self){MixDetailView(model:makeMixDetail($0))}
             .navigationDestination(isPresented:Binding(get:{navigation.collectionDestination == .inventoryResults},set:{if !$0{navigation.collectionDestination=nil}})){InventoryMixResultsView(model:makeMatches())}
-            .navigationDestination(for:CollectionSection.self){section in switch section{case .favorites:MixCollectionGrid(mixes:model.favoriteMixes,title:"favorite.title");case .personal:PersonalMixList(mixes:model.personalMixes);case .inventory:InventoryFullList(model:model)}}
+            .navigationDestination(for:CollectionSection.self){section in switch section{case .favorites:MixCollectionGrid(mixes:model.favoriteMixes,title:L10n.Collection.favorites);case .personal:PersonalMixList(mixes:model.personalMixes);case .inventory:InventoryFullList(model:model)}}
         }
     }
 
@@ -61,10 +61,10 @@ struct CollectionView: View {
 
 private struct SignedOutCollectionView:View {
     @ObservedObject var model:CollectionViewModel
-    var body:some View { NavigationStack { List { placeholder(L10n.Collection.personalMixes,action:.personal);placeholder(L10n.Inventory.title,action:.inventory);placeholder("favorite.title",action:.favorite) }.navigationTitle(L10n.Tab.collection).appScreenBackground() }.accessibilityIdentifier("screen.mySignedOut") }
+    var body:some View { NavigationStack { List { placeholder(L10n.Collection.personalMixes,action:.personal);placeholder(L10n.Inventory.title,action:.inventory);placeholder(L10n.Collection.favorites,action:.favorite) }.navigationTitle(L10n.Tab.collection).appScreenBackground() }.accessibilityIdentifier("screen.mySignedOut") }
     private func placeholder(_ title:String,action:ProtectedAction)->some View { Section(title) { Button { model.requestAccess(action) {} } label:{ HStack { RoundedRectangle(cornerRadius:8).fill(.secondary.opacity(0.12)).frame(width:42,height:42);VStack(alignment:.leading){RoundedRectangle(cornerRadius:3).fill(.secondary.opacity(0.16)).frame(height:12);RoundedRectangle(cornerRadius:3).fill(.secondary.opacity(0.1)).frame(width:120,height:9)} }.redacted(reason:.placeholder) }.buttonStyle(.plain) } }
 }
 
 private enum CollectionSection:Hashable{case favorites,personal,inventory}
-private struct MixCollectionGrid:View{let mixes:[MixPreview];let title:LocalizedStringKey;let columns=[GridItem(.flexible()),GridItem(.flexible())];var body:some View{ScrollView{LazyVGrid(columns:columns,spacing:10){ForEach(mixes){mix in NavigationLink(value:mix){MixCardView(mix:mix)}.buttonStyle(.plain)}}.padding()}.background(AppTheme.background).navigationTitle(title)}}
-private struct PersonalMixList:View{let mixes:[PersonalMixRecord];var body:some View{List(mixes){mix in HStack(spacing:12){PersonalMixArtwork(mix:mix).frame(width:58,height:58);VStack(alignment:.leading,spacing:4){Text(mix.title ?? L10n.Collection.untitledMix);Text(L10n.Collection.componentsLld(mix.components.count)).font(.caption).foregroundStyle(.secondary);if mix.isApproximate == true{Label(L10n.PersonalMix.approximate,systemImage:"approximately").font(.caption2).foregroundStyle(AppTheme.gold)}}}.listRowBackground(AppTheme.card)}.navigationTitle(L10n.Collection.personalMixes).appScreenBackground()}}
+private struct MixCollectionGrid:View{let mixes:[MixPreview];let title:String;let columns=[GridItem(.flexible()),GridItem(.flexible())];var body:some View{ScrollView{LazyVGrid(columns:columns,spacing:10){ForEach(mixes){mix in NavigationLink(value:mix){MixCardView(mix:mix)}.buttonStyle(.plain)}}.padding()}.background(AppTheme.background).navigationTitle(title)}}
+private struct PersonalMixList:View{let mixes:[PersonalMixRecord];var body:some View{List(mixes){mix in NavigationLink { PersonalMixDetailView(model: PersonalMixDetailViewModel(mix: mix)) } label: { HStack(spacing:12){PersonalMixArtwork(mix:mix).frame(width:58,height:58);VStack(alignment:.leading,spacing:4){Text(mix.title ?? L10n.Collection.untitledMix);Text(L10n.Collection.componentsLld(mix.components.count)).font(.caption).foregroundStyle(.secondary);if mix.isApproximate == true{Label(L10n.PersonalMix.approximate,systemImage:"approximately").font(.caption2).foregroundStyle(AppTheme.gold)}}} }.listRowBackground(AppTheme.card)}.navigationTitle(L10n.Collection.personalMixes).appScreenBackground()}}

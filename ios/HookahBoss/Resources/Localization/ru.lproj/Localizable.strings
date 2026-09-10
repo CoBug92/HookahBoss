@@ -193,6 +193,7 @@
 "create.error.total100" = "Если проценты заполнены у всех компонентов, сумма должна быть равна 100.";
 "create.error.remainder" = "Оставшегося процента недостаточно для автоматического распределения.";
 "collection.personalMixes" = "Личные миксы";
+"collection.favorites" = "Избранное";
 "collection.untitledMix" = "Микс без названия";
 "collection.components %lld" = "%lld компонентов";
 "articles.subtitle" = "Практические материалы от редакции";

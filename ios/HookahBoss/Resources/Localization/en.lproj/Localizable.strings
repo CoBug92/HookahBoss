@@ -193,6 +193,7 @@
 "create.error.total100" = "When every percentage is entered, the total must equal 100.";
 "create.error.remainder" = "The remaining percentage is too small for automatic distribution.";
 "collection.personalMixes" = "Personal mixes";
+"collection.favorites" = "Favorites";
 "collection.untitledMix" = "Untitled mix";
 "collection.components %lld" = "%lld components";
 "articles.subtitle" = "Practical guides from the editorial team";

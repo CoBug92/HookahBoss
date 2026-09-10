@@ -387,6 +387,8 @@ public enum L10n {
     public static func componentsLld(_ p1: Int) -> String {
       return L10n.tr("Localizable", "collection.components %lld", p1, fallback: "%lld components")
     }
+    /// Favorites
+    public static let favorites = L10n.tr("Localizable", "collection.favorites", fallback: "Favorites")
     /// Personal mixes
     public static let personalMixes = L10n.tr("Localizable", "collection.personalMixes", fallback: "Personal mixes")
     /// Untitled mix

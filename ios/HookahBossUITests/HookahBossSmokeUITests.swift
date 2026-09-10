@@ -32,6 +32,18 @@ final class HookahBossSmokeUITests:XCTestCase {
         app.tabBars.buttons["My"].tap();if element(app,"auth.sheet").waitForExistence(timeout:2){let dismiss=app.buttons["Cancel"];XCTAssertTrue(scrollToHittable(dismiss,in:app));dismiss.tap()};XCTAssertTrue(element(app,"screen.mySignedOut").waitForExistence(timeout:5));XCTAssertFalse(app.buttons["admin.entry"].exists)
     }
 
+    func testPersonalMixDetailFixture() {
+        let app = launch(language: "en", dark: false)
+        app.terminate()
+        app.launchArguments.append("--ui-test-personal-mix-detail")
+        app.launch()
+        XCTAssertTrue(element(app, "screen.personalMixDetail").waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Tropical Test Mix"].exists)
+        XCTAssertTrue(element(app, "personalMix.composition").exists)
+        XCTAssertTrue(app.staticTexts["Mango"].exists)
+        XCTAssertTrue(app.staticTexts["60%"].exists)
+    }
+
     private func runAnonymousSmoke(language:String,mixes:String,articles:String,create:String,my:String,cancel:String,dark:Bool=false,file:StaticString=#filePath,line:UInt=#line) {
         let app=launch(language:language,dark:dark)
         XCTAssertTrue(element(app,"screen.home").waitForExistence(timeout:5),file:file,line:line)
