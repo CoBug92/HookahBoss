@@ -22,9 +22,6 @@ struct PersonalMixDetailView: View {
                         }
                     }
                     .accessibilityIdentifier(AccessibilityID.personalMixComposition)
-                    Text(L10n.Mix.percentageNote)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
                 }
                 .padding(.horizontal, 20)
             }

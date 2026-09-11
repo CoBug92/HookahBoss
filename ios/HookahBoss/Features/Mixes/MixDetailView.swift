@@ -117,9 +117,6 @@ struct MixDetailView: View {
                     }
                 }
 
-                Text(L10n.Mix.percentageNote)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
             }
         }
         .padding(.horizontal, 18)
