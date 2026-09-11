@@ -4,6 +4,18 @@ set -eu
 TOOL_DIRECTORY="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 . "$TOOL_DIRECTORY/../common.sh"
 
+ENV_FILE="$SCRIPTS_DIRECTORY/.env"
+if [ -f "$ENV_FILE" ]; then
+    set -a
+    . "$ENV_FILE"
+    set +a
+fi
+
+if [ -z "${TEAM_ID:-}" ]; then
+    printf 'TEAM_ID must be set in %s or the environment.\n' "$ENV_FILE" >&2
+    exit 1
+fi
+
 actual_version="$(xcodegen --version | awk '{print $2}')"
 if [ "$actual_version" != "2.46.0" ]; then
     printf 'Expected XcodeGen 2.46.0, found %s\n' "$actual_version" >&2
