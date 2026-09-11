@@ -17,7 +17,8 @@ struct MixDetailView: View {
         .coordinateSpace(name: "mixDetailScroll")
         .background(AppTheme.background)
         .ignoresSafeArea(edges: .top)
-        .toolbar(.hidden, for: .navigationBar)
+        .navigationBarBackButtonHidden(true)
+        .toolbarBackground(.hidden, for: .navigationBar)
         .background(InteractivePopGestureEnabler())
         .sheet(isPresented: $isRatingPresented) {
             RatingSheet(selection: Binding(
