@@ -17,8 +17,11 @@ struct MixDetailView: View {
         .coordinateSpace(name: "mixDetailScroll")
         .background(AppTheme.background)
         .ignoresSafeArea(edges: .top)
+        .navigationTitle(displayedMix.title)
+        .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbarBackground(.hidden, for: .navigationBar)
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .background(InteractivePopGestureEnabler())
         .sheet(isPresented: $isRatingPresented) {
             RatingSheet(selection: Binding(
@@ -44,21 +47,13 @@ struct MixDetailView: View {
             }
 
             LinearGradient(
-                colors: [.clear, .black.opacity(0.12), .black.opacity(0.82)],
+                stops: [
+                    .init(color: .black.opacity(0.36), location: 0),
+                    .init(color: .clear, location: 0.42)
+                ],
                 startPoint: .top,
                 endPoint: .bottom
             )
-
-            VStack(alignment: .leading, spacing: 10) {
-                Text(displayedMix.title)
-                    .font(.system(size: 42, weight: .bold, design: .serif))
-                    .tracking(-1.2)
-                    .lineLimit(2)
-                FlavorCloud(tags: displayedMix.flavorTags)
-            }
-            .foregroundStyle(.white)
-            .padding(.horizontal, 22)
-                .padding(.bottom, 44)
 
             VStack {
                 HStack {
