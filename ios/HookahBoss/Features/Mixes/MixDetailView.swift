@@ -1,5 +1,6 @@
 import SwiftUI
 struct MixDetailView: View {
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var model:MixDetailViewModel
     @State private var isRatingPresented = false
 
@@ -20,8 +21,21 @@ struct MixDetailView: View {
         .navigationTitle(displayedMix.title)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
-        .toolbarBackground(.hidden, for: .navigationBar)
-        .toolbarColorScheme(.dark, for: .navigationBar)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button { dismiss() } label: { Image(systemName: "chevron.left") }
+                    .accessibilityLabel(Text(L10n.Common.back))
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button { model.requestFavoriteToggle() } label: {
+                    Image(systemName: model.isFavorite ? "heart.fill" : "heart")
+                }
+                .accessibilityLabel(Text(model.isFavorite ? L10n.Favorite.remove : L10n.Favorite.add))
+                .accessibilityValue(Text(model.isFavorite ? L10n.Accessibility.selected:L10n.Accessibility.notSelected))
+            }
+        }
+        .toolbarBackground(AppTheme.background, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .background(InteractivePopGestureEnabler())
         .sheet(isPresented: $isRatingPresented) {
             RatingSheet(selection: Binding(
@@ -55,25 +69,6 @@ struct MixDetailView: View {
                 endPoint: .bottom
             )
 
-            VStack {
-                HStack {
-                    NavigationBackButton()
-                    Spacer()
-                    Button {
-                        model.requestFavoriteToggle()
-                    } label: {
-                        Image(systemName: model.isFavorite ? "heart.fill" : "heart")
-                            .font(.system(size: 27, weight: .medium))
-                            .foregroundStyle(.white)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(Text(model.isFavorite ? L10n.Favorite.remove : L10n.Favorite.add))
-                    .accessibilityValue(Text(model.isFavorite ? L10n.Accessibility.selected:L10n.Accessibility.notSelected))
-                }
-                Spacer()
-            }
-            .padding(.horizontal, 20)
-            .padding(.top, 58)
         }
         .frame(height: 410)
     }
@@ -325,21 +320,5 @@ struct MixArtwork: View {
         }
         .clipped()
         .accessibilityHidden(true)
-    }
-}
-
-private struct NavigationBackButton: View {
-    @Environment(\.dismiss) private var dismiss
-
-    var body: some View {
-        Button { dismiss() } label: {
-            Image(systemName: "chevron.left")
-                .font(.headline)
-                .foregroundStyle(.white)
-                .frame(width: 40, height: 40)
-                .background(.black.opacity(0.28), in: Circle())
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(Text(L10n.Common.back))
     }
 }
