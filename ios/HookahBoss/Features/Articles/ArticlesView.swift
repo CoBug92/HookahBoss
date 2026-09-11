@@ -13,17 +13,17 @@ struct ArticlesView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVStack(alignment: .leading, spacing: 22) {
+                LazyVStack(alignment: .leading, spacing: 18) {
                     HStack(alignment: .center) {
                         Text(L10n.Tab.articles)
-                            .font(.system(size: 36, weight: .bold, design: .serif))
-                            .tracking(-0.8)
+                            .font(.system(size: 30, weight: .bold, design: .serif))
+                            .tracking(-0.5)
                         Spacer()
                         NavigationLink(value: ArticleDestination.bookmarks) {
                             Image(systemName: "bookmark")
                                 .font(.title3.weight(.semibold))
                                 .foregroundStyle(AppTheme.gold)
-                                .frame(width: 44, height: 44)
+                                .frame(width: 36, height: 36)
                         }
                         .accessibilityLabel(Text(L10n.Articles.bookmarks))
                     }
@@ -38,7 +38,7 @@ struct ArticlesView: View {
                             }
                         }
                     }
-                    .contentMargins(.trailing, 18, for: .scrollContent)
+                    .contentMargins(.trailing, 12, for: .scrollContent)
 
                     AppSectionHeader(title: L10n.Articles.recommended)
 
@@ -59,7 +59,10 @@ struct ArticlesView: View {
                             )
                         }
                     }
-                }.padding(18)
+                }
+                .padding(.horizontal, 15)
+                .padding(.top, 12)
+                .padding(.bottom, 20)
             }
             .overlay { if model.isLoading && model.articles.isEmpty { ProgressView() } }
             .refreshable { await model.refresh() }.task { await model.appear() }
@@ -81,14 +84,23 @@ private enum ArticleDestination: Hashable { case bookmarks }
 private struct CategoryCard: View {
     let category: ArticleCategory; let count: Int
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Image(systemName: category.icon).font(.title2).foregroundStyle(AppTheme.gold)
-            Text(category.title).font(.headline)
-            Text(L10n.Articles.countLld(count)).font(.caption).foregroundStyle(.secondary)
+        VStack(alignment: .leading, spacing: 0) {
+            Image(systemName: category.icon)
+                .font(.system(size: 19, weight: .medium))
+                .foregroundStyle(AppTheme.gold)
+            Spacer(minLength: 6)
+            Text(category.title)
+                .font(.system(size: 12, weight: .semibold))
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+            Text(L10n.Articles.countLld(count))
+                .font(.system(size: 9))
+                .foregroundStyle(.secondary)
+                .padding(.top, 3)
         }
-        .frame(width: 116, height: 96, alignment: .leading)
-        .padding(14)
-        .appCard(cornerRadius: 17)
+        .padding(12)
+        .frame(width: 112, height: 92, alignment: .leading)
+        .appCard(cornerRadius: 16)
     }
 }
 
@@ -98,29 +110,34 @@ private struct ArticleEditorialGrid: View {
     let toggle: (ArticleDTO) -> Void
 
     var body: some View {
-        HStack(spacing: 10) {
-            if let article = articles.first {
-                ArticleEditorialCard(
-                    article: article,
-                    bookmarked: isBookmarked(article),
-                    height: 190,
-                    prominent: true,
-                    toggle: { toggle(article) }
-                )
-            }
-            VStack(spacing: 10) {
-                ForEach(Array(articles.dropFirst().prefix(2))) { article in
+        GeometryReader { proxy in
+            let availableWidth = proxy.size.width - 10
+            HStack(spacing: 10) {
+                if let article = articles.first {
                     ArticleEditorialCard(
                         article: article,
                         bookmarked: isBookmarked(article),
-                        height: 90,
-                        prominent: false,
+                        height: 184,
+                        prominent: true,
                         toggle: { toggle(article) }
                     )
+                    .frame(width: availableWidth * 0.57)
                 }
+                VStack(spacing: 10) {
+                    ForEach(Array(articles.dropFirst().prefix(2))) { article in
+                        ArticleEditorialCard(
+                            article: article,
+                            bookmarked: isBookmarked(article),
+                            height: 87,
+                            prominent: false,
+                            toggle: { toggle(article) }
+                        )
+                    }
+                }
+                .frame(width: availableWidth * 0.43)
             }
-            .frame(maxWidth: .infinity)
         }
+        .frame(height: 184)
     }
 }
 
@@ -150,6 +167,8 @@ private struct ArticleEditorialCard: View {
                     }
                     .padding(prominent ? 14 : 10)
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
 
@@ -159,7 +178,8 @@ private struct ArticleEditorialCard: View {
                     Button(action: toggle) {
                         Image(systemName: bookmarked ? "bookmark.fill" : "bookmark")
                             .foregroundStyle(.white)
-                            .frame(width: 36, height: 36)
+                            .font(.system(size: prominent ? 15 : 13, weight: .semibold))
+                            .frame(width: 32, height: 32)
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel(Text(L10n.Articles.bookmarks))
@@ -171,6 +191,7 @@ private struct ArticleEditorialCard: View {
         .frame(maxWidth: .infinity)
         .frame(height: height)
         .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .clipped()
     }
 }
 
