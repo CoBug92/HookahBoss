@@ -135,6 +135,16 @@ enum MixPalette: CaseIterable, Hashable {
     case herbal
     case spicy
     case fresh
+    case tropicalCooler
+    case forestBerry
+    case peachTea
+    case watermelonMint
+    case cherrySpice
+    case applePastry
+    case grapeSoda
+    case coconutVanilla
+    case cucumberTonic
+    case pomegranateCitrus
 
     static func forProfiles(_ profiles:Set<FlavorProfile>)->Self {
         if profiles.contains(.dessert) { return .dessert }
@@ -151,7 +161,9 @@ enum MixPalette: CaseIterable, Hashable {
         let available = profiles.sorted { $0.rawValue < $1.rawValue }
         guard !available.isEmpty else { return .tropical }
         let checksum = seed.uuidString.utf8.reduce(0) { ($0 + Int($1)) % Int.max }
-        return palette(for: available[checksum % available.count])
+        let profile = available[checksum % available.count]
+        let variants = palettes(for: profile)
+        return variants[(checksum / max(1, available.count)) % variants.count]
     }
 
     private static func palette(for profile: FlavorProfile) -> Self {
@@ -164,6 +176,19 @@ enum MixPalette: CaseIterable, Hashable {
         case .herbal: .herbal
         case .spicy: .spicy
         case .fresh: .fresh
+        }
+    }
+
+    private static func palettes(for profile: FlavorProfile) -> [Self] {
+        switch profile {
+        case .berry: [.berry, .forestBerry, .cherrySpice, .pomegranateCitrus]
+        case .fruit: [.tropical, .tropicalCooler, .peachTea, .watermelonMint, .applePastry]
+        case .citrus: [.citrus, .tropicalCooler, .watermelonMint, .pomegranateCitrus]
+        case .dessert: [.dessert, .applePastry, .coconutVanilla]
+        case .beverage: [.beverage, .peachTea, .grapeSoda, .cucumberTonic]
+        case .herbal: [.herbal, .cucumberTonic, .watermelonMint]
+        case .spicy: [.spicy, .cherrySpice, .applePastry]
+        case .fresh: [.fresh, .watermelonMint, .cucumberTonic, .grapeSoda]
         }
     }
 }

@@ -11,6 +11,16 @@ enum ArtworkResource {
         case .herbal: AssetFiles.mixHerbalV2Png
         case .spicy: AssetFiles.mixSpicyV2Png
         case .fresh: AssetFiles.mixFreshV2Png
+        case .tropicalCooler: AssetFiles.mixTropicalCoolerV1Png
+        case .forestBerry: AssetFiles.mixForestBerryV1Png
+        case .peachTea: AssetFiles.mixPeachTeaV1Png
+        case .watermelonMint: AssetFiles.mixWatermelonMintV1Png
+        case .cherrySpice: AssetFiles.mixCherrySpiceV1Png
+        case .applePastry: AssetFiles.mixApplePastryV1Png
+        case .grapeSoda: AssetFiles.mixGrapeSodaV1Png
+        case .coconutVanilla: AssetFiles.mixCoconutVanillaV1Png
+        case .cucumberTonic: AssetFiles.mixCucumberTonicV1Png
+        case .pomegranateCitrus: AssetFiles.mixPomegranateCitrusV1Png
         }
         return load(file)
     }

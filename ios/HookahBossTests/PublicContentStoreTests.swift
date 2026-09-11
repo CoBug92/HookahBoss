@@ -48,12 +48,12 @@ final class PublicContentStoreTests: XCTestCase {
     func testRichDetailMapsProfilesStrengthAndIntensities() {
         let dto=OfficialMixDetailDTO(id:UUID(),slug:"dessert",title:"Dessert",summary:"Summary",rating:4.5,ratingsCount:2,components:[],tags:["Cream"],profiles:["dessert"],sweetness:"pronounced",acidity:"subtle",freshness:"subtle",strength:"strong")
         let mix=MixPreview(dto:dto)
-        XCTAssertEqual(mix.flavorProfiles,[.dessert]);XCTAssertEqual(mix.palette,.dessert);XCTAssertEqual(mix.strength,.strong);XCTAssertEqual(mix.sweetness,.pronounced)
+        XCTAssertEqual(mix.flavorProfiles,[.dessert]);XCTAssertTrue([.dessert,.applePastry,.coconutVanilla].contains(mix.palette));XCTAssertEqual(mix.strength,.strong);XCTAssertEqual(mix.sweetness,.pronounced)
     }
     func testRichDetailRetainsFreshProfile() {
         let dto=OfficialMixDetailDTO(id:UUID(),slug:"iceberg",title:"Iceberg",summary:"Cooling",rating:4,ratingsCount:1,components:[],tags:["Cooling"],profiles:["fresh"],sweetness:"subtle",acidity:"subtle",freshness:"pronounced",strength:"medium")
         let mix=MixPreview(dto:dto)
-        XCTAssertEqual(mix.flavorProfiles,[.fresh]);XCTAssertEqual(mix.palette,.fresh)
+        XCTAssertEqual(mix.flavorProfiles,[.fresh]);XCTAssertTrue([.fresh,.watermelonMint,.cucumberTonic,.grapeSoda].contains(mix.palette))
     }
     func testMixMergesDuplicateBrandAndFlavorAndBuildsCloudFromComposition() {
         let firstID = UUID(), secondID = UUID()
