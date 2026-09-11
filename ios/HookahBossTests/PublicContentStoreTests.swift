@@ -55,6 +55,25 @@ final class PublicContentStoreTests: XCTestCase {
         let mix=MixPreview(dto:dto)
         XCTAssertEqual(mix.flavorProfiles,[.fresh]);XCTAssertEqual(mix.palette,.fresh)
     }
+    func testMixMergesDuplicateBrandAndFlavorAndBuildsCloudFromComposition() {
+        let firstID = UUID(), secondID = UUID()
+        let dto = OfficialMixDetailDTO(
+            id: UUID(), slug: "duplicate", title: "Duplicate", summary: nil, rating: nil, ratingsCount: 0,
+            components: [
+                .init(productId: firstID, brand: "Musthave", line: "Original", flavor: "Pineapple", percentage: 20, position: 1),
+                .init(productId: secondID, brand: " musthave ", line: "Original", flavor: "pineapple", percentage: 30, position: 2),
+                .init(productId: UUID(), brand: "Darkside", line: "Core", flavor: "Lemon", percentage: 50, position: 3)
+            ],
+            tags: ["Unrelated server tag"], profiles: ["fruit"], sweetness: "subtle", acidity: "subtle", freshness: "subtle", strength: "medium"
+        )
+
+        let mix = MixPreview(dto: dto)
+
+        XCTAssertEqual(mix.ingredients.count, 2)
+        XCTAssertEqual(mix.ingredients.first?.id, firstID)
+        XCTAssertEqual(mix.ingredients.first?.percentage, 50)
+        XCTAssertEqual(mix.flavorTags, ["Pineapple", "Lemon"])
+    }
     @MainActor func testMapsNetworkSnapshotAndRestoresItWhenOffline() async {
         let cache = MemoryPublicCache()
         let online = PublicContentStore(client: APIClient(baseURL: URL(string: "https://example.test")!, transport: FixtureTransport(offline: false)), cache: cache)

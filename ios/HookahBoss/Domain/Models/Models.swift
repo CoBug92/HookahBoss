@@ -15,6 +15,24 @@ struct MixPreview: Identifiable, Hashable {
     let personalRating: Int?
     let isFavorite: Bool
     let palette: MixPalette
+
+    init(id: UUID, title: String, flavorTags: [String], flavorProfiles: Set<FlavorProfile>, sweetness: FlavorIntensity, acidity: FlavorIntensity, freshness: FlavorIntensity, ingredients: [MixIngredient], rating: Double?, ratingsCount: Int, strength: MixStrength, personalRating: Int?, isFavorite: Bool, palette: MixPalette) {
+        let ingredients = ingredients.mergingDuplicateProducts()
+        self.id = id
+        self.title = title
+        self.flavorTags = ingredients.isEmpty ? flavorTags.uniqueValues() : ingredients.map(\.flavor).uniqueValues()
+        self.flavorProfiles = flavorProfiles
+        self.sweetness = sweetness
+        self.acidity = acidity
+        self.freshness = freshness
+        self.ingredients = ingredients
+        self.rating = rating
+        self.ratingsCount = ratingsCount
+        self.strength = strength
+        self.personalRating = personalRating
+        self.isFavorite = isFavorite
+        self.palette = palette
+    }
 }
 extension MixPreview {
     func personalized(rating:Int?,favorite:Bool)->MixPreview { .init(id:id,title:title,flavorTags:flavorTags,flavorProfiles:flavorProfiles,sweetness:sweetness,acidity:acidity,freshness:freshness,ingredients:ingredients,rating:self.rating,ratingsCount:ratingsCount,strength:strength,personalRating:rating,isFavorite:favorite,palette:palette) }
@@ -65,6 +83,36 @@ struct MixIngredient: Identifiable, Hashable {
 
     var brandAndLine: String {
         [brand, line].compactMap { $0 }.joined(separator: " · ")
+    }
+}
+
+private extension Array where Element == MixIngredient {
+    func mergingDuplicateProducts() -> [MixIngredient] {
+        var result: [MixIngredient] = []
+        var indexByProduct: [String: Int] = [:]
+        for ingredient in self {
+            let key = [ingredient.brand, ingredient.flavor]
+                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines).folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current) }
+                .joined(separator: "\u{0}")
+            if let index = indexByProduct[key] {
+                let existing = result[index]
+                result[index] = MixIngredient(id: existing.id, brand: existing.brand, line: existing.line ?? ingredient.line, flavor: existing.flavor, percentage: existing.percentage + ingredient.percentage)
+            } else {
+                indexByProduct[key] = result.count
+                result.append(ingredient)
+            }
+        }
+        return result
+    }
+}
+
+private extension Array where Element == String {
+    func uniqueValues() -> [String] {
+        var seen: Set<String> = []
+        return filter {
+            let key = $0.trimmingCharacters(in: .whitespacesAndNewlines).folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current)
+            return !key.isEmpty && seen.insert(key).inserted
+        }
     }
 }
 

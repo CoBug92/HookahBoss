@@ -14,9 +14,11 @@ struct MixDetailView: View {
                 details.offset(y:-22)
             }
         }
+        .coordinateSpace(name: "mixDetailScroll")
         .background(AppTheme.background)
         .ignoresSafeArea(edges: .top)
         .toolbar(.hidden, for: .navigationBar)
+        .background(InteractivePopGestureEnabler())
         .sheet(isPresented: $isRatingPresented) {
             RatingSheet(selection: Binding(
                 get: { model.personalRating },
@@ -33,8 +35,12 @@ struct MixDetailView: View {
 
     private var cover: some View {
         ZStack(alignment: .bottomLeading) {
-            MixArtwork(palette: displayedMix.palette)
-                .frame(height: 410)
+            GeometryReader { proxy in
+                let offset = proxy.frame(in: .named("mixDetailScroll")).minY
+                MixArtwork(palette: displayedMix.palette)
+                    .frame(height: 410 + max(offset, 0))
+                    .offset(y: offset > 0 ? -offset : -offset * 0.28)
+            }
 
             LinearGradient(
                 colors: [.clear, .black.opacity(0.12), .black.opacity(0.82)],
@@ -74,6 +80,7 @@ struct MixDetailView: View {
             .padding(.top, 58)
         }
         .frame(height: 410)
+        .clipped()
     }
 
     private var details: some View {
@@ -107,7 +114,7 @@ struct MixDetailView: View {
 
                 ScrollView(.horizontal,showsIndicators:false) { HStack(alignment: .top, spacing: 10) {
                     ForEach(displayedMix.ingredients) { ingredient in
-                        IngredientCard(ingredient: ingredient, palette: displayedMix.palette)
+                        IngredientCard(ingredient: ingredient)
                     }
                 }.padding(.vertical,2) }
 
@@ -134,35 +141,44 @@ struct MixDetailView: View {
 
 private struct IngredientCard: View {
     let ingredient: MixIngredient
-    let palette: MixPalette
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            ZStack(alignment: .topLeading) {
-                MixArtwork(palette: palette)
-                    .frame(height: 44)
-                Text("\(ingredient.percentage)%")
-                    .font(.caption.weight(.bold))
-                    .foregroundStyle(.white)
-                    .padding(8)
-            }
+        VStack(alignment: .leading, spacing: 10) {
+            Text("\(ingredient.percentage)%")
+                .font(.title2.weight(.bold))
+                .foregroundStyle(AppTheme.gold)
+
+            Divider()
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(ingredient.brandAndLine.uppercased())
-                    .font(.system(size: 9, weight: .medium))
+                    .font(.caption2.weight(.medium))
                     .tracking(0.4)
                     .foregroundStyle(.secondary)
                     .lineLimit(2)
                 Text(ingredient.flavor)
-                    .font(.caption.weight(.semibold))
+                    .font(.subheadline.weight(.semibold))
                     .lineLimit(2)
             }
-            .padding(9)
-            .frame(maxWidth: .infinity, minHeight: 72, alignment: .topLeading)
+            .frame(maxWidth: .infinity, alignment: .topLeading)
         }
+        .padding(14)
         .frame(width: 145)
+        .frame(minHeight: 132, alignment: .topLeading)
         .background(AppTheme.card)
         .clipShape(RoundedRectangle(cornerRadius: 17, style: .continuous))
+    }
+}
+
+private struct InteractivePopGestureEnabler: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController { UIViewController() }
+
+    func updateUIViewController(_ viewController: UIViewController, context: Context) {
+        DispatchQueue.main.async {
+            guard let navigationController = viewController.navigationController else { return }
+            navigationController.interactivePopGestureRecognizer?.isEnabled = navigationController.viewControllers.count > 1
+            navigationController.interactivePopGestureRecognizer?.delegate = nil
+        }
     }
 }
 
