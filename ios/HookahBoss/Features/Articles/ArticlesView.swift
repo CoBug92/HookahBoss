@@ -138,32 +138,34 @@ private struct CategoryCard: View {
 
 private struct ArticleEditorialGrid: View {
     let articles: [ArticleDTO]
+    private let gridHeight: CGFloat = 258
+    private let spacing: CGFloat = 10
 
     var body: some View {
         GeometryReader { proxy in
-            let availableWidth = proxy.size.width - 10
-            HStack(spacing: 10) {
+            let availableWidth = proxy.size.width - spacing
+            HStack(alignment: .top, spacing: spacing) {
                 if let article = articles.first {
                     ArticleEditorialCard(
                         article: article,
-                        height: 184,
+                        height: gridHeight,
                         prominent: true
                     )
-                    .frame(width: availableWidth * 0.57)
+                    .frame(width: availableWidth * 0.56)
                 }
-                VStack(spacing: 10) {
+                VStack(spacing: spacing) {
                     ForEach(Array(articles.dropFirst().prefix(2))) { article in
                         ArticleEditorialCard(
                             article: article,
-                            height: 87,
+                            height: (gridHeight - spacing) / 2,
                             prominent: false
                         )
                     }
                 }
-                .frame(width: availableWidth * 0.43)
+                .frame(width: availableWidth * 0.44)
             }
         }
-        .frame(height: 184)
+        .frame(height: gridHeight)
     }
 }
 
@@ -195,14 +197,14 @@ private struct ArticleEditorialCard: View {
                         .minimumScaleFactor(0.86)
                 }
                 .padding(prominent ? 16 : 12)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
             }
             .frame(maxWidth: .infinity)
             .frame(height: height)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .clipShape(RoundedRectangle(cornerRadius: prominent ? 21 : 18, style: .continuous))
     }
 
     private var editorialMeta: String {
