@@ -37,7 +37,7 @@ enum ArtworkResource {
     }
 
     static func image(for article: ArticleDTO) -> UIImage? {
-        let resource = switch article.slug {
+        let resource: String? = switch article.slug {
         case "hookah-components": "article-hookah-components-v1"
         case "first-session-checklist": "article-first-session-checklist-v1"
         case "building-a-mix": "article-building-a-mix-v1"

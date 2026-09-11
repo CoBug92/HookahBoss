@@ -18,10 +18,16 @@ internal enum AssetFiles {
   internal static let appIconMixeryV3MinimalPng = File(name: "AppIcon-Mixery-v3-minimal", ext: "png", relativePath: "", mimeType: "image/png")
   /// article-basics.png
   internal static let articleBasicsPng = File(name: "article-basics", ext: "png", relativePath: "", mimeType: "image/png")
+  /// article-building-a-mix-v1.png
+  internal static let articleBuildingAMixV1Png = File(name: "article-building-a-mix-v1", ext: "png", relativePath: "", mimeType: "image/png")
   /// article-care.png
   internal static let articleCarePng = File(name: "article-care", ext: "png", relativePath: "", mimeType: "image/png")
+  /// article-first-session-checklist-v1.png
+  internal static let articleFirstSessionChecklistV1Png = File(name: "article-first-session-checklist-v1", ext: "png", relativePath: "", mimeType: "image/png")
   /// article-heat.png
   internal static let articleHeatPng = File(name: "article-heat", ext: "png", relativePath: "", mimeType: "image/png")
+  /// article-hookah-components-v1.png
+  internal static let articleHookahComponentsV1Png = File(name: "article-hookah-components-v1", ext: "png", relativePath: "", mimeType: "image/png")
   /// article-preparation.png
   internal static let articlePreparationPng = File(name: "article-preparation", ext: "png", relativePath: "", mimeType: "image/png")
   /// article-safety.png
