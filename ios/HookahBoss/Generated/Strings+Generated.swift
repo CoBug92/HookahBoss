@@ -725,6 +725,14 @@ public enum L10n {
     public static let medium = L10n.tr("Localizable", "strength.medium", fallback: "Medium")
     /// Strong
     public static let strong = L10n.tr("Localizable", "strength.strong", fallback: "Strong")
+    public enum Detail {
+      /// Light
+      public static let light = L10n.tr("Localizable", "strength.detail.light", fallback: "Light")
+      /// Medium
+      public static let medium = L10n.tr("Localizable", "strength.detail.medium", fallback: "Medium")
+      /// Strong
+      public static let strong = L10n.tr("Localizable", "strength.detail.strong", fallback: "Strong")
+    }
   }
   public enum Tab {
     /// Articles

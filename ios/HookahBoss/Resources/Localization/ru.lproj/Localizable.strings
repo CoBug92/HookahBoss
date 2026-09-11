@@ -86,6 +86,9 @@
 "strength.light" = "Лёгкий";
 "strength.medium" = "Средний";
 "strength.strong" = "Крепкий";
+"strength.detail.light" = "Лёгкая";
+"strength.detail.medium" = "Средняя";
+"strength.detail.strong" = "Крепкая";
 "flavor.mango" = "манго";
 "flavor.passionFruit" = "маракуйя";
 "flavor.cool" = "холод";

@@ -80,7 +80,6 @@ struct MixDetailView: View {
             .padding(.top, 58)
         }
         .frame(height: 410)
-        .clipped()
     }
 
     private var details: some View {
@@ -88,17 +87,17 @@ struct MixDetailView: View {
             HStack(spacing: 0) {
                 MetricView(
                     value: displayedMix.rating.map { "★ " + $0.formatted(.number.precision(.fractionLength(1))) } ?? "—",
-                    caption: L10n.Mix.ratingsCountLld(displayedMix.ratingsCount)
+                    caption: displayedMix.ratingsCount > 0 ? L10n.Mix.ratingsCountLld(displayedMix.ratingsCount) : nil
                 )
                 Divider().frame(height: 34)
-                MetricView(value: displayedMix.strength.title, caption: L10n.Mix.strength)
+                MetricView(value: displayedMix.strength.detailTitle, caption: L10n.Mix.strength)
                 Divider().frame(height: 34)
                 Button {
                     model.requestRating { isRatingPresented = true }
                 } label: {
                     MetricView(
                         value: personalRatingValue,
-                        caption: L10n.Mix.yourRating,
+                        caption: nil,
                         emphasized: model.personalRating == nil
                     )
                 }
@@ -112,11 +111,11 @@ struct MixDetailView: View {
                     .font(.title3.weight(.semibold))
                     .accessibilityIdentifier(AccessibilityID.mixComposition)
 
-                ScrollView(.horizontal,showsIndicators:false) { HStack(alignment: .top, spacing: 10) {
+                LazyVGrid(columns: ingredientColumns, spacing: 10) {
                     ForEach(displayedMix.ingredients) { ingredient in
                         IngredientCard(ingredient: ingredient)
                     }
-                }.padding(.vertical,2) }
+                }
 
                 Text(L10n.Mix.percentageNote)
                     .font(.caption)
@@ -129,6 +128,9 @@ struct MixDetailView: View {
         .background(AppTheme.background, in: UnevenRoundedRectangle(topLeadingRadius:28,topTrailingRadius:28))
     }
     private var displayedMix:MixPreview { model.displayedMix }
+    private var ingredientColumns: [GridItem] {
+        [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)]
+    }
     private var personalRatingValue: String {
         guard let rating = model.personalRating else { return L10n.Mix.rate }
         return "★ \(rating)"
@@ -163,8 +165,7 @@ private struct IngredientCard: View {
             .frame(maxWidth: .infinity, alignment: .topLeading)
         }
         .padding(14)
-        .frame(width: 145)
-        .frame(minHeight: 132, alignment: .topLeading)
+        .frame(maxWidth: .infinity, minHeight: 132, alignment: .topLeading)
         .background(AppTheme.card)
         .clipShape(RoundedRectangle(cornerRadius: 17, style: .continuous))
     }
@@ -184,7 +185,7 @@ private struct InteractivePopGestureEnabler: UIViewControllerRepresentable {
 
 private struct MetricView: View {
     let value: String
-    let caption: String
+    let caption: String?
     var emphasized = false
 
     var body: some View {
@@ -194,11 +195,13 @@ private struct MetricView: View {
                 .foregroundStyle(emphasized ? AppTheme.gold : Color.primary)
                 .lineLimit(1)
                 .minimumScaleFactor(0.75)
-            Text(caption)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.75)
+            if let caption {
+                Text(caption)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
+            }
         }
         .frame(maxWidth: .infinity)
         .contentShape(Rectangle())

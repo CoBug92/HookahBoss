@@ -86,6 +86,9 @@
 "strength.light" = "Light";
 "strength.medium" = "Medium";
 "strength.strong" = "Strong";
+"strength.detail.light" = "Light";
+"strength.detail.medium" = "Medium";
+"strength.detail.strong" = "Strong";
 "flavor.mango" = "mango";
 "flavor.passionFruit" = "passion fruit";
 "flavor.cool" = "cooling";
