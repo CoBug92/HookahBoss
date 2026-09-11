@@ -28,19 +28,30 @@ struct ArticlesView: View {
                         .accessibilityLabel(Text(L10n.Articles.bookmarks))
                     }
 
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                        ForEach(ArticleCategory.allCases) { category in
-                            NavigationLink(value: category) {
-                                CategoryCard(category: category, count: model.articles(in: category).count)
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 10) {
+                            ForEach(ArticleCategory.allCases) { category in
+                                NavigationLink(value: category) {
+                                    CategoryCard(category: category, count: model.articles(in: category).count)
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .buttonStyle(.plain)
                         }
                     }
+                    .contentMargins(.trailing, 18, for: .scrollContent)
 
                     AppSectionHeader(title: L10n.Articles.recommended)
 
+                    if !model.articles.isEmpty {
+                        ArticleEditorialGrid(
+                            articles: Array(model.articles.prefix(3)),
+                            isBookmarked: model.isBookmarked,
+                            toggle: model.toggleBookmark
+                        )
+                    }
+
                     LazyVStack(spacing: 10) {
-                        ForEach(Array(model.articles.prefix(5))) { article in
+                        ForEach(Array(model.articles.dropFirst(3).prefix(3))) { article in
                             ArticleRecommendationRow(
                                 article: article,
                                 bookmarked: model.isBookmarked(article),
@@ -74,7 +85,92 @@ private struct CategoryCard: View {
             Image(systemName: category.icon).font(.title2).foregroundStyle(AppTheme.gold)
             Text(category.title).font(.headline)
             Text(L10n.Articles.countLld(count)).font(.caption).foregroundStyle(.secondary)
-        }.frame(maxWidth: .infinity, minHeight: 96, alignment: .leading).padding(14).appCard(cornerRadius:17)
+        }
+        .frame(width: 116, height: 96, alignment: .leading)
+        .padding(14)
+        .appCard(cornerRadius: 17)
+    }
+}
+
+private struct ArticleEditorialGrid: View {
+    let articles: [ArticleDTO]
+    let isBookmarked: (ArticleDTO) -> Bool
+    let toggle: (ArticleDTO) -> Void
+
+    var body: some View {
+        HStack(spacing: 10) {
+            if let article = articles.first {
+                ArticleEditorialCard(
+                    article: article,
+                    bookmarked: isBookmarked(article),
+                    height: 190,
+                    prominent: true,
+                    toggle: { toggle(article) }
+                )
+            }
+            VStack(spacing: 10) {
+                ForEach(Array(articles.dropFirst().prefix(2))) { article in
+                    ArticleEditorialCard(
+                        article: article,
+                        bookmarked: isBookmarked(article),
+                        height: 90,
+                        prominent: false,
+                        toggle: { toggle(article) }
+                    )
+                }
+            }
+            .frame(maxWidth: .infinity)
+        }
+    }
+}
+
+private struct ArticleEditorialCard: View {
+    let article: ArticleDTO
+    let bookmarked: Bool
+    let height: CGFloat
+    let prominent: Bool
+    let toggle: () -> Void
+
+    var body: some View {
+        ZStack(alignment: .bottomLeading) {
+            NavigationLink(value: article) {
+                ZStack(alignment: .bottomLeading) {
+                    ArticleArtwork(category: article.appCategory)
+                    LinearGradient(colors: [.clear, .black.opacity(0.94)], startPoint: .top, endPoint: .bottom)
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(article.appCategory.title.uppercased())
+                            .font(.caption2.weight(.semibold))
+                            .tracking(0.5)
+                            .foregroundStyle(AppTheme.cream)
+                        Text(article.title)
+                            .font(prominent ? .headline : .caption.weight(.bold))
+                            .foregroundStyle(.white)
+                            .multilineTextAlignment(.leading)
+                            .lineLimit(prominent ? 3 : 2)
+                    }
+                    .padding(prominent ? 14 : 10)
+                }
+            }
+            .buttonStyle(.plain)
+
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(action: toggle) {
+                        Image(systemName: bookmarked ? "bookmark.fill" : "bookmark")
+                            .foregroundStyle(.white)
+                            .frame(width: 36, height: 36)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(Text(L10n.Articles.bookmarks))
+                }
+                Spacer()
+            }
+            .padding(4)
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: height)
+        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
     }
 }
 
