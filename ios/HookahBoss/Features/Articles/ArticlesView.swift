@@ -40,15 +40,27 @@ struct ArticlesView: View {
                     }
                     .contentMargins(.trailing, 12, for: .scrollContent)
 
-                    AppSectionHeader(title: L10n.Articles.recommended)
+                    HStack(alignment: .firstTextBaseline) {
+                        Text(ArticlesPageCopy.editorChoice)
+                            .font(.title3.weight(.bold))
+                        Spacer()
+                        HStack(spacing: 5) {
+                            Text(L10n.Common.all)
+                            Image(systemName: "arrow.right")
+                        }
+                        .font(.subheadline)
+                        .foregroundStyle(AppTheme.gold)
+                    }
 
                     if !model.articles.isEmpty {
                         ArticleEditorialGrid(
-                            articles: Array(model.articles.prefix(3)),
-                            isBookmarked: model.isBookmarked,
-                            toggle: model.toggleBookmark
+                            articles: Array(model.articles.prefix(3))
                         )
                     }
+
+                    Text(ArticlesPageCopy.continueReading)
+                        .font(.title3.weight(.bold))
+                        .padding(.top, 4)
 
                     LazyVStack(spacing: 10) {
                         ForEach(Array(model.articles.dropFirst(3).prefix(3))) { article in
@@ -79,7 +91,27 @@ struct ArticlesView: View {
 
 private struct ArticleArtwork:View {let category:ArticleCategory;var body:some View{ZStack{if let image=ArtworkResource.image(for:category){Image(uiImage:image).resizable().scaledToFill()}else{LinearGradient(colors:[AppTheme.gold,.brown],startPoint:.topLeading,endPoint:.bottomTrailing)}}.clipped().accessibilityHidden(true)}}
 
+private struct ArticleSpecificArtwork: View {
+    let article: ArticleDTO
+    var body: some View {
+        ZStack {
+            if let image = ArtworkResource.image(for: article) {
+                Image(uiImage: image).resizable().scaledToFill()
+            } else {
+                LinearGradient(colors: [AppTheme.gold, .brown], startPoint: .topLeading, endPoint: .bottomTrailing)
+            }
+        }
+        .clipped()
+        .accessibilityHidden(true)
+    }
+}
+
 private enum ArticleDestination: Hashable { case bookmarks }
+
+private enum ArticlesPageCopy {
+    static var editorChoice: String { AppLocale.currentApp == .ru ? "Выбор редакции" : "Editor's choice" }
+    static var continueReading: String { AppLocale.currentApp == .ru ? "Продолжить чтение" : "Continue reading" }
+}
 
 private struct CategoryCard: View {
     let category: ArticleCategory; let count: Int
@@ -106,8 +138,6 @@ private struct CategoryCard: View {
 
 private struct ArticleEditorialGrid: View {
     let articles: [ArticleDTO]
-    let isBookmarked: (ArticleDTO) -> Bool
-    let toggle: (ArticleDTO) -> Void
 
     var body: some View {
         GeometryReader { proxy in
@@ -116,10 +146,8 @@ private struct ArticleEditorialGrid: View {
                 if let article = articles.first {
                     ArticleEditorialCard(
                         article: article,
-                        bookmarked: isBookmarked(article),
                         height: 184,
-                        prominent: true,
-                        toggle: { toggle(article) }
+                        prominent: true
                     )
                     .frame(width: availableWidth * 0.57)
                 }
@@ -127,10 +155,8 @@ private struct ArticleEditorialGrid: View {
                     ForEach(Array(articles.dropFirst().prefix(2))) { article in
                         ArticleEditorialCard(
                             article: article,
-                            bookmarked: isBookmarked(article),
                             height: 87,
-                            prominent: false,
-                            toggle: { toggle(article) }
+                            prominent: false
                         )
                     }
                 }
@@ -143,56 +169,48 @@ private struct ArticleEditorialGrid: View {
 
 private struct ArticleEditorialCard: View {
     let article: ArticleDTO
-    let bookmarked: Bool
     let height: CGFloat
     let prominent: Bool
-    let toggle: () -> Void
 
     var body: some View {
-        ZStack(alignment: .bottomLeading) {
-            NavigationLink(value: article) {
-                ZStack(alignment: .bottomLeading) {
-                    ArticleArtwork(category: article.appCategory)
-                    LinearGradient(colors: [.clear, .black.opacity(0.94)], startPoint: .top, endPoint: .bottom)
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text(article.appCategory.title.uppercased())
-                            .font(.caption2.weight(.semibold))
-                            .tracking(0.5)
-                            .foregroundStyle(AppTheme.cream)
-                        Text(article.title)
-                            .font(prominent ? .headline : .caption.weight(.bold))
-                            .foregroundStyle(.white)
-                            .multilineTextAlignment(.leading)
-                            .lineLimit(prominent ? 3 : 2)
-                    }
-                    .padding(prominent ? 14 : 10)
+        NavigationLink(value: article) {
+            ZStack(alignment: .bottomLeading) {
+                ArticleSpecificArtwork(article: article)
+                LinearGradient(
+                    colors: [.clear, .black.opacity(0.88)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                VStack(alignment: .leading, spacing: prominent ? 9 : 6) {
+                    Text(editorialMeta)
+                        .font(.system(size: prominent ? 10 : 9, weight: .bold))
+                        .tracking(0.8)
+                        .foregroundStyle(AppTheme.cream)
+                        .lineLimit(prominent ? 2 : 1)
+                    Text(article.title)
+                        .font(.system(size: prominent ? 17 : 13, weight: .bold))
+                        .foregroundStyle(.white)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(prominent ? 3 : 2)
+                        .minimumScaleFactor(0.86)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .contentShape(Rectangle())
+                .padding(prominent ? 16 : 12)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .buttonStyle(.plain)
-
-            VStack {
-                HStack {
-                    Spacer()
-                    Button(action: toggle) {
-                        Image(systemName: bookmarked ? "bookmark.fill" : "bookmark")
-                            .foregroundStyle(.white)
-                            .font(.system(size: prominent ? 15 : 13, weight: .semibold))
-                            .frame(width: 32, height: 32)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(Text(L10n.Articles.bookmarks))
-                }
-                Spacer()
-            }
-            .padding(4)
+            .frame(maxWidth: .infinity)
+            .frame(height: height)
+            .contentShape(Rectangle())
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: height)
+        .buttonStyle(.plain)
         .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-        .clipped()
     }
+
+    private var editorialMeta: String {
+        let category = article.appCategory.title.uppercased()
+        guard prominent else { return category }
+        return "\(category) · \(L10n.Articles.minutesLld(article.readingMinutes).uppercased())"
+    }
+
 }
 
 private struct ArticleRecommendationRow: View {

@@ -36,5 +36,19 @@ enum ArtworkResource {
         return load(file)
     }
 
+    static func image(for article: ArticleDTO) -> UIImage? {
+        let resource = switch article.slug {
+        case "hookah-components": "article-hookah-components-v1"
+        case "first-session-checklist": "article-first-session-checklist-v1"
+        case "building-a-mix": "article-building-a-mix-v1"
+        default: nil
+        }
+        guard let resource,
+              let url = Bundle.main.url(forResource: resource, withExtension: "png") else {
+            return image(for: article.appCategory)
+        }
+        return UIImage(contentsOfFile: url.path)
+    }
+
     private static func load(_ file: File) -> UIImage? { UIImage(contentsOfFile: file.path) }
 }
