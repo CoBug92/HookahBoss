@@ -2,14 +2,23 @@ import Foundation
 
 @MainActor
 final class CreateMixViewModel: ObservableObject {
+
+    // MARK: - Observable properties
+
     @Published var title = ""
     @Published var components: [DraftComponent] = []
-    @Published private(set) var options = CreateMixOptionSnapshot(catalog: [], personal: [], inventory: [])
+    @Published private(set) var options = CreateMixOptionSnapshot(
+        catalog: [],
+        personal: [],
+        inventory: []
+    )
     @Published private(set) var isLoading = false
     @Published private(set) var isSaving = false
     @Published private(set) var showValidation = false
     @Published private(set) var errorMessage: String?
     @Published private(set) var didSave = false
+
+    // MARK: - Properties
 
     private let service: any CreateMixServing
     private var loadTask: Task<Void, Never>?
@@ -21,17 +30,29 @@ final class CreateMixViewModel: ObservableObject {
         case save(PersonalMixRecord)
     }
 
-    init(service: any CreateMixServing) { self.service = service }
+    // MARK: - Init/Deinit
 
-    deinit { loadTask?.cancel(); saveTask?.cancel() }
+    init(service: any CreateMixServing) {
+        self.service = service
+    }
+
+    deinit {
+        loadTask?.cancel()
+        saveTask?.cancel()
+    }
+
+    // MARK: - Computed properties
 
     var distribution: PercentageValidation {
         PercentageDistributor.validate(components.map { Int($0.percentageText) })
     }
     var automaticIndices: Set<Int> {
-        if case .valid(_, let automatic) = distribution { return automatic }
+        if case .valid(_, let automatic) = distribution {
+            return automatic
+        }
         return []
     }
+
     var validationMessage: String? {
         switch distribution {
         case .noComponents: L10n.Create.Error.component
@@ -41,6 +62,8 @@ final class CreateMixViewModel: ObservableObject {
         case .valid: nil
         }
     }
+
+    // MARK: - Public methods
 
     func appear(locale: AppLocale = .currentApp) {
         guard loadTask == nil else { return }
@@ -61,67 +84,141 @@ final class CreateMixViewModel: ObservableObject {
         }
     }
 
-    func add(_ option: ComponentOption) { components.append(DraftComponent(option: option)) }
-    func delete(at index: Int) { components.remove(at: index) }
-    func moveLeft(from index: Int) { guard index > 0 else { return }; components.swapAt(index, index - 1) }
-    func moveRight(from index: Int) { guard index < components.count - 1 else { return }; components.swapAt(index, index + 1) }
+    func add(_ option: ComponentOption) {
+        components.append(DraftComponent(option: option))
+    }
+
+    func delete(at index: Int) {
+        components.remove(at: index)
+    }
+
+    func moveLeft(from index: Int) {
+        guard index > 0 else {
+            return
+        }
+        components.swapAt(index, index - 1)
+    }
+
+    func moveRight(from index: Int) {
+        guard index < components.count - 1 else {
+            return
+        }
+        components.swapAt(index, index + 1)
+    }
+
     func effectivePercentage(at index: Int) -> Int? {
-        if case .valid(let values, _) = distribution { return values[index] }
+        if case .valid(let values, _) = distribution {
+            return values[index]
+        }
         return Int(components[index].percentageText)
     }
+
     func percentageBinding(at index: Int) -> String {
         components[index].percentageText
     }
-    func setPercentage(_ value: String, at index: Int) { components[index].percentageText = value }
-    func clearError() { errorMessage = nil }
+
+    func setPercentage(_ value: String, at index: Int) {
+        components[index].percentageText = value
+    }
+
+    func clearError() {
+        errorMessage = nil
+    }
 
     func save() {
         guard saveTask == nil else { return }
-        guard case .valid(let effective, _) = distribution else { showValidation = true; return }
-        let records = components.enumerated().map { index, draft in
-            PersonalMixComponentRecord(id: UUID(), source: draft.option.source, sourceID: draft.option.sourceID,
-                                       brand: draft.option.brand, line: draft.option.line, flavor: draft.option.flavor,
-                                       percentage: effective[index], flavorProfiles: draft.option.flavorProfiles)
+        guard case .valid(let effective, _) = distribution else {
+            showValidation = true
+            return
         }
+        let records = components.enumerated()
+            .map { index, draft in
+                PersonalMixComponentRecord(
+                    id: UUID(),
+                    source: draft.option.source,
+                    sourceID: draft.option.sourceID,
+                    brand: draft.option.brand,
+                    line: draft.option.line,
+                    flavor: draft.option.flavor,
+                    percentage: effective[index],
+                    flavorProfiles: draft.option.flavorProfiles
+                )
+            }
         let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
-        let record = PersonalMixRecord(id: UUID(), title: trimmed.isEmpty ? nil : trimmed, components: records,
-                                       createdAt: Date(), isApproximate: automaticIndices.count == components.count)
+        let record = PersonalMixRecord(
+            id: UUID(),
+            title: trimmed.isEmpty ? nil : trimmed,
+            components: records,
+            createdAt: Date(),
+            isApproximate: automaticIndices.count == components.count
+        )
         isSaving = true
         saveTask = Task { await performSave(record) }
     }
 
+    // MARK: - Private methods
+
     private func load(locale: AppLocale) async {
         isLoading = true
         errorMessage = nil
-        defer { isLoading = false; loadTask = nil }
-        do { options = try await service.loadOptions(locale: locale); failedAction = nil }
-        catch { failedAction = .load(locale); errorMessage = L10n.Content.Error.network }
+        defer {
+            isLoading = false
+            loadTask = nil
+        }
+        do {
+            options = try await service.loadOptions(locale: locale)
+            failedAction = nil
+        } catch {
+            failedAction = .load(locale)
+            errorMessage = L10n.Content.Error.network
+        }
     }
 
     private func performSave(_ record: PersonalMixRecord) async {
-        defer { saveTask = nil; isSaving = false }
-        do { try await service.save(record); failedAction = nil; didSave = true }
-        catch { failedAction = .save(record); errorMessage = L10n.Content.Error.network }
+        defer {
+            saveTask = nil
+            isSaving = false
+        }
+        do {
+            try await service.save(record)
+            failedAction = nil
+            didSave = true
+        } catch {
+            failedAction = .save(record)
+            errorMessage = L10n.Content.Error.network
+        }
     }
 }
 
 @MainActor
 final class ComponentPickerViewModel: ObservableObject {
+
+    // MARK: - Observable properties
+
     @Published var source: ComponentSource = .catalog
     @Published var search = ""
+
+    // MARK: - Properties
+
     private let snapshot: CreateMixOptionSnapshot
     private let excluding: Set<String>
+
+    // MARK: - Init
 
     init(snapshot: CreateMixOptionSnapshot, excluding: Set<String>) {
         self.snapshot = snapshot
         self.excluding = excluding
     }
 
+    // MARK: - Computed properties
+
     var filtered: [ComponentOption] {
-        products.map(ComponentOption.init).filter { option in
-            !excluding.contains(option.id)
-                && (search.isEmpty || (option.flavor + " " + option.brandAndLine).localizedCaseInsensitiveContains(search))
-        }
+        products.map(ComponentOption.init)
+            .filter { option in
+                !excluding.contains(option.id)
+                    && (search.isEmpty
+                        || (option.flavor + " " + option.brandAndLine).localizedCaseInsensitiveContains(search))
+            }
     }
 
     private var products: [CreateMixProduct] {

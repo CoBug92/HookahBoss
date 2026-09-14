@@ -3,17 +3,7 @@ strings:
     - ../../HookahBoss/Resources/Localization/en.lproj/Localizable.strings
   outputs:
     - templateName: structured-swift5
-      output: ../../HookahBoss/Generated/Strings+Generated.swift
+      output: ../../HookahBoss/Resources/Generated/Strings+Generated.swift
       params:
         enumName: L10n
         publicAccess: true
-
-files:
-  inputs:
-    - ../../HookahBoss/Resources/Artwork
-  filter: .+\.png$
-  outputs:
-    - templateName: structured-swift5
-      output: ../../HookahBoss/Generated/AssetFiles+Generated.swift
-      params:
-        enumName: AssetFiles

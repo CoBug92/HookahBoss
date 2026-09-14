@@ -15,9 +15,15 @@ final class CollectionService: CollectionServing {
         await content.load(locale: locale)
         if let inventory { await inventory.configure(client: auth.authorizedClient, products: content.products) }
         if let personalMixes { await personalMixes.configure(client: auth.authorizedClient) }
-        return CollectionSnapshot(isAuthenticated: auth.isAuthenticated, isAdmin: auth.isAdmin,
-            favoriteMixIDs: auth.favoriteMixIDs, inventory: inventory?.items ?? [], personalMixes: personalMixes?.mixes ?? [],
-            catalogMixes: content.mixes, products: content.products)
+        return CollectionSnapshot(
+            isAuthenticated: auth.isAuthenticated,
+            isAdmin: auth.isAdmin,
+            favoriteMixIDs: auth.favoriteMixIDs,
+            inventory: inventory?.items ?? [],
+            personalMixes: personalMixes?.mixes ?? [],
+            catalogMixes: content.mixes,
+            products: content.products
+        )
     }
 
     func requestAccess(_ action: ProtectedAction, resume: @escaping () -> Void) { auth.authorize(action, resume: resume) }

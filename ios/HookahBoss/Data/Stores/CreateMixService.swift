@@ -21,28 +21,50 @@ final class CreateMixService: CreateMixServing {
     func loadOptions(locale: AppLocale) async throws -> CreateMixOptionSnapshot {
         await content.load(locale: locale)
         let catalog = content.products.map {
-            CreateMixProduct(source: .catalog, sourceID: $0.id.uuidString, brand: $0.brandName,
-                             line: $0.lineName, flavor: $0.name, flavorProfiles: $0.tags.map(\.profile))
+            CreateMixProduct(
+                source: .catalog,
+                sourceID: $0.id.uuidString,
+                brand: $0.brandName,
+                line: $0.lineName,
+                flavor: $0.name,
+                flavorProfiles: $0.tags.map(\.profile)
+            )
         }
         let cachedPersonal = inventory.items.filter { $0.id.hasPrefix("private:") }.map(Self.product)
         let remotePersonal: [CreateMixProduct]
         if let client {
-            remotePersonal = try await client.privateProducts().map {
-                CreateMixProduct(source: .personal, sourceID: "private:\($0.id.uuidString)",
-                                 brand: $0.brandName, line: $0.lineName, flavor: $0.flavorName,
-                                 flavorProfiles: $0.flavorProfiles)
-            }
+            remotePersonal = try await client.privateProducts()
+                .map {
+                    CreateMixProduct(
+                        source: .personal,
+                        sourceID: "private:\($0.id.uuidString)",
+                        brand: $0.brandName,
+                        line: $0.lineName,
+                        flavor: $0.flavorName,
+                        flavorProfiles: $0.flavorProfiles
+                    )
+                }
         } else {
             remotePersonal = []
         }
-        let personal = Dictionary((cachedPersonal + remotePersonal).map { ($0.sourceID, $0) },
-                                  uniquingKeysWith: { _, remote in remote }).values
-            .sorted { $0.flavor.localizedCaseInsensitiveCompare($1.flavor) == .orderedAscending }
-        let availableInventory = inventory.items.filter { $0.level != .empty }.map {
-            let item = Self.product($0)
-            return CreateMixProduct(source: .inventory, sourceID: item.sourceID, brand: item.brand,
-                                    line: item.line, flavor: item.flavor, flavorProfiles: item.flavorProfiles)
-        }
+        let personal = Dictionary(
+            (cachedPersonal + remotePersonal).map { ($0.sourceID, $0) },
+            uniquingKeysWith: { _, remote in remote }
+        )
+        .values
+        .sorted { $0.flavor.localizedCaseInsensitiveCompare($1.flavor) == .orderedAscending }
+        let availableInventory = inventory.items.filter { $0.level != .empty }
+            .map {
+                let item = Self.product($0)
+                return CreateMixProduct(
+                    source: .inventory,
+                    sourceID: item.sourceID,
+                    brand: item.brand,
+                    line: item.line,
+                    flavor: item.flavor,
+                    flavorProfiles: item.flavorProfiles
+                )
+            }
         return CreateMixOptionSnapshot(catalog: catalog, personal: personal, inventory: availableInventory)
     }
 
@@ -52,7 +74,13 @@ final class CreateMixService: CreateMixServing {
     }
 
     private static func product(_ item: InventoryItem) -> CreateMixProduct {
-        CreateMixProduct(source: .personal, sourceID: item.id, brand: item.brand, line: item.line,
-                         flavor: item.flavor, flavorProfiles: item.flavorProfiles ?? [])
+        CreateMixProduct(
+            source: .personal,
+            sourceID: item.id,
+            brand: item.brand,
+            line: item.line,
+            flavor: item.flavor,
+            flavorProfiles: item.flavorProfiles ?? []
+        )
     }
 }

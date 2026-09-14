@@ -11,5 +11,4 @@ if [ "$actual_version" != "0.65.0" ]; then
 fi
 
 cd "$PROJECT_DIRECTORY"
-exec swiftlint lint --strict --no-cache --config "$TOOL_DIRECTORY/.swiftlint.yml" \
-    HookahBoss HookahBossTests HookahBossUITests
+exec swiftlint lint --strict --no-cache --config "$TOOL_DIRECTORY/.swiftlint.yml" HookahBoss

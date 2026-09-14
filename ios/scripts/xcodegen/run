@@ -11,10 +11,8 @@ if [ -f "$ENV_FILE" ]; then
     set +a
 fi
 
-if [ -z "${TEAM_ID:-}" ]; then
-    printf 'TEAM_ID must be set in %s or the environment.\n' "$ENV_FILE" >&2
-    exit 1
-fi
+TEAM_ID="${TEAM_ID:-}"
+export TEAM_ID
 
 actual_version="$(xcodegen --version | awk '{print $2}')"
 if [ "$actual_version" != "2.46.0" ]; then

@@ -4,6 +4,7 @@
 *.xcodeproj
 xcuserdata/
 DerivedData/
+.DerivedData*/
 .build/
 build/
 .bundle/
@@ -16,6 +17,7 @@ backend/coverage/
 backend/reports/*.json
 !backend/reports/provenance-sources-live-2026-09-10-blackburn.json
 !backend/reports/provenance-sources-live-2026-09-10-darkside.json
+!backend/reports/provenance-sources-live-2026-09-13-mixes-v4.json
 
 # Local configuration and credentials
 .env

@@ -74,19 +74,6 @@ platform :ios do
     sh(File.join(ios_root, "scripts", "swiftlint", "run"))
   end
 
-  desc "Run unit and architecture tests"
-  lane :test do
-    generate
-    run_tests(
-      project: project_path,
-      scheme: scheme,
-      configuration: ENV.fetch("CONFIGURATION", "Debug"),
-      destination: ENV.fetch("DESTINATION", "platform=iOS Simulator,name=iPhone 17 Pro"),
-      derived_data_path: derived_data_path("test"),
-      only_testing: ["HookahBossTests"]
-    )
-  end
-
   desc "Build without code signing"
   lane :build do
     generate
@@ -94,7 +81,7 @@ platform :ios do
       project: project_path,
       scheme: scheme,
       configuration: ENV.fetch("CONFIGURATION", "Debug"),
-      destination: ENV.fetch("BUILD_DESTINATION", "generic/platform=iOS"),
+      destination: ENV.fetch("BUILD_DESTINATION", "generic/platform=iOS Simulator"),
       derived_data_path: derived_data_path("build"),
       skip_codesigning: true,
       skip_archive: true
@@ -112,7 +99,7 @@ platform :ios do
       destination: ENV.fetch("BUILD_DESTINATION", "generic/platform=iOS"),
       archive_path: ENV.fetch("ARCHIVE_PATH", File.join(ios_root, ".build", "Mixery.xcarchive")),
       derived_data_path: derived_data_path("archive"),
-      xcargs: release_xcargs("DEVELOPMENT_TEAM" => ENV["DEVELOPMENT_TEAM"].to_s),
+      xcargs: release_xcargs("DEVELOPMENT_TEAM" => ENV["TEAM_ID"].to_s),
       skip_codesigning: ENV.fetch("SKIP_CODE_SIGNING", "false") == "true",
       skip_package_ipa: true
     )

@@ -31,14 +31,6 @@ Generate Swift resources and the Xcode project
 
 Run strict SwiftLint
 
-### ios test
-
-```sh
-[bundle exec] fastlane ios test
-```
-
-Run unit and architecture tests
-
 ### ios build
 
 ```sh

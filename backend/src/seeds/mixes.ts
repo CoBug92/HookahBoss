@@ -1,10 +1,11 @@
 import { officialMixesV1, mixSourcesV1, type OfficialMixSeed } from "../../seeds/mixes-v1.js";
 import { officialMixesV2, mixSourcesV2 } from "../../seeds/mixes-v2.js";
 import { officialMixesV3, mixSourcesV3 } from "../../seeds/mixes-v3.js";
+import { officialMixesV4, mixSourcesV4 } from "../../seeds/mixes-v4.js";
 import { allCatalogBrands } from "./catalog.js";
 
-export const allOfficialMixes=[...officialMixesV1,...officialMixesV2,...officialMixesV3];
-export const allMixSources=[...mixSourcesV1,...mixSourcesV2,...mixSourcesV3];
+export const allOfficialMixes=[...officialMixesV1,...officialMixesV2,...officialMixesV3,...officialMixesV4];
+export const allMixSources=[...mixSourcesV1,...mixSourcesV2,...mixSourcesV3,...mixSourcesV4];
 
 export function validateMixSeed(mixes:OfficialMixSeed[]=allOfficialMixes):string[]{
  const errors:string[]=[]; const sourceKeys=new Set(allMixSources.map(s=>s.key)); const slugs=new Set<string>();
