@@ -22,7 +22,8 @@ The tunnel is deliberately untouched. Only when changing its URL is acceptable:
 ./backend/deploy-device-test.sh --restart-tunnel
 ```
 
-A Quick Tunnel restart can change the public URL and invalidate the `API_BASE_URL` embedded in an existing Debug build.
+A Quick Tunnel restart can change its public URL. Debug builds use the stable
+`https://mixery.bkostiuchenko.ru` hostname routed through the named tunnel.
 
 ## Read-only status
 

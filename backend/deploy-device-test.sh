@@ -60,7 +60,9 @@ for command in \
   'node dist/src/db/importArticleSeed.js'; do
   "${compose[@]}" run --rm --no-deps api sh -c "$command"
 done
-"${compose[@]}" up -d --no-build api
+# The image is loaded under a stable tag. Compose can otherwise leave the
+# existing container attached to the previous image ID after a new load.
+"${compose[@]}" up -d --no-build --force-recreate api
 for _ in $(seq 1 30); do
   if curl -fsS --max-time 3 http://127.0.0.1:3010/health >/dev/null; then break; fi
   sleep 2

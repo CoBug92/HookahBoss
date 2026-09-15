@@ -46,6 +46,6 @@ targets:
         CURRENT_PROJECT_VERSION: "1"
       configs:
         Debug:
-          API_BASE_URL: https://effective-reverse-plasma-brain.trycloudflare.com
+          API_BASE_URL: https://mixery.bkostiuchenko.ru
         Release:
           API_BASE_URL: $(HOOKAHBOSS_RELEASE_API_BASE_URL)

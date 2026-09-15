@@ -138,7 +138,7 @@ The `fresh` profile is propagated through the database constraint, private-produ
 The owner/input/validation handoff for these gates is maintained in [`RELEASE_CHECKLIST.md`](RELEASE_CHECKLIST.md).
 
 - Automated iOS unit and UI test targets are temporarily absent. The unsigned generic Simulator Debug target builds successfully; VoiceOver announcements, interaction regressions and screenshot-level clipping require a manual pass.
-- `external blocker`: the isolated VDS device-test deployment is live, but a stable production HTTPS `HOOKAHBOSS_RELEASE_API_BASE_URL` is not configured; the Debug Quick Tunnel URL is temporary by design.
+- The isolated VDS deployment is live at `https://mixery.bkostiuchenko.ru`; Release builds must supply the same stable origin through `HOOKAHBOSS_RELEASE_API_BASE_URL`.
 - `external blocker`: live Sign in with Apple exchange/revoke requires signing/team/App ID and real Apple credentials. Implementation and local fixtures exist, but production Apple endpoints require staging smoke.
 - `external blocker`: App Store age-rating questionnaire, distribution strategy and review risk under Guideline 1.4.3 cannot be proven by repository tests.
 - `missing by explicit deferral`: final icon and distribution choice.
