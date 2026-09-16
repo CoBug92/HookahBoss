@@ -1,8 +1,10 @@
 import SwiftUI
 
 struct FavoritesView: View {
-    let mixes: [MixPreview]
+    @ObservedObject var model: CollectionViewModel
     let title: String
+
+    private var mixes: [MixPreview] { model.favoriteMixes }
 
     private let columns = [
         GridItem(
@@ -46,16 +48,27 @@ struct FavoritesView: View {
 // MARK: - Preview
 
 #Preview("Content") {
+    let auth = PreviewAuthLibraryService()
     NavigationStack {
         FavoritesView(
-            mixes: MixesPreviewData.catalog,
+            model: CollectionViewModel(
+                service: CollectionPreviewService(value: CollectionPreviewData.content),
+                library: auth
+            ),
             title: L10n.Collection.favorites
         )
     }
 }
 
 #Preview("Empty") {
+    let auth = PreviewAuthLibraryService()
     NavigationStack {
-        FavoritesView(mixes: [], title: L10n.Collection.favorites)
+        FavoritesView(
+            model: CollectionViewModel(
+                service: CollectionPreviewService(value: CollectionPreviewData.signedOut),
+                library: auth
+            ),
+            title: L10n.Collection.favorites
+        )
     }
 }

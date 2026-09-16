@@ -46,6 +46,11 @@ struct SignedOutCollectionView: View {
 // MARK: - Preview
 
 #Preview {
-    SignedOutCollectionView(model: CollectionViewModel(service: CollectionPreviewService()))
+    SignedOutCollectionView(
+        model: CollectionViewModel(
+            service: CollectionPreviewService(),
+            library: PreviewAuthLibraryService()
+        )
+    )
         .environmentObject(AppNavigation())
 }

@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 
 @MainActor
@@ -13,6 +14,7 @@ final class ArticlesViewModel: ObservableObject {
 
     private let content: any PublicCatalogServing
     private let library: any AuthLibraryServing
+    private var libraryChanges: AnyCancellable?
 
     // MARK: - Computed properties
 
@@ -28,6 +30,9 @@ final class ArticlesViewModel: ObservableObject {
     ) {
         self.content = content
         self.library = library
+        libraryChanges = library.libraryChanges.sink { [weak self] in
+            self?.syncLibraryState()
+        }
     }
 
     // MARK: - Public methods

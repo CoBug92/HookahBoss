@@ -105,7 +105,8 @@ struct RootView: View {
                     content: publicContent,
                     inventory: workspace.current?.inventory,
                     personalMixes: workspace.current?.personalMixes
-                )
+                ),
+                library: auth
             ),
             makeMixDetail: makeMixDetailModel,
             makeMatches: makeInventoryMatches,

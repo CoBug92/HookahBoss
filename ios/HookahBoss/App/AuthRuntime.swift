@@ -15,7 +15,7 @@ final class AuthRuntime: ObservableObject {
     let gate = AuthGate()
 
     private let library = AuthLibraryStore()
-    private var libraryChanges: AnyCancellable?
+    private var libraryObservation: AnyCancellable?
     private var service: AuthService?
     private var client: APIClient?
     private var publicClient: APIClient?
@@ -23,6 +23,7 @@ final class AuthRuntime: ObservableObject {
     // MARK: - Computed properties
 
     var authorizedClient: APIClient? { client }
+    var libraryChanges: AnyPublisher<Void, Never> { library.changePublisher }
     var isAuthenticated: Bool { accountId != nil }
     var favoriteMixIDs: Set<UUID> { library.favoriteMixIDs }
     var ratings: [UUID: Int] { library.ratings }
@@ -36,7 +37,7 @@ final class AuthRuntime: ObservableObject {
     // MARK: - Init
 
     init(config: Result<AppConfig, AppConfigError>? = nil) {
-        libraryChanges = library.objectWillChange.sink { [weak self] _ in
+        libraryObservation = library.objectWillChange.sink { [weak self] _ in
             self?.objectWillChange.send()
         }
 

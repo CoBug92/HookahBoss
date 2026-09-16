@@ -25,11 +25,16 @@ final class PublicContentStore: ObservableObject {
     private let cache: any PublicCache
     private let decoder = JSONDecoder()
     private let encoder = JSONEncoder()
+    private let networkTimeout: Duration
     private var loadedLocale: AppLocale?
 
     // MARK: - Init
 
-    init(client: APIClient? = nil, cache: any PublicCache = DiskPublicCache()) {
+    init(
+        client: APIClient? = nil,
+        cache: any PublicCache = DiskPublicCache(),
+        networkTimeout: Duration = .seconds(10)
+    ) {
         if let client {
             self.client = client
         } else if let config = try? AppConfig.load() {
@@ -38,6 +43,7 @@ final class PublicContentStore: ObservableObject {
             self.client = nil
         }
         self.cache = cache
+        self.networkTimeout = networkTimeout
     }
 
     // MARK: - Public methods
@@ -47,25 +53,18 @@ final class PublicContentStore: ObservableObject {
         loadedLocale = locale
         state = .loading
         let key = "public-\(locale.rawValue)-v2"
-        if let data = await cache.read(key), let snapshot = try? decoder.decode(Snapshot.self, from: data) {
-            apply(snapshot)
-            state = .loaded(.cached)
+        async let cachedData = cache.read(key)
+        guard let client else {
+            applyCachedData(await cachedData, missingDataError: L10n.Content.Error.configuration)
+            return
         }
-        guard let client else { if mixes.isEmpty && articles.isEmpty { state = .failed(L10n.Content.Error.configuration) }; return }
         do {
-            async let mixDTOs = client.mixes(locale: locale)
-            async let productDTOs = client.products(locale: locale)
-            async let articleDTOs = client.articles(locale: locale, pageSize: 100)
-            let snapshot = Snapshot(mixes: try await mixDTOs, products: try await productDTOs, articles: try await articleDTOs)
+            let snapshot = try await fetchSnapshot(client: client, locale: locale)
+            if let data = try? encoder.encode(snapshot) { await cache.write(data, key: key) }
             apply(snapshot)
             state = .loaded(.fresh)
-            if let data = try? encoder.encode(snapshot) { await cache.write(data, key: key) }
         } catch {
-            if mixes.isEmpty && articles.isEmpty {
-                state = .failed(L10n.Content.Error.network)
-            } else {
-                state = .loaded(.cached)
-            }
+            applyCachedData(await cachedData, missingDataError: L10n.Content.Error.network)
         }
     }
 
@@ -115,10 +114,44 @@ final class PublicContentStore: ObservableObject {
         mixes = snapshot.mixes.compactMap(MixPreview.init(dto:))
     }
 
+    private func applyCachedData(_ data: Data?, missingDataError: String) {
+        guard let data, let snapshot = try? decoder.decode(Snapshot.self, from: data) else {
+            state = .failed(missingDataError)
+            return
+        }
+        apply(snapshot)
+        state = .loaded(.cached)
+    }
+
+    private func fetchSnapshot(client: APIClient, locale: AppLocale) async throws -> Snapshot {
+        try await withThrowingTaskGroup(of: Snapshot.self) { group in
+            group.addTask {
+                async let mixDTOs = client.mixes(locale: locale)
+                async let productDTOs = client.products(locale: locale)
+                async let articleDTOs = client.articles(locale: locale, pageSize: 100)
+                return try await Snapshot(
+                    mixes: mixDTOs,
+                    products: productDTOs,
+                    articles: articleDTOs
+                )
+            }
+            group.addTask { [networkTimeout] in
+                try await Task.sleep(for: networkTimeout)
+                throw CatalogLoadError.timedOut
+            }
+            defer { group.cancelAll() }
+            guard let snapshot = try await group.next() else {
+                throw CatalogLoadError.unavailable
+            }
+            return snapshot
+        }
+    }
+
     // MARK: - Private types
 
     private enum CatalogLoadError: Error {
         case unavailable
+        case timedOut
     }
 
     private struct Snapshot: Codable { let mixes: [OfficialMixDTO]; let products: [TobaccoProductDTO]; let articles: [ArticleDTO] }

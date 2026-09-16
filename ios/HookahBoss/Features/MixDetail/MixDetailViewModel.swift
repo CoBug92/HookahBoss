@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 
 @MainActor
@@ -15,6 +16,7 @@ final class MixDetailViewModel: ObservableObject {
     private let content: any MixContentServing
     private let auth: any AuthLibraryServing
     private let mix: MixPreview
+    private var libraryChanges: AnyCancellable?
 
     // MARK: - Computed properties
 
@@ -34,6 +36,9 @@ final class MixDetailViewModel: ObservableObject {
         self.auth = auth
         personalRating = mix.personalRating
         isFavorite = mix.isFavorite
+        libraryChanges = auth.libraryChanges.sink { [weak self] in
+            self?.syncLibraryState()
+        }
     }
 
     // MARK: - Public methods
@@ -73,6 +78,16 @@ final class MixDetailViewModel: ObservableObject {
     func dismissError() {
         errorMessage = nil
         auth.libraryError = nil
+    }
+
+    private func syncLibraryState() {
+        let committedRating = auth.ratings[mix.id]
+        hydratedMix = displayedMix.applyingPersonalRatingChange(
+            from: personalRating,
+            to: committedRating
+        )
+        personalRating = committedRating
+        isFavorite = auth.favoriteMixIDs.contains(mix.id)
     }
 
     // MARK: - Private methods

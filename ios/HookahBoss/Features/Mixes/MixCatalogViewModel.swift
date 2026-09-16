@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 
 @MainActor
@@ -15,6 +16,7 @@ final class MixCatalogViewModel: ObservableObject {
 
     private let content: any PublicCatalogServing
     private let library: any AuthLibraryServing
+    private var libraryChanges: AnyCancellable?
     private var searchIndex: [UUID: String] = [:]
 
     // MARK: - Computed properties
@@ -35,6 +37,9 @@ final class MixCatalogViewModel: ObservableObject {
     ) {
         self.content = content
         self.library = library
+        libraryChanges = library.libraryChanges.sink { [weak self] in
+            self?.syncLibraryState()
+        }
     }
 
     // MARK: - Public methods

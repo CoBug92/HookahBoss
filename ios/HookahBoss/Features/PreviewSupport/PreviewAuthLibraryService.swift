@@ -1,7 +1,9 @@
+import Combine
 import Foundation
 
 @MainActor
 final class PreviewAuthLibraryService: AuthLibraryServing {
+    let libraryChanges = Empty<Void, Never>(completeImmediately: false).eraseToAnyPublisher()
     var isAuthenticated = false
     var favoriteMixIDs: Set<UUID> = []
     var ratings: [UUID: Int] = [:]

@@ -98,7 +98,7 @@ struct CollectionView: View {
         switch destination {
         case .favorites:
             FavoritesView(
-                mixes: model.favoriteMixes,
+                model: model,
                 title: L10n.Collection.favorites
             )
         case .personal:
@@ -130,7 +130,8 @@ private func collectionPreview(
             service: CollectionPreviewService(
                 value: snapshot,
                 delay: delay
-            )
+            ),
+            library: auth
         ),
         makeMixDetail: { mix in
             MixDetailViewModel(

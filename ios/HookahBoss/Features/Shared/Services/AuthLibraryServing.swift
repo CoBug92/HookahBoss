@@ -1,8 +1,11 @@
+import Combine
 import Foundation
 
 /// Управляет пользовательской библиотекой и авторизацией защищённых действий.
 @MainActor
 protocol AuthLibraryServing: AnyObject {
+    /// События изменения лайков, оценок и закладок.
+    var libraryChanges: AnyPublisher<Void, Never> { get }
     /// Показывает, доступна ли авторизованная библиотека.
     var isAuthenticated: Bool { get }
     /// Идентификаторы избранных миксов.

@@ -15,6 +15,11 @@ final class AuthLibraryStore: ObservableObject {
 
     private var accountId: UUID?
     private var client: APIClient?
+    private let changes = PassthroughSubject<Void, Never>()
+
+    var changePublisher: AnyPublisher<Void, Never> {
+        changes.eraseToAnyPublisher()
+    }
 
     // MARK: - Lifecycle
 
@@ -35,6 +40,7 @@ final class AuthLibraryStore: ObservableObject {
         ratings = [:]
         bookmarkedArticleSlugs = []
         syncError = nil
+        changes.send()
     }
 
     // MARK: - Mutations
@@ -48,6 +54,7 @@ final class AuthLibraryStore: ObservableObject {
             favoriteMixIDs.remove(mixId)
         }
         saveCache()
+        changes.send()
 
         do {
             if enabled {
@@ -60,6 +67,7 @@ final class AuthLibraryStore: ObservableObject {
                 enqueue(.init(id: UUID(), kind: .favorite, mixId: mixId, value: enabled ? 1 : 0))
             } else {
                 favoriteMixIDs = previous
+                changes.send()
             }
             syncError = L10n.Content.Error.network
             saveCache()
@@ -71,6 +79,7 @@ final class AuthLibraryStore: ObservableObject {
         let previous = ratings
         ratings[mixId] = score
         saveCache()
+        changes.send()
 
         do {
             if let score {
@@ -83,6 +92,7 @@ final class AuthLibraryStore: ObservableObject {
                 enqueue(.init(id: UUID(), kind: .rating, mixId: mixId, value: score))
             } else {
                 ratings = previous
+                changes.send()
             }
             syncError = L10n.Content.Error.network
             saveCache()
@@ -98,6 +108,7 @@ final class AuthLibraryStore: ObservableObject {
             bookmarkedArticleSlugs.remove(slug)
         }
         saveCache()
+        changes.send()
 
         do {
             try await client?.setArticleBookmark(slug: slug, enabled: enabled)
@@ -106,6 +117,7 @@ final class AuthLibraryStore: ObservableObject {
                 enqueueBookmark(.init(slug: slug, enabled: enabled))
             } else {
                 bookmarkedArticleSlugs = previous
+                changes.send()
             }
             syncError = L10n.Content.Error.network
             saveCache()
@@ -136,6 +148,7 @@ final class AuthLibraryStore: ObservableObject {
             }
         }
         saveCache()
+        changes.send()
     }
 
     // MARK: - Persistence
@@ -148,6 +161,7 @@ final class AuthLibraryStore: ObservableObject {
         favoriteMixIDs = Set(cached.favorites)
         ratings = cached.ratings
         bookmarkedArticleSlugs = Set(cached.articleBookmarks ?? [])
+        changes.send()
     }
 
     private func saveCache() {

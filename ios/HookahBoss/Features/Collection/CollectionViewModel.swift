@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 
 @MainActor
@@ -25,12 +26,18 @@ final class CollectionViewModel: ObservableObject {
     // MARK: - Properties
 
     private let service: any CollectionServing
+    private let library: any AuthLibraryServing
     private var task: Task<Void, Never>?
+    private var libraryChanges: AnyCancellable?
 
     // MARK: - Init/Deinit
 
-    init(service: any CollectionServing) {
+    init(service: any CollectionServing, library: any AuthLibraryServing) {
         self.service = service
+        self.library = library
+        libraryChanges = library.libraryChanges.sink { [weak self] in
+            self?.syncLibraryState()
+        }
     }
 
     deinit {
@@ -146,8 +153,23 @@ final class CollectionViewModel: ObservableObject {
         favoriteMixIDs = value.favoriteMixIDs
         inventory = value.inventory
         personalMixes = value.personalMixes
-        catalogMixes = value.catalogMixes
+        catalogMixes = personalized(value.catalogMixes)
         products = value.products
         state = value.isAuthenticated ? .content : .signedOut
+    }
+
+    private func syncLibraryState() {
+        favoriteMixIDs = library.favoriteMixIDs
+        catalogMixes = personalized(catalogMixes)
+    }
+
+    private func personalized(_ mixes: [MixPreview]) -> [MixPreview] {
+        mixes.map { mix in
+            mix.applyingPersonalRatingChange(from: mix.personalRating, to: library.ratings[mix.id])
+                .personalized(
+                    rating: library.ratings[mix.id],
+                    favorite: library.favoriteMixIDs.contains(mix.id)
+                )
+        }
     }
 }
