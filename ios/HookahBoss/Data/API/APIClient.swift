@@ -223,6 +223,7 @@ struct APIClient: Sendable {
             .sorted { $0.name < $1.name }
         guard let url = components.url else { throw APIError.invalidURL }
         var request = URLRequest(url: url)
+        request.timeoutInterval = 20
         request.httpMethod = method
         request.httpBody = body
         if body != nil { request.setValue("application/json", forHTTPHeaderField: "Content-Type") }
@@ -255,7 +256,7 @@ struct APIClient: Sendable {
         }
         components.queryItems = query.compactMap { key, value in value.map { URLQueryItem(name: key, value: $0) } }
             .sorted { $0.name < $1.name }
-        guard let url = components.url else { throw APIError.invalidURL }; var request = URLRequest(url: url); request.httpMethod = method
+        guard let url = components.url else { throw APIError.invalidURL }; var request = URLRequest(url: url); request.timeoutInterval = 20; request.httpMethod = method
         request.httpBody = body
         if body != nil { request.setValue("application/json", forHTTPHeaderField: "Content-Type") }
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

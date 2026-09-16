@@ -92,11 +92,17 @@ export function buildApp(
       if(appleProvider&&providerCipher){
         const existing=await database.query<{has_token:boolean}>("SELECT apple_refresh_token_encrypted IS NOT NULL AS has_token FROM app_users WHERE apple_subject=$1",[identity.subject]);
         hasStoredProviderToken=existing.rows[0]?.has_token===true;
-        if(!request.body.authorizationCode&&!hasStoredProviderToken)return reply.code(401).send({error:"authorization_code_required"});
+        if(!request.body.authorizationCode&&!hasStoredProviderToken){
+          request.log.warn("Apple authorization code missing for a new account");
+          return reply.code(401).send({error:"authorization_code_required"});
+        }
       }
       if(request.body.authorizationCode&&appleProvider&&providerCipher){
         try{encrypted=providerCipher.encrypt(await appleProvider.exchange(request.body.authorizationCode))}catch{
-          if(!hasStoredProviderToken)return reply.code(401).send({error:"invalid_authorization_code"});
+          if(!hasStoredProviderToken){
+            request.log.warn("Apple authorization code exchange rejected for a new account");
+            return reply.code(401).send({error:"invalid_authorization_code"});
+          }
         }
       }
       const user = await database.query<{ id: string; apple_subject: string; auth_session_version: number }>(
@@ -111,6 +117,7 @@ export function buildApp(
       const access = await sessionIssuer.issue({ ...identity, sessionVersion: user.rows[0]!.auth_session_version, sessionId: created.rows[0]!.id });
       return { data: { ...access, refreshToken, refreshExpiresIn: 30*24*60*60, accountId: user.rows[0]!.id } };
     } catch {
+      request.log.warn("Apple identity token rejected");
       return reply.code(401).send({ error: "invalid_identity_token" });
     }
   });

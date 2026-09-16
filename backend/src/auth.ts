@@ -28,7 +28,9 @@ export class ProductionAppleTokenVerifier implements AppleTokenVerifier {
   constructor(
     private readonly clientIds: readonly string[],
     private readonly fetchJWKS: JWKSFetcher = async () => {
-      const response = await fetch("https://appleid.apple.com/auth/keys");
+      const response = await fetch("https://appleid.apple.com/auth/keys", {
+        signal: AbortSignal.timeout(10_000)
+      });
       if (!response.ok) throw new InvalidAppleTokenError("Apple JWKS unavailable");
       return await response.json() as JSONWebKeySet;
     },
