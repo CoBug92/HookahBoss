@@ -91,8 +91,8 @@ struct AuthGateSheet: ViewModifier {
 
     private var signInButton: some View {
         SignInWithAppleButton(.continue) { _ in
-            gate.begin()
         } onCompletion: { result in
+            gate.begin()
             Task {
                 await complete(result)
             }
